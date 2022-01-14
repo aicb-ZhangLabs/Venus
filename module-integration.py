@@ -61,5 +61,34 @@ def script_targetvirus():
              + "--readFilesIn ${run_dir}/R1/trim_fastq/*_trimmed.fq.gz " \
              + "--outFileNamePrefix ${run_dir}/R1/aln_fastq/ " \
              + "--outFilterMultimapNmax 1 " \
-             + "--outSAMtype BAM SortedByCoordinate "
+             + "--outSAMtype BAM Unsorted "
     return script
+
+
+########################################################################################################################
+# Choosing which genome index to map to
+########################################################################################################################
+def script_sensitivity_shortreads():
+    """Script for increasing sensitivity in detecting short reads"""
+    script = "--outSAMmultNmax 1 " \
+             + "--alignIntronMax 1 --winBinNbits 7 " \
+             + "--scoreGenomicLengthLog2scale 0 --scoreDelOpen 0 " \
+             + "--scoreInsOpen 0 --scoreDelBase -1 --scoreInsBase -1 " \
+             + "--outFilterMultimapNmax -1 --winAnchorMultimapNmax 3000 " \
+             + "--seedPerReadNmax 30000 --alignWindowsPerReadNmax 30000 --seedPerWindowNmax 1000 " \
+             + "--outFilterMatchNminOverLread 0 --outFilterScoreMinOverLread 0 --outFilterScoreMin 27 "
+    return script
+
+
+########################################################################################################################
+# Combine scripts to command
+########################################################################################################################
+def script_combine():
+    cmd = script_base() + script_targetvirus()
+    return cmd
+
+
+# Press the green button in the gutter to run the script.
+if __name__ == '__main__':
+    # os.system(script_combine())
+    print(script_combine())
