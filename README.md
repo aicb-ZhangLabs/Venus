@@ -2,7 +2,7 @@
 ---
 
 ## Overview
-![plot](./fig/fig\ 2.png)
+![plot](/Users/cheyu/Dropbox/CheYu_VENUS/Submission\ Package/figures/fig\ 2.png)
 ---
 
 ## Setup
