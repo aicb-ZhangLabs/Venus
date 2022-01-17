@@ -1,5 +1,5 @@
 # Venus
-Venus: an efficient Virus infection detection and fusion Site discovery method using single-cell and bulk RNA-seq data
+**Venus:** an efficient Virus infection detection and fusion Site discovery method using single-cell and bulk RNA-seq data
 
 ## Overview
 ![alt text](https://github.com/aicb-ZhangLabs/Venus/blob/main/fig/fig%202.png)
