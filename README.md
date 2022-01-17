@@ -2,7 +2,7 @@
 ---
 
 ## Overview
-![Alt text](/Users/cheyu/Dropbox/CheYu_VENUS/Submission\ Package/figures/fig\ 2.png)
+![alt text](https://github.com/aicb-ZhangLabs/Venus/blob/main/fig/fig%202.png)
 ---
 
 ## Setup
