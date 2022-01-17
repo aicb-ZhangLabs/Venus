@@ -2,7 +2,7 @@
 ---
 
 ## Overview
-![plot](/Users/cheyu/Dropbox/CheYu_VENUS/Submission\ Package/figures/fig\ 2.png)
+![Alt text](/Users/cheyu/Dropbox/CheYu_VENUS/Submission\ Package/figures/fig\ 2.png)
 ---
 
 ## Setup
