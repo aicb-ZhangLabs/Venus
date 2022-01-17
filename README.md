@@ -2,7 +2,7 @@
 ---
 
 ## Overview
-![plot](./fig/fig\ 2.png "**Fig. 2.**")
+![plot](./fig/fig\ 2.png)
 ---
 
 ## Setup
