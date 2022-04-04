@@ -12,7 +12,64 @@
 ########################################################################################################################
 # Import Libraries
 ########################################################################################################################
+import argparse
 import os
+
+
+########################################################################################################################
+# Main
+########################################################################################################################
+def main():
+    parser = argparse.ArgumentParser(description="VENUS, a subtractive analysis software: " + \
+                                                 "Virus dEtecting in humaN bUlk and Single cell rna sequencing")
+
+    parser.add_argument("--read", type=str, required=True,
+                        help="read of RNA-seq")
+
+    parser.add_argument("--virusGenome", type=str, required=True,
+                        help="directory of virus genome index")
+
+    parser.add_argument("--humanGenome", type=str, required=True,
+                        help="directory of human genome index")
+
+    parser.add_argument("--out", type=str, required=False, default=os.getcwd(),
+                        help="directory of human genome index")
+
+    parser.add_argument("--thread", type=str, required=False,
+                        help="number of parallel threads")
+
+    args = parser.parse_args()
+
+    def map_human():
+        cmd = "STAR " \
+              + "--runThreadN 64 " \
+              + "--outFileNamePrefix " + args.out + "/human " \
+              + "--genomeDir " + args.humanGenome + " " \
+              + "--read " + args.read + " " \
+              + "--outReadsUnmapped Fastx" \
+              + "--outSAMtype None"
+
+        # Testing
+        f = open(args.out + "/human/Unmapped.out.mate1", "a")
+        f.close()
+
+        return cmd
+
+    def map_virus():
+        cmd = "STAR " \
+              + "--runThreadN 64 " \
+              + "--outFileNamePrefix " + args.out + "/virus " \
+              + "--genomeDir " + args.virusGenome + " " \
+              + "--read " + args.out + "/human/Unmapped.out.mate1.fastq" + " " \
+              + "--outFilterMultimapNmax 1" \
+              + "--outSAMtype BAM SortedByCoordinate"
+
+        return cmd
+
+    print(map_human())
+    os.rename(args.out + "/human/Unmapped.out.mate1", args.out + "/human/Unmapped.out.mate1.fastq")
+    print(map_virus())
+    return
 
 
 ########################################################################################################################
@@ -98,4 +155,6 @@ def script_combine():
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     # os.system(script_combine())
-    print(script_combine())
+    # print(script_combine())
+    main()
+
