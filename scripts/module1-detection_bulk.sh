@@ -18,25 +18,6 @@ metatable=${STAR_dir}/new_virus.species.txt
 
 for i in ${!fastq_links[@]}; do
     ######================================ Downloads SRA runs and create directories ================================######
-#    cd ${out_dir}/
-#    mkdir "${run_prefix}_run$i"
-#    cd "${run_prefix}_run$i"
-#    mkdir "human"
-##    mkdir "virus"
-##    mkdir "mega_virus"
-#    mkdir "hybrid"
-#    mkdir "hybrid_sam"
-#    cd human
-#    mkdir "fastqs"
-#    mkdir "output"
-##    cd ../virus
-##    mkdir "output"
-##    cd ../mega_virus
-##    mkdir "output"
-#    cd ../hybrid
-#    mkdir "output"
-#    cd ../hybrid_sam
-#    mkdir "output"
 
     run_dir="${out_dir}/${run_prefix}_run$i"
     human_dir=${run_dir}/human
@@ -44,27 +25,6 @@ for i in ${!fastq_links[@]}; do
     mega_virus_dir=${run_dir}/mega_virus
 #    hybrid_dir=${run_dir}/hybrid
 #    hybrid_sam_dir=${run_dir}/hybrid_sam
-
-#    fastqs=${human_dir}/fastqs
-#    cd ${fastqs}/
-#    wget -nv ${fastq_links[$i]}
-#    parallel-fastq-dump -s ${human_dir}/fastqs/* --threads 32 --split-files --tmpdir ${human_dir}/fastqs/tmp/ --outdir ${human_dir}/fastqs/
-#    for file in *; do
-#        fastq-dump $file --split-files --outdir .;
-#    done
-
-#    for file in *; do
-#        if [[ $file != *.fastq ]]; then
-#            rm -rf $file
-#        fi
-#    done
-
-#    cd ${fastqs}/
-#    numfiles=$(ls | wc -l)
-#    declare -a filenames
-#    for file in *.fastq; do
-#        filenames=(${filenames[@]} "$file")
-#    done
 
 
     ############################################################ VIRUS DETECTION ############################################################
@@ -116,7 +76,7 @@ for i in ${!fastq_links[@]}; do
         --genomeDir ${indices_dir}/HIV.genomeDir/ \
         --readFilesIn ${fastqs}/Unmapped.out.mate1.fastq \
         --outFilterMultimapNmax 1 \
-        --outSAMtype BAM SortedByCoordinate
+        --outSAMtype SAM
     fi
 
 
@@ -152,9 +112,9 @@ done
 
 ######================================ Creates mega-index virus species output ================================######
 cd ${mega_virus_dir}/output/
-samtools view -h -o Aligned.sortedByCoord.sam Aligned.sortedByCoord.out.bam
+#samtools view -h -o Aligned.sortedByCoord.sam Aligned.sortedByCoord.out.bam
 
-grep -v @ Aligned.sortedByCoord.sam |cut -f 3|sort|uniq > uniq_aligned.txt
+grep -v @ Aligned.out.sam |cut -f 3|sort|uniq > uniq_aligned.txt
 total=$(grep -v @ Aligned.sortedByCoord.sam|wc -l)
 while read line
 do
