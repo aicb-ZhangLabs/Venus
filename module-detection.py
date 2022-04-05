@@ -14,6 +14,7 @@
 ########################################################################################################################
 import argparse
 import os
+import pysam
 
 
 ########################################################################################################################
@@ -69,6 +70,9 @@ def main():
     print(map_human())
     os.rename(args.out + "/human/Unmapped.out.mate1", args.out + "/human/Unmapped.out.mate1.fastq")
     print(map_virus())
+    pysam.view("-h", "-o",
+               args.out + "/virus/Aligned.sortedByCoord.sam",
+               args.out + "/virus/Aligned.sortedByCoord.bam")
     return
 
 
