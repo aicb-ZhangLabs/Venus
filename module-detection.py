@@ -231,7 +231,5 @@ def script_combine():
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    # os.system(script_combine())
-    # print(script_combine())
     main()
 
