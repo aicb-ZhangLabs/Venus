@@ -18,6 +18,6 @@ python3 ${Venus_dir}/module-detection.py \
     --read ${data_dir}/SRR6944349.1_1.fastq.gz \
     --virusGenome ${indices_dir}/new_virus.genomeDir \
     --humanGenome ${indices_dir}/human.genomeDir \
-    --out ${out_dir}/ \
+    --out ${out_dir} \
     --readFilesCommand zcat \
     --thread 32

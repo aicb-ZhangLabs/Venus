@@ -97,7 +97,7 @@ def main():
         species_name = []
         species_count = []
         species_ratio = []
-        reference = pd.read_csv('./new_virus.species.txt', sep='\t', names=["id", "name"])
+        reference = pd.read_csv('/srv/disk00/cheyul1/Venus/repo/new_virus.species.txt', sep='\t', names=["id", "name"])
         reference = reference.set_index("id")
 
         # # Testing
@@ -106,7 +106,7 @@ def main():
             count = 0
             with open(args.out + "/virus/Aligned.out.sam", "r") as file:
                 for line in file:
-                    if species in line:
+                    if (not line.startswith("@")) and species in line:
                         count += 1
             species_count.append(count)
             species_name.append(reference.loc[species, "name"])
