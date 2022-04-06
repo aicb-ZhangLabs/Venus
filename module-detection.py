@@ -62,9 +62,9 @@ def main():
                   + "--outReadsUnmapped Fastx " \
                   + "--outSAMtype None"
 
-        # Testing
-        f = open(args.out + "/human/Unmapped.out.mate1", "a")
-        f.close()
+        # # Testing
+        # f = open(args.out + "/human/Unmapped.out.mate1", "a")
+        # f.close()
 
         return cmd
 
@@ -79,14 +79,14 @@ def main():
 
         return cmd
 
-    # Testing
-    print(map_human())
-    os.rename(args.out + "/human/Unmapped.out.mate1", args.out + "/human/Unmapped.out.mate1.fastq")
-    print(map_virus())
-
-    # os.system(map_human())
+    # # Testing
+    # print(map_human())
     # os.rename(args.out + "/human/Unmapped.out.mate1", args.out + "/human/Unmapped.out.mate1.fastq")
-    # os.system(map_virus())
+    # print(map_virus())
+
+    os.system(map_human())
+    os.rename(args.out + "/human/Unmapped.out.mate1", args.out + "/human/Unmapped.out.mate1.fastq")
+    os.system(map_virus())
     # pysam.view("-h", "-o",
     #            args.out + "/virus/Aligned.sortedByCoord.sam",
     #            args.out + "/virus/Aligned.sortedByCoord.bam")
