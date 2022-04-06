@@ -144,7 +144,7 @@ def main():
     os.system(map_human())  # map to human
     os.rename(args.out + "/human/Unmapped.out.mate1", args.out + "/human/Unmapped.out.mate1.fastq")  # prep input
     os.system(map_virus())  # map to virus
-    pysam.view("-h", "-o", args.out + "/virus/Aligned.out.sam", args.out + "/virus/Aligned.out.bam")  # prep input
+    # pysam.view("-h", "-o", args.out + "/virus/Aligned.out.sam", args.out + "/virus/Aligned.out.bam")  # prep input
     output_infection()  # makes detection output file
     return
 
