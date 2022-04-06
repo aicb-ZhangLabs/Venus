@@ -4,7 +4,7 @@
 #SBATCH --cpus-per-task=32
 #SBATCH --mem-per-cpu=4G
 #SBATCH --time=24:00:00
-#SBATCH --partition=openlab.p
+#SBATCH --partition=zhanglab.p
 #SBATCH --output=/srv/disk00/cheyul1/Venus/logs/22-04-06/testing_bulkSingleMEGAV.log
 
 STAR_dir=/srv/disk00/cheyul1/Venus/STAR
