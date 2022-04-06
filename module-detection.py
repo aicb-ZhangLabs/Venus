@@ -36,7 +36,7 @@ def main():
     parser.add_argument("--out", type=str, required=False, default=os.getcwd(),
                         help="directory of human genome index")
 
-    parser.add_argument("--thread", type=str, required=False,
+    parser.add_argument("--thread", type=str, required=False, default=1,
                         help="number of parallel threads")
 
     args = parser.parse_args()
@@ -63,7 +63,7 @@ def main():
               + "--genomeDir " + args.virusGenome + " " \
               + "--read " + args.out + "/human/Unmapped.out.mate1.fastq" + " " \
               + "--outFilterMultimapNmax 1" \
-              + "--outSAMtype BAM SortedByCoordinate"
+              + "--outSAMtype SAM"
 
         return cmd
 
