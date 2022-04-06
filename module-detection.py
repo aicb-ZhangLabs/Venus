@@ -14,6 +14,7 @@
 import argparse
 import os
 import pysam
+import pandas as pd
 
 
 ########################################################################################################################
@@ -79,17 +80,72 @@ def main():
 
         return cmd
 
+    def output_infection():
+        with open(args.out + "/virus/Aligned.out.sam", "r") as file:
+            count = 0
+            virus_species = []
+            for line in file:
+                if not line.startswith("@"):
+                    virus_species.append(line.split("\t")[2])
+                    count += 1
+            total = len(virus_species)
+            virus_species = list(set(virus_species))
+
+            # # Testing
+            # print(len(virus_species))
+
+        species_name = []
+        species_count = []
+        species_ratio = []
+        reference = pd.read_csv('./new_virus.species.txt', sep='\t', names=["id", "name"])
+        reference = reference.set_index("id")
+
+        # # Testing
+        # stopper = 0
+        for species in virus_species:
+            count = 0
+            with open(args.out + "/virus/Aligned.out.sam", "r") as file:
+                for line in file:
+                    if species in line:
+                        count += 1
+            species_count.append(count)
+            species_name.append(reference.loc[species, "name"])
+            species_ratio.append(count / total * 100.0)
+
+            # # Testing
+            # if stopper >= 5:
+            #     exit
+            # stopper += 1
+            # print(species)
+            # print(species_name)
+            # print(species_count)
+            # print(species_ratio)
+
+        output = pd.DataFrame({"Name": species_name,
+                               "Count": species_count,
+                               "Percentage": species_ratio})
+        output.sort_values(by="Percentage", ascending=False, inplace=True)
+        output.to_csv(path_or_buf=args.out + "/detection_output.csv", index=False)
+
+        # # Testing
+        # print(virus_species[:5])
+        # print(species_name[:5])
+        # print(species_count[:5])
+        # print(len(species_count))
+        # print(len(species_name))
+
+        return output
+
     # # Testing
     # print(map_human())
     # os.rename(args.out + "/human/Unmapped.out.mate1", args.out + "/human/Unmapped.out.mate1.fastq")
     # print(map_virus())
 
-    os.system(map_human())
-    os.rename(args.out + "/human/Unmapped.out.mate1", args.out + "/human/Unmapped.out.mate1.fastq")
-    os.system(map_virus())
-    # pysam.view("-h", "-o",
-    #            args.out + "/virus/Aligned.sortedByCoord.sam",
-    #            args.out + "/virus/Aligned.sortedByCoord.bam")
+    os.system(map_human())  # map to human
+    os.rename(args.out + "/human/Unmapped.out.mate1", args.out + "/human/Unmapped.out.mate1.fastq")  # prep input
+    os.system(map_virus())  # map to virus
+    pysam.view("-h", "-o", args.out + "/virus/Aligned.out.sam", args.out + "/virus/Aligned.out.bam")  # prep input
+    output_infection()  # makes detection output file
     return
 
 
