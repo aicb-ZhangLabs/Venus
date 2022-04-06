@@ -6,7 +6,6 @@
 # Released under GNU Public License (GPL)
 # email cheyul1@uci.edu
 #
-# Test line
 # ----------------------------------------------------------------------------------------------------------------------
 
 ########################################################################################################################
@@ -36,43 +35,61 @@ def main():
     parser.add_argument("--out", type=str, required=False, default=os.getcwd(),
                         help="directory of human genome index")
 
-    parser.add_argument("--thread", type=str, required=False, default=1,
+    parser.add_argument("--thread", type=str, required=False, default="1",
+                        help="number of parallel threads")
+
+    parser.add_argument("--readFilesCommand", type=str, required=False,
                         help="number of parallel threads")
 
     args = parser.parse_args()
 
     def map_human():
-        cmd = "STAR " \
-              + "--runThreadN 64 " \
-              + "--outFileNamePrefix " + args.out + "/human " \
-              + "--genomeDir " + args.humanGenome + " " \
-              + "--read " + args.read + " " \
-              + "--outReadsUnmapped Fastx" \
-              + "--outSAMtype None"
+        if args.readFilesCommand is None:
+            cmd = "STAR " \
+                  + "--runThreadN " + args.thread + " " \
+                  + "--outFileNamePrefix " + args.out + "/human " \
+                  + "--genomeDir " + args.humanGenome + " " \
+                  + "--readFilesIn " + args.read + " " \
+                  + "--outReadsUnmapped Fastx " \
+                  + "--outSAMtype None"
+        else:
+            cmd = "STAR " \
+                  + "--runThreadN " + args.thread + " " \
+                  + "--readFilesCommand " + args.readFilesCommand + " " \
+                  + "--outFileNamePrefix " + args.out + "/human " \
+                  + "--genomeDir " + args.humanGenome + " " \
+                  + "--readFilesIn " + args.read + " " \
+                  + "--outReadsUnmapped Fastx " \
+                  + "--outSAMtype None"
 
-        # Testing
-        f = open(args.out + "/human/Unmapped.out.mate1", "a")
-        f.close()
+        # # Testing
+        # f = open(args.out + "/human/Unmapped.out.mate1", "a")
+        # f.close()
 
         return cmd
 
     def map_virus():
         cmd = "STAR " \
-              + "--runThreadN 64 " \
+              + "--runThreadN " + args.thread + " " \
               + "--outFileNamePrefix " + args.out + "/virus " \
               + "--genomeDir " + args.virusGenome + " " \
-              + "--read " + args.out + "/human/Unmapped.out.mate1.fastq" + " " \
-              + "--outFilterMultimapNmax 1" \
+              + "--readFilesIn " + args.out + "/human/Unmapped.out.mate1.fastq" + " " \
+              + "--outFilterMultimapNmax 1 " \
               + "--outSAMtype SAM"
 
         return cmd
 
-    print(map_human())
+    # # Testing
+    # print(map_human())
+    # os.rename(args.out + "/human/Unmapped.out.mate1", args.out + "/human/Unmapped.out.mate1.fastq")
+    # print(map_virus())
+
+    os.system(map_human())
     os.rename(args.out + "/human/Unmapped.out.mate1", args.out + "/human/Unmapped.out.mate1.fastq")
-    print(map_virus())
-    pysam.view("-h", "-o",
-               args.out + "/virus/Aligned.sortedByCoord.sam",
-               args.out + "/virus/Aligned.sortedByCoord.bam")
+    os.system(map_virus())
+    # pysam.view("-h", "-o",
+    #            args.out + "/virus/Aligned.sortedByCoord.sam",
+    #            args.out + "/virus/Aligned.sortedByCoord.bam")
     return
 
 
