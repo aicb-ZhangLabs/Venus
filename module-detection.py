@@ -34,7 +34,7 @@ def main():
                         help="directory path of human genome index")
 
     parser.add_argument("--out", type=str, required=False, default=os.getcwd(),
-                        help="directory path of output")
+                        help="directory path of output dir")
 
     parser.add_argument("--thread", type=str, required=False, default="1",
                         help="number of parallel threads")
