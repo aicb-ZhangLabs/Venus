@@ -13,7 +13,7 @@ This is how to create indices in Venus.
 ## Virus Detection Module
 This module detects viral load and will output a list of infecting viral species or infected cell barcodes, depending on the input and the viral index used.
 
-For Bulk, Single-end Sequencing:
+For bulk single-end sequencing:
 ```
 python3 module-detection.py \
     --read SRR6944349.1_1.fastq.gz \
