@@ -38,7 +38,7 @@ def main():
 
         cmd = "STAR " \
               + "--runThreadN " + args.thread + " " \
-              + "--outFileNamePrefix " + args.out + " " \
+              + "--outFileNamePrefix " + args.out + "/ " \
               + "--runMode genomeGenerate " \
               + "--genomeDir " + args.humanGenome + " " \
               + "--genomeFastaFiles " + args.humanFASTA + " " \
@@ -52,7 +52,7 @@ def main():
         if args.virusGTF is None:
             cmd = "STAR " \
                   + "--runThreadN " + args.thread + " " \
-                  + "--outFileNamePrefix " + args.out + " " \
+                  + "--outFileNamePrefix " + args.out + "/ " \
                   + "--runMode genomeGenerate " \
                   + "--genomeDir " + args.virusGenome + " " \
                   + "--genomeFastaFiles " + args.virusFASTA + " " \
@@ -60,7 +60,7 @@ def main():
         else:
             cmd = "STAR " \
                   + "--runThreadN " + args.thread + " " \
-                  + "--outFileNamePrefix " + args.out + " " \
+                  + "--outFileNamePrefix " + args.out + "/ " \
                   + "--runMode genomeGenerate " \
                   + "--genomeDir " + args.virusGenome + " " \
                   + "--genomeFastaFiles " + args.virusFASTA + " " \
