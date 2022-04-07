@@ -84,7 +84,7 @@ def main():
               + "--outSAMtype SAM "
 
         if seq == "single":
-            cmd = cmd + "--readFilesIn " + args.out + "/human/Unmapped.out.mate1.fastq" + " "
+            cmd = cmd + "--readFilesIn " + args.out + "/human/Unmapped.out.mate1.fastq "
         elif seq == "paired":
             cmd = cmd + "--readFilesIn " + args.out + "/human/Unmapped.out.mate1.fastq " \
                                          + args.out + "/human/Unmapped.out.mate2.fastq "
