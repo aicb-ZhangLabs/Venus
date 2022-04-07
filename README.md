@@ -23,7 +23,7 @@ rm -r tmp
 ```
 
 ## Creating Index
-This step creates the necessary human and viral indices directories in Venus. Of note, since some viruses may lack a gtf annotation file, use of a virus gtf file is optional.
+This step creates the necessary human and viral indices directories in Venus. Of note, since some viruses may lack a gtf annotation file, use of a virus gtf file is optional. (*Note: For path/to/output/dir parameter, please do not include an end '/'.*) 
 
 To create indices (without a virus gtf):
 ```   
