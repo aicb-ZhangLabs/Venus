@@ -11,7 +11,7 @@ This is how to set up Venus.
 This is how to create indices in Venus.
 
 ## Virus Detection Module
-This module detects viral load and will output a list of infecting viral species or infected cell barcodes, depending on the input and the viral index used. (* *Note: For out/file/name/prefix parameter, please do not include an end '/'.* *) 
+This module detects viral load and will output a list of infecting viral species or infected cell barcodes, depending on the input and the viral index used. (*Note: For out/file/name/prefix parameter, please do not include an end '/'.*) 
 
 For bulk single-end sequencing:
 ```
