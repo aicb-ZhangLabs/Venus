@@ -7,8 +7,18 @@
 ## Setup
 This is how to set up Venus.
 
+One can download all the virus fasta files from NCBI as so:
+```
+mkdir tmp  &&  cd tmp
+wget ftp://ftp.ncbi.nlm.nih.gov//genomes/Viruses/all.fna.tar.gz
+tar -xvf all.fna.tar.gz
+cat */*.fna | sed "s/>/>Virus:/" > ../Virus.fa
+cd ..
+rm -r tmp
+```
+
 ## Creating Index
-This step creates the necessary human and viral indices directories in Venus.
+This step creates the necessary human and viral indices directories in Venus. Of note, since some viruses may lack a gtf annotation file or biological splicing mechanisms, use of a vurs gtf file is optional.
 
 To create indices:
 ```   
