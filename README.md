@@ -43,7 +43,7 @@ This module detects viral load and will output a list of infecting viral species
 For bulk single-end sequencing:
 ```
 python3 module-detection.py \
-    --read SRR6944349.1_1.fastq.gz \
+    --read read.fastq.gz \
     --virusThreshold 5 \
     --virusGenome path/to/virus.genomeDir \
     --humanGenome path/to/human.genomeDir \
@@ -55,7 +55,7 @@ python3 module-detection.py \
 For bulk paired-end sequencing (please separate paired reads by white space):
 ```
 python3 module-detection.py \
-    --read SRR6944349.1_1.fastq.gz SRR6944349.1_2.fastq.gz \
+    --read read_1.fastq.gz read_2.fastq.gz \
     --virusThreshold 5 \
     --virusGenome path/to/virus.genomeDir \
     --humanGenome path/to/human.genomeDir \
