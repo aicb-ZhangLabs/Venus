@@ -28,13 +28,13 @@ def main():
                         help="read of RNA-seq")
 
     parser.add_argument("--virusGenome", type=str, required=True,
-                        help="directory of virus genome index")
+                        help="directory path of virus genome index")
 
     parser.add_argument("--humanGenome", type=str, required=True,
-                        help="directory of human genome index")
+                        help="directory path of human genome index")
 
     parser.add_argument("--out", type=str, required=False, default=os.getcwd(),
-                        help="directory of human genome index")
+                        help="directory path of output")
 
     parser.add_argument("--thread", type=str, required=False, default="1",
                         help="number of parallel threads")
