@@ -9,7 +9,7 @@ This is how to set up Venus.
 
 Set up the conda envrionment. Note the spec-file.txt is for Linux platform.
 ```
-conda create --name scEpilock --file scEpilock_spec-file.txt
+conda create --name venus --file venus_spec-file.txt
 ```
 
 One can make the mega-virus.fasta file from NCBI as so:
