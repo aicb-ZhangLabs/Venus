@@ -12,7 +12,7 @@ One can download all the virus fasta files from NCBI as so:
 mkdir tmp  &&  cd tmp
 wget ftp://ftp.ncbi.nlm.nih.gov//genomes/Viruses/all.fna.tar.gz
 tar -xvf all.fna.tar.gz
-cat */*.fna | sed "s/>/>Virus:/" > ../Virus.fa
+cat */*.fna | sed "s/>/>Virus:/" > ../mega-virus.fasta
 cd ..
 rm -r tmp
 ```
@@ -24,10 +24,10 @@ To create indices:
 ```   
 python3 module-index.py \
     --humanGenome path/to/human.genomeDir \
-    --humanFASTA human.fna \
+    --humanFASTA human.fasta \
     --humanGTF human.gtf \
     --virusGenome path/to/virus.genomeDir \
-    --virusFASTA mega-virus.fa \
+    --virusFASTA mega-virus.fasta \
     --out path/to/output/dir \
     --thread 32
 ```
