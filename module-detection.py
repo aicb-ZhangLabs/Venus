@@ -24,7 +24,7 @@ def main():
     parser = argparse.ArgumentParser(description="VENUS, a subtractive analysis software: " + \
                                                  "Virus dEtecting in humaN bUlk and Single cell rna sequencing")
 
-    parser.add_argument("--read", type=str, required=True,
+    parser.add_argument("--read", type=str, required=True, nargs='+',
                         help="read of RNA-seq")
 
     parser.add_argument("--virusGenome", type=str, required=True,
@@ -47,59 +47,47 @@ def main():
 
     args = parser.parse_args()
 
-    reads = args.read.split(" ")
-    if len(reads) == 1:
+    # reads = args.read.split(" ")
+    if len(args.read) == 1:
         seq = "single"
-    elif len(reads) == 2:
+    elif len(args.read) == 2:
         seq = "paired"
     else:
         print("Unable to determine sequencing read type!!!")
 
     def map_human():
         """Maps to the human genome"""
-        if args.readFilesCommand is None:
-            cmd = "STAR " \
-                  + "--runThreadN " + args.thread + " " \
-                  + "--outFileNamePrefix " + args.out + "/human/ " \
-                  + "--genomeDir " + args.humanGenome + " " \
-                  + "--readFilesIn " + args.read + " " \
-                  + "--outReadsUnmapped Fastx " \
-                  + "--outSAMtype None"
-        else:
-            cmd = "STAR " \
-                  + "--runThreadN " + args.thread + " " \
-                  + "--readFilesCommand " + args.readFilesCommand + " " \
-                  + "--outFileNamePrefix " + args.out + "/human/ " \
-                  + "--genomeDir " + args.humanGenome + " " \
-                  + "--readFilesIn " + args.read + " " \
-                  + "--outReadsUnmapped Fastx " \
-                  + "--outSAMtype None"
+        cmd = "STAR " \
+              + "--runThreadN " + args.thread + " " \
+              + "--outFileNamePrefix " + args.out + "/human/ " \
+              + "--genomeDir " + args.humanGenome + " " \
+              + "--outReadsUnmapped Fastx " \
+              + "--outSAMtype None "
 
-        # # Testing
-        # f = open(args.out + "/human/Unmapped.out.mate1", "a")
-        # f.close()
+        if args.readFilesCommand is not None:
+            cmd = cmd + "--readFilesCommand " + args.readFilesCommand + " "
+
+        if seq == "single":
+            cmd = cmd + "--readFilesIn " + args.read[0] + " "
+        elif seq == "paired":
+            cmd = cmd + "--readFilesIn " + args.read[0] + " " + args.read[1] + " "
 
         return cmd
 
     def map_virus():
         """Maps the leftover human reads to the virus genome"""
+        cmd = "STAR " \
+              + "--runThreadN " + args.thread + " " \
+              + "--outFileNamePrefix " + args.out + "/virus/ " \
+              + "--genomeDir " + args.virusGenome + " " \
+              + "--outFilterMultimapNmax 1 " \
+              + "--outSAMtype SAM "
+
         if seq == "single":
-            cmd = "STAR " \
-                  + "--runThreadN " + args.thread + " " \
-                  + "--outFileNamePrefix " + args.out + "/virus/ " \
-                  + "--genomeDir " + args.virusGenome + " " \
-                  + "--readFilesIn " + args.out + "/human/Unmapped.out.mate1.fastq" + " " \
-                  + "--outFilterMultimapNmax 1 " \
-                  + "--outSAMtype SAM"
+            cmd = cmd + "--readFilesIn " + args.out + "/human/Unmapped.out.mate1.fastq" + " "
         elif seq == "paired":
-            cmd = "STAR " \
-                  + "--runThreadN " + args.thread + " " \
-                  + "--outFileNamePrefix " + args.out + "/virus/ " \
-                  + "--genomeDir " + args.virusGenome + " " \
-                  + "--readFilesIn " + args.out + "/human/Unmapped.out.mate1.fastq " \
-                                     + args.out + "/human/Unmapped.out.mate2.fastq " \
-                  + "--outFilterMultimapNmax 1 " \
-                  + "--outSAMtype SAM"
+            cmd = cmd + "--readFilesIn " + args.out + "/human/Unmapped.out.mate1.fastq " \
+                                         + args.out + "/human/Unmapped.out.mate2.fastq "
 
         return cmd
 
@@ -160,8 +148,10 @@ def main():
 
         return output
 
-    # # Testing
+    # Testing
     # print(map_human())
+    # f = open(args.out + "/human/Unmapped.out.mate1", "a")
+    # f.close()
     # os.rename(args.out + "/human/Unmapped.out.mate1", args.out + "/human/Unmapped.out.mate1.fastq")
     # print(map_virus())
 

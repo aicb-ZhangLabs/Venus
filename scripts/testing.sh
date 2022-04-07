@@ -17,7 +17,7 @@ out_dir=/srv/disk00/cheyul1/Venus/outputs/22-04-07/testing_bulkPairedHIV
 # Testing Detection Module
 python3 ${Venus_dir}/module-detection.py \
     --read ${data_dir}/SRR6944349.1_1.fastq.gz ${data_dir}/SRR6944349.1_2.fastq.gz \
-    --virusGenome ${out_dir}/new_virus.genomeDir \
+    --virusGenome ${out_dir}/virus.genomeDir \
     --humanGenome ${out_dir}/human.genomeDir \
     --out ${out_dir} \
     --readFilesCommand zcat \
@@ -33,3 +33,6 @@ python3 ${Venus_dir}/module-detection.py \
 #    --virusFASTA ${indices_dir}/new_virus.genomeDir/mega-virus.fa \
 #    --out ${out_dir} \
 #    --thread 32
+
+## Printing Test
+#python3 module-detection.py --read read1.fq read2.fq --virusGenome virusGenome --humanGenome humanGenome --out ../data
