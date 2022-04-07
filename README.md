@@ -46,7 +46,7 @@ python3 module-detection.py \
     --thread 32
 ```
 
-For bulk paired-end sequencing (Please separate paired reads by white space):
+For bulk paired-end sequencing (please separate paired reads by white space):
 ```
 python3 module-detection.py \
     --read SRR6944349.1_1.fastq.gz SRR6944349.1_2.fastq.gz \
