@@ -11,7 +11,18 @@ This is how to set up Venus.
 This is how to create indices in Venus.
 
 ## Virus Detection Module
-This is how to use Venus's detection module.
+This module detects viral load and will output a list of infecting viral species or infected cell barcodes, depending on the input and the viral index used.
+
+For Bulk, Single-end Sequencing:
+```
+python3 module-detection.py \
+    --read SRR6944349.1_1.fastq.gz \
+    --virusGenome virus.genomeDir \
+    --humanGenome human.genomeDir \
+    --out out/file/name/prefix/ \
+    --readFilesCommand zcat \
+    --thread 32
+```
 
 ## Integration Site Discovery Module
 This is how to use Venus's integration site discovery module.
