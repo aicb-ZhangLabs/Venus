@@ -120,9 +120,10 @@ def main():
                 for line in file:
                     if (not line.startswith("@")) and species in line:
                         count += 1
-            species_count.append(count)
-            species_name.append(reference.loc[species, "name"])
-            species_ratio.append(count / total * 100.0)
+            if count >= args.virusThreshold:
+                species_count.append(count)
+                species_name.append(reference.loc[species, "name"])
+                species_ratio.append(count / total * 100.0)
 
             # # Testing
             # if stopper >= 5:
