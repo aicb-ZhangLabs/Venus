@@ -36,13 +36,24 @@ def main():
     parser.add_argument("--out", type=str, required=False, default=os.getcwd(),
                         help="directory path of output dir")
 
+    parser.add_argument("--virusThreshold", type=str, required=False, default=0,
+                        help="viral load threshold to filter out negligible viruses")
+
     parser.add_argument("--thread", type=str, required=False, default="1",
                         help="number of parallel threads")
 
     parser.add_argument("--readFilesCommand", type=str, required=False,
-                        help="number of parallel threads")
+                        help="uncompression command")
 
     args = parser.parse_args()
+
+    reads = args.read.split(" ")
+    if len(reads) == 1:
+        seq = "single"
+    elif len(reads) == 2:
+        seq = "paired"
+    else:
+        print("Unable to determine sequencing read type!!!")
 
     def map_human():
         """Maps to the human genome"""
@@ -72,13 +83,23 @@ def main():
 
     def map_virus():
         """Maps the leftover human reads to the virus genome"""
-        cmd = "STAR " \
-              + "--runThreadN " + args.thread + " " \
-              + "--outFileNamePrefix " + args.out + "/virus/ " \
-              + "--genomeDir " + args.virusGenome + " " \
-              + "--readFilesIn " + args.out + "/human/Unmapped.out.mate1.fastq" + " " \
-              + "--outFilterMultimapNmax 1 " \
-              + "--outSAMtype SAM"
+        if seq == "single":
+            cmd = "STAR " \
+                  + "--runThreadN " + args.thread + " " \
+                  + "--outFileNamePrefix " + args.out + "/virus/ " \
+                  + "--genomeDir " + args.virusGenome + " " \
+                  + "--readFilesIn " + args.out + "/human/Unmapped.out.mate1.fastq" + " " \
+                  + "--outFilterMultimapNmax 1 " \
+                  + "--outSAMtype SAM"
+        elif seq == "paired":
+            cmd = "STAR " \
+                  + "--runThreadN " + args.thread + " " \
+                  + "--outFileNamePrefix " + args.out + "/virus/ " \
+                  + "--genomeDir " + args.virusGenome + " " \
+                  + "--readFilesIn " + args.out + "/human/Unmapped.out.mate1.fastq " \
+                                     + args.out + "/human/Unmapped.out.mate2.fastq " \
+                  + "--outFilterMultimapNmax 1 " \
+                  + "--outSAMtype SAM"
 
         return cmd
 
@@ -145,7 +166,11 @@ def main():
     # print(map_virus())
 
     os.system(map_human())  # map to human
-    os.rename(args.out + "/human/Unmapped.out.mate1", args.out + "/human/Unmapped.out.mate1.fastq")  # prep input
+    if seq == "single":
+        os.rename(args.out + "/human/Unmapped.out.mate1", args.out + "/human/Unmapped.out.mate1.fastq")  # prep input
+    elif seq == "paired":
+        os.rename(args.out + "/human/Unmapped.out.mate1", args.out + "/human/Unmapped.out.mate1.fastq")  # prep input
+        os.rename(args.out + "/human/Unmapped.out.mate2", args.out + "/human/Unmapped.out.mate2.fastq")
     os.system(map_virus())  # map to virus
     # pysam.view("-h", "-o", args.out + "/virus/Aligned.out.sam", args.out + "/virus/Aligned.out.bam")  # prep input
     output_infection()  # makes detection output file
