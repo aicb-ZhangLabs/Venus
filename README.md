@@ -7,7 +7,12 @@
 ## Setup
 This is how to set up Venus.
 
-One can download all the virus fasta files from NCBI as so:
+Set up the conda envrionment. Note the spec-file.txt is for Linux platform.
+```
+conda create --name scEpilock --file scEpilock_spec-file.txt
+```
+
+One can make the mega-virus.fasta file from NCBI as so:
 ```
 mkdir tmp  &&  cd tmp
 wget ftp://ftp.ncbi.nlm.nih.gov//genomes/Viruses/all.fna.tar.gz
@@ -39,6 +44,7 @@ For bulk single-end sequencing:
 ```
 python3 module-detection.py \
     --read SRR6944349.1_1.fastq.gz \
+    --virusThreshold 5 \
     --virusGenome path/to/virus.genomeDir \
     --humanGenome path/to/human.genomeDir \
     --out path/to/output/dir \
@@ -50,6 +56,7 @@ For bulk paired-end sequencing (please separate paired reads by white space):
 ```
 python3 module-detection.py \
     --read SRR6944349.1_1.fastq.gz SRR6944349.1_2.fastq.gz \
+    --virusThreshold 5 \
     --virusGenome path/to/virus.genomeDir \
     --humanGenome path/to/human.genomeDir \
     --out path/to/output/dir \
