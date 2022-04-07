@@ -18,9 +18,9 @@ rm -r tmp
 ```
 
 ## Creating Index
-This step creates the necessary human and viral indices directories in Venus. Of note, since some viruses may lack a gtf annotation file or biological splicing mechanisms, use of a vurs gtf file is optional.
+This step creates the necessary human and viral indices directories in Venus. Of note, since some viruses may lack a gtf annotation file, use of a virus gtf file is optional.
 
-To create indices:
+To create indices (without a virus gtf):
 ```   
 python3 module-index.py \
     --humanGenome path/to/human.genomeDir \
