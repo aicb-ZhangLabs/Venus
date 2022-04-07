@@ -34,12 +34,12 @@ def main():
     args = parser.parse_args()
 
     def index_human():
-        # pathlib.Path(args.humanGenome).mkdir(parents=True, exist_ok=True)
+        pathlib.Path(args.humanGenome).mkdir(parents=True, exist_ok=True)
 
         cmd = "STAR " \
               + "--runThreadN " + args.thread + " " \
               + "--outFileNamePrefix " + args.out + " " \
-              + "--runMode genomeGenerate " + \
+              + "--runMode genomeGenerate " \
               + "--genomeDir " + args.humanGenome + " " \
               + "--genomeFastaFiles " + args.humanFASTA + " " \
               + "--sjdbGTFfile " + args.humanGTF + " " \
@@ -47,13 +47,13 @@ def main():
         return cmd
 
     def index_virus():
-        # pathlib.Path(args.virusGenome).mkdir(parents=True, exist_ok=True)
+        pathlib.Path(args.virusGenome).mkdir(parents=True, exist_ok=True)
 
         if args.virusGTF is None:
             cmd = "STAR " \
                   + "--runThreadN " + args.thread + " " \
                   + "--outFileNamePrefix " + args.out + " " \
-                  + "--runMode genomeGenerate " + \
+                  + "--runMode genomeGenerate " \
                   + "--genomeDir " + args.virusGenome + " " \
                   + "--genomeFastaFiles " + args.virusFASTA + " " \
                   + "--genomeSAindexNbases 2"
@@ -61,15 +61,19 @@ def main():
             cmd = "STAR " \
                   + "--runThreadN " + args.thread + " " \
                   + "--outFileNamePrefix " + args.out + " " \
-                  + "--runMode genomeGenerate " + \
+                  + "--runMode genomeGenerate " \
                   + "--genomeDir " + args.virusGenome + " " \
                   + "--genomeFastaFiles " + args.virusFASTA + " " \
                   + "--sjdbGTFfile " + args.virusGTF + " " \
                   + "--genomeSAindexNbases 2"
         return cmd
 
-    print(index_human())
-    print(index_virus())
+    # # Testing
+    # print(index_human())
+    # print(index_virus())
+
+    os.system(index_human())
+    os.system(index_virus())
     return
 
 
