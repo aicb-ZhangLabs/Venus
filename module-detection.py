@@ -156,6 +156,7 @@ def main():
         # # Testing
         # stopper = 0
         index = 0
+        print(index)
         for species in virus_species:
             virus_count = 0
             with open(args.out + "/virus/Aligned.out.sam", "r") as file:
@@ -163,12 +164,13 @@ def main():
                     if (not line.startswith("@")) and species in line:
                         virus_count += 1
                         if seq_resol == "single_cell":
-                            species_barcodes[index].append(line.split("\t")[15])
+                            species_barcodes[index].append(line.split("\t")[-2])
             if virus_count >= args.virusThreshold:
                 species_count.append(virus_count)
                 species_name.append(reference.loc[species, "name"])
                 species_ratio.append(virus_count / total * 100.0)
             index += 1
+            print(index)
 
             # # Testing
             # if stopper >= 5:
