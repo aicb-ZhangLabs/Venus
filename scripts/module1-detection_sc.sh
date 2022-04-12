@@ -1,13 +1,13 @@
 #!/bin/bash
-#SBATCH --job-name=scriptTest_snglcell_5
+#SBATCH --job-name=scriptTest_snglcell_6
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=16
 #SBATCH --mem-per-cpu=4G
 #SBATCH --time=48:00:00
 #SBATCH --partition=zhanglab.p
-#SBATCH --output=/srv/disk00/cheyul1/Venus/logs/22-04-12/scriptTest_snglcell_5.log
+#SBATCH --output=/srv/disk00/cheyul1/Venus/logs/22-04-12/scriptTest_snglcell_6.log
 
-run_prefix=scriptTest_snglcell_5
+run_prefix=scriptTest_snglcell_6
 out_dir=/srv/disk00/cheyul1/Venus/outputs/22-04-12
 STAR_dir=/srv/disk00/cheyul1/Venus/STAR
 indices_dir=${STAR_dir}/indices
@@ -111,7 +111,7 @@ for i in ${!fastq_links[@]}; do
         --readFilesIn ${fastqs}/Unmapped.out.mate1.fastq ${fastqs}/Unmapped.out.mate2.fastq \
         --outFilterMultimapNmax 1 \
         --outSAMtype BAM SortedByCoordinate \
-        --soloType CB_UMI_Simple \
+        --soloType CB_samTagOut \
         --soloCBwhitelist ${indices_dir}/3M-february-2018.txt \
         --soloCBstart 1 \
         --soloCBlen 16 \
@@ -119,7 +119,7 @@ for i in ${!fastq_links[@]}; do
         --soloUMIlen 10 \
         --soloBarcodeReadLength 0 \
         --soloCBmatchWLtype 1MM \
-        --outSAMattributes NH HI nM AS CB UR
+        --outSAMattributes NH HI nM AS CR UR
     else
         # old
         STAR \
@@ -157,7 +157,7 @@ for i in ${!fastq_links[@]}; do
         --readFilesIn ${fastqs}/Unmapped.out.mate1.fastq ${fastqs}/Unmapped.out.mate2.fastq \
         --outFilterMultimapNmax 1 \
         --outSAMtype BAM SortedByCoordinate \
-        --soloType CB_UMI_Simple \
+        --soloType CB_samTagOut \
         --soloCBwhitelist ${indices_dir}/3M-february-2018.txt \
         --soloCBstart 1 \
         --soloCBlen 16 \
@@ -165,7 +165,7 @@ for i in ${!fastq_links[@]}; do
         --soloUMIlen 10 \
         --soloBarcodeReadLength 0 \
         --soloCBmatchWLtype 1MM \
-        --outSAMattributes NH HI nM AS CB UR
+        --outSAMattributes NH HI nM AS CR UR
     else
         # old
         STAR \
