@@ -223,9 +223,13 @@ def main():
 
     # input conversion for single-cell
     if seq_resol == "single_cell":
-        pysam.view("-h", "-o",
-                   args.out + "/virus/Aligned.out.sam",
-                   args.out + "/virus/Aligned.out.bam")
+        infile = pysam.AlignmentFile(args.out + "/virus/Aligned.out.bam", "rb")
+        outfile = pysam.AlignmentFile(args.out + "/virus/Aligned.out.sam", "w", template=infile)
+        for s in infile:
+            outfile.write(s)
+        # pysam.view("-h", "-o",
+        #            args.out + "/virus/Aligned.out.sam",
+        #            args.out + "/virus/Aligned.out.bam")
 
     output_infection()  # makes detection output file
     return
