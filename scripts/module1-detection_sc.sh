@@ -1,13 +1,13 @@
 #!/bin/bash
-#SBATCH --job-name=scriptTest_snglcell_4
+#SBATCH --job-name=scriptTest_snglcell_5
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=16
 #SBATCH --mem-per-cpu=4G
 #SBATCH --time=48:00:00
 #SBATCH --partition=zhanglab.p
-#SBATCH --output=/srv/disk00/cheyul1/Venus/logs/22-04-12/scriptTest_snglcell_4.log
+#SBATCH --output=/srv/disk00/cheyul1/Venus/logs/22-04-12/scriptTest_snglcell_5.log
 
-run_prefix=scriptTest_snglcell_4
+run_prefix=scriptTest_snglcell_5
 out_dir=/srv/disk00/cheyul1/Venus/outputs/22-04-12
 STAR_dir=/srv/disk00/cheyul1/Venus/STAR
 indices_dir=${STAR_dir}/indices
@@ -70,7 +70,7 @@ for i in ${!fastq_links[@]}; do
         --outReadsUnmapped Fastx \
         --outSAMtype BAM SortedByCoordinate \
         --soloType CB_UMI_Simple \
-        --soloCBwhitelist ${indices_dir}/737K-august-2016.txt \
+        --soloCBwhitelist ${indices_dir}/3M-february-2018.txt \
         --soloCBstart 1 \
         --soloCBlen 16 \
         --soloUMIstart 17 \
@@ -87,7 +87,7 @@ for i in ${!fastq_links[@]}; do
         --outReadsUnmapped Fastx \
         --outSAMtype None \
         --soloType CB_UMI_Simple \
-        --soloCBwhitelist ${indices_dir}/737K-august-2016.txt \
+        --soloCBwhitelist ${indices_dir}/3M-february-2018.txt \
         --soloCBstart 1 \
         --soloCBlen 16 \
         --soloUMIstart 17 \
@@ -111,8 +111,8 @@ for i in ${!fastq_links[@]}; do
         --readFilesIn ${fastqs}/Unmapped.out.mate1.fastq ${fastqs}/Unmapped.out.mate2.fastq \
         --outFilterMultimapNmax 1 \
         --outSAMtype BAM SortedByCoordinate \
-        --soloType CB_samTagOut \
-        --soloCBwhitelist ${indices_dir}/737K-august-2016.txt \
+        --soloType CB_UMI_Simple \
+        --soloCBwhitelist ${indices_dir}/3M-february-2018.txt \
         --soloCBstart 1 \
         --soloCBlen 16 \
         --soloUMIstart 17 \
@@ -130,7 +130,7 @@ for i in ${!fastq_links[@]}; do
         --outFilterMultimapNmax 1 \
         --outSAMtype BAM SortedByCoordinate \
         --soloType CB_UMI_Simple \
-        --soloCBwhitelist ${indices_dir}/737K-august-2016.txt \
+        --soloCBwhitelist ${indices_dir}/3M-february-2018.txt \
         --soloCBstart 1 \
         --soloCBlen 16 \
         --soloUMIstart 17 \
@@ -157,8 +157,8 @@ for i in ${!fastq_links[@]}; do
         --readFilesIn ${fastqs}/Unmapped.out.mate1.fastq ${fastqs}/Unmapped.out.mate2.fastq \
         --outFilterMultimapNmax 1 \
         --outSAMtype BAM SortedByCoordinate \
-        --soloType CB_samTagOut \
-        --soloCBwhitelist ${indices_dir}/737K-august-2016.txt \
+        --soloType CB_UMI_Simple \
+        --soloCBwhitelist ${indices_dir}/3M-february-2018.txt \
         --soloCBstart 1 \
         --soloCBlen 16 \
         --soloUMIstart 17 \
@@ -175,7 +175,7 @@ for i in ${!fastq_links[@]}; do
         --readFilesIn ${fastqs}/Unmapped.out.mate1.fastq \
         --outFilterMultimapNmax 1 \
         --soloType CB_samTagOut \
-        --soloCBwhitelist ${indices_dir}/737K-august-2016.txt \
+        --soloCBwhitelist ${indices_dir}/3M-february-2018.txt \
         --soloCBstart 1 \
         --soloCBlen 16 \
         --soloUMIstart 17 \
@@ -186,11 +186,11 @@ for i in ${!fastq_links[@]}; do
         --outSAMattributes NH HI nM AS CB UR
     fi
     
-    fastqs=${human_dir}/output
-    cd ${fastqs}/
-    for file in *.fastq; do
-        rm -f $file
-    done
+#    fastqs=${human_dir}/output
+#    cd ${fastqs}/
+#    for file in *.fastq; do
+#        rm -f $file
+#    done
 
 
     ######================================ Creates mega-index virus species output ================================######
@@ -240,7 +240,7 @@ done
 #        --readFilesIn ${fastqs}/${filenames[0]} \
 #        --outSAMtype None \
 #        --soloType CB_UMI_Simple \
-#        --soloCBwhitelist ${indices_dir}/737K-august-2016.txt \
+#        --soloCBwhitelist ${indices_dir}/3M-february-2018.txt \
 #        --soloCBstart 1 \
 #        --soloCBlen 16 \
 #        --soloUMIstart 17 \
@@ -256,7 +256,7 @@ done
 #        --readFilesIn ${fastqs}/${filenames[1]} ${fastqs}/${filenames[0]} \
 #        --outSAMtype None \
 #        --soloType CB_UMI_Simple \
-#        --soloCBwhitelist ${indices_dir}/737K-august-2016.txt \
+#        --soloCBwhitelist ${indices_dir}/3M-february-2018.txt \
 #        --soloCBstart 1 \
 #        --soloCBlen 16 \
 #        --soloUMIstart 17 \
@@ -284,7 +284,7 @@ done
 #        --readFilesIn ${fastqs}/${filenames[0]} \
 #        --outSAMtype None \
 #        --soloType CB_UMI_Simple \
-#        --soloCBwhitelist ${indices_dir}/737K-august-2016.txt \
+#        --soloCBwhitelist ${indices_dir}/3M-february-2018.txt \
 #        --soloCBstart 1 \
 #        --soloCBlen 16 \
 #        --soloUMIstart 17 \
@@ -300,7 +300,7 @@ done
 #        --readFilesIn ${fastqs}/${filenames[1]} ${fastqs}/${filenames[0]} \
 #        --outSAMtype None \
 #        --soloType CB_UMI_Simple \
-#        --soloCBwhitelist ${indices_dir}/737K-august-2016.txt \
+#        --soloCBwhitelist ${indices_dir}/3M-february-2018.txt \
 #        --soloCBstart 1 \
 #        --soloCBlen 16 \
 #        --soloUMIstart 17 \
