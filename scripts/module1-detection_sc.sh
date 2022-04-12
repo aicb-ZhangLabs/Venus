@@ -1,77 +1,31 @@
 #!/bin/bash
-#SBATCH --job-name=CoVlungs
+#SBATCH --job-name=scriptTest_snglcell_1
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=16
 #SBATCH --mem-per-cpu=4G
 #SBATCH --time=48:00:00
 #SBATCH --partition=zhanglab.p
-#SBATCH --output=/srv/disk00/cheyul1/logs/09-11-21/CoVlungs.log
+#SBATCH --output=/srv/disk00/cheyul1/Venus/logs/22-04-12/scriptTest_snglcell_1.log
 
-run_prefix=CoVlungs
-out_dir=/srv/disk00/cheyul1/outputs/09-11-21
+run_prefix=scriptTest_snglcell_1
+out_dir=/srv/disk00/cheyul1/Venus/outputs/22-04-12
 STAR_dir=/srv/disk00/cheyul1/Venus/STAR
 indices_dir=${STAR_dir}/indices
+data_dir=/srv/disk00/cheyul1/Venus/datasets/Sngl_HIV-only
+numfiles=2
 
-fastq_links=( https://sra-downloadb.be-md.ncbi.nlm.nih.gov/sos3/sra-pub-run-19/SRR11181954/SRR11181954.2 \
-https://sra-downloadb.be-md.ncbi.nlm.nih.gov/sos3/sra-pub-run-20/SRR11181955/SRR11181955.2 \
-https://sra-downloadb.be-md.ncbi.nlm.nih.gov/sos3/sra-pub-run-21/SRR11181957/SRR11181957.2 \
-https://sra-downloadb.be-md.ncbi.nlm.nih.gov/sos3/sra-pub-run-19/SRR11181956/SRR11181956.2 \
-https://sra-downloadb.be-md.ncbi.nlm.nih.gov/sos3/sra-pub-run-19/SRR11181958/SRR11181958.2 \
-https://sra-downloadb.be-md.ncbi.nlm.nih.gov/sos3/sra-pub-run-21/SRR11181959/SRR11181959.2 \
-https://sra-downloadb.be-md.ncbi.nlm.nih.gov/sos2/sra-pub-run-13/SRR11537950/SRR11537950.2 \
-https://sra-downloadb.be-md.ncbi.nlm.nih.gov/sos3/sra-pub-run-19/SRR11537949/SRR11537949.2 \
-https://sra-downloadb.be-md.ncbi.nlm.nih.gov/sos3/sra-pub-run-19/SRR11537951/SRR11537951.2 )
+fastq_links=( https://sra-downloadb.be-md.ncbi.nlm.nih.gov/sos3/sra-pub-run-19/SRR11181954/SRR11181954.2 )
 metatable=${STAR_dir}/new_virus.species.txt
 
 for i in ${!fastq_links[@]}; do
     ######================================ Downloads SRA runs and create directories ================================######
-    cd ${out_dir}/
-    mkdir "${run_prefix}_run$i"
-    cd "${run_prefix}_run$i"
-    mkdir "human"
-    mkdir "virus"
-    mkdir "mega_virus"
-#    mkdir "hybrid"
-#    mkdir "hybrid_sam"
-    cd human
-    mkdir "fastqs"
-    mkdir "output"
-    cd ../virus
-    mkdir "output"
-    cd ../mega_virus
-    mkdir "output"
-#    cd ../hybrid
-#    mkdir "output"
-#    cd ../hybrid_sam
-#    mkdir "output"
-
+    
     run_dir="${out_dir}/${run_prefix}_run$i"
     human_dir=${run_dir}/human
     virus_dir=${run_dir}/virus
     mega_virus_dir=${run_dir}/mega_virus
 #    hybrid_dir=${run_dir}/hybrid
 #    hybrid_sam_dir=${run_dir}/hybrid_sam
-
-    fastqs=${human_dir}/fastqs
-    cd ${fastqs}/
-    wget -nv ${fastq_links[$i]}
-    parallel-fastq-dump -s ${human_dir}/fastqs/* --threads 16 --split-files --tmpdir ${human_dir}/fastqs/tmp/ --outdir ${human_dir}/fastqs/
-#    for file in *; do
-#        fastq-dump $file --split-files --outdir .
-#    done
-
-    for file in *; do
-        if [[ $file != *.fastq ]]; then
-            rm -rf $file
-        fi
-    done
-
-    cd ${fastqs}/
-    numfiles=$(ls | wc -l)
-    declare -a filenames
-    for file in *.fastq; do
-        filenames=(${filenames[@]} "$file")
-    done
 
 
 
@@ -104,8 +58,8 @@ for i in ${!fastq_links[@]}; do
 
 
     ######================================ Maps to Human index ================================######
-    fastqs=${human_dir}/fastqs
-    cd ${fastqs}/
+#    fastqs=${human_dir}/fastqs
+#    cd ${fastqs}/
     
     if [[ $numfiles == 1 ]]; then
         STAR \
@@ -120,15 +74,16 @@ for i in ${!fastq_links[@]}; do
         --soloCBstart 1 \
         --soloCBlen 16 \
         --soloUMIstart 17 \
-        --soloUMIlen 10 \
+        --soloUMIlen 12 \
         --soloBarcodeReadLength 0 \
         --outSAMattributes NH HI nM AS GX GN CR CB CY UR UB UY sS sQ sM
     else
         STAR \
         --runThreadN 16 \
+        --readFilesCommand zcat \
         --outFileNamePrefix ${human_dir}/output/ \
         --genomeDir ${indices_dir}/human.genomeDir/ \
-        --readFilesIn ${fastqs}/${filenames[1]} ${fastqs}/${filenames[0]} \
+        --readFilesIn ${data_dir}/SRR12165309.1_3.fastq.gz ${data_dir}/SRR12165309.1_2.fastq.gz \
         --outReadsUnmapped Fastx \
         --outSAMtype BAM SortedByCoordinate \
         --soloType CB_UMI_Simple \
@@ -136,7 +91,7 @@ for i in ${!fastq_links[@]}; do
         --soloCBstart 1 \
         --soloCBlen 16 \
         --soloUMIstart 17 \
-        --soloUMIlen 10 \
+        --soloUMIlen 12 \
         --soloBarcodeReadLength 0 \
         --outSAMattributes NH HI nM AS GX GN CR CB CY UR UB UY sS sQ sM
     fi
@@ -145,15 +100,16 @@ for i in ${!fastq_links[@]}; do
     #######================================ Maps to a Target Virus index ================================######
     fastqs=${human_dir}/output
     cd ${fastqs}/
-    mv Unmapped.out.mate1 Unmapped.out.mate1.fastq
+    mv ${fastqs}/Unmapped.out.mate1 ${fastqs}/Unmapped.out.mate1.fastq
     
-    if test -f "Unmapped.out.mate2"; then
-        mv Unmapped.out.mate2 Unmapped.out.mate2.fastq
+    if test -f "${fastqs}/Unmapped.out.mate2"; then
+        mv ${fastqs}/Unmapped.out.mate2 ${fastqs}/Unmapped.out.mate2.fastq
     
         STAR \
         --runThreadN 16 \
+        --readFilesCommand zcat \
         --outFileNamePrefix ${virus_dir}/output/ \
-        --genomeDir ${indices_dir}/SARSCoV2.genomeDir/ \
+        --genomeDir ${indices_dir}/HIV.genomeDir/ \
         --readFilesIn ${fastqs}/Unmapped.out.mate1.fastq ${fastqs}/Unmapped.out.mate2.fastq \
         --outFilterMultimapNmax 1 \
         --outSAMtype BAM SortedByCoordinate \
@@ -162,14 +118,14 @@ for i in ${!fastq_links[@]}; do
         --soloCBstart 1 \
         --soloCBlen 16 \
         --soloUMIstart 17 \
-        --soloUMIlen 10 \
+        --soloUMIlen 12 \
         --soloBarcodeReadLength 0 \
         --outSAMattributes NH HI nM AS GX GN CR CB CY UR UB UY sS sQ sM
     else
         STAR \
         --runThreadN 16 \
         --outFileNamePrefix ${virus_dir}/output/ \
-        --genomeDir ${indices_dir}/SARSCoV2.genomeDir/ \
+        --genomeDir ${indices_dir}/HIV.genomeDir/ \
         --readFilesIn ${fastqs}/Unmapped.out.mate1.fastq \
         --outFilterMultimapNmax 1 \
         --soloType CB_UMI_Simple \
@@ -177,7 +133,7 @@ for i in ${!fastq_links[@]}; do
         --soloCBstart 1 \
         --soloCBlen 16 \
         --soloUMIstart 17 \
-        --soloUMIlen 10 \
+        --soloUMIlen 12 \
         --soloBarcodeReadLength 0 \
         --outSAMtype BAM SortedByCoordinate \
         --outSAMattributes NH HI nM AS GX GN CR CB CY UR UB UY sS sQ sM
@@ -185,8 +141,8 @@ for i in ${!fastq_links[@]}; do
 
 
     #######================================ Creates BAM index for visual in IGV ================================#######
-    cd ${virus_dir}/output/
-    samtools index -b -@ 16 Aligned.sortedByCoord.out.bam Aligned.sortedByCoord.out.bam.bai
+#    cd ${virus_dir}/output/
+#    samtools index -b -@ 16 Aligned.sortedByCoord.out.bam Aligned.sortedByCoord.out.bam.bai
     
     
     #######================================ Maps to Mega-Virus index ================================#######
@@ -196,6 +152,7 @@ for i in ${!fastq_links[@]}; do
     if test -f "Unmapped.out.mate2.fastq"; then
         STAR \
         --runThreadN 16 \
+        --readFilesCommand zcat \
         --outFileNamePrefix ${mega_virus_dir}/output/ \
         --genomeDir ${indices_dir}/new_virus.genomeDir/ \
         --readFilesIn ${fastqs}/Unmapped.out.mate1.fastq ${fastqs}/Unmapped.out.mate2.fastq \
@@ -206,7 +163,7 @@ for i in ${!fastq_links[@]}; do
         --soloCBstart 1 \
         --soloCBlen 16 \
         --soloUMIstart 17 \
-        --soloUMIlen 10 \
+        --soloUMIlen 12 \
         --soloBarcodeReadLength 0 \
         --soloCBmatchWLtype 1MM \
         --outSAMattributes NH HI nM AS CB UR
@@ -222,7 +179,7 @@ for i in ${!fastq_links[@]}; do
         --soloCBstart 1 \
         --soloCBlen 16 \
         --soloUMIstart 17 \
-        --soloUMIlen 10 \
+        --soloUMIlen 12 \
         --soloBarcodeReadLength 0 \
         --soloCBmatchWLtype 1MM \
         --outSAMtype BAM SortedByCoordinate \
@@ -258,6 +215,16 @@ for i in ${!fastq_links[@]}; do
     fi
     unset filesize
 
+#    fastqs=${human_dir}/fastqs
+#    cd ${fastqs}/
+#    for file in *.fastq; do
+#        rm -f $file
+#    done
+
+
+    unset filenames
+done
+
 
 
 #    ############################################################ VIRUS INTEGRATION ############################################################
@@ -269,7 +236,7 @@ for i in ${!fastq_links[@]}; do
 #        STAR \
 #        --runThreadN 16 \
 #        --outFileNamePrefix ${hybrid_dir}/output/ \
-#        --genomeDir ${indices_dir}/hg38SARSCoV2.genomeDir/ \
+#        --genomeDir ${indices_dir}/hg38HIV.genomeDir/ \
 #        --readFilesIn ${fastqs}/${filenames[0]} \
 #        --outSAMtype None \
 #        --soloType CB_UMI_Simple \
@@ -277,7 +244,7 @@ for i in ${!fastq_links[@]}; do
 #        --soloCBstart 1 \
 #        --soloCBlen 16 \
 #        --soloUMIstart 17 \
-#        --soloUMIlen 10 \
+#        --soloUMIlen 12 \
 #        --soloBarcodeReadLength 0 \
 #        --chimSegmentMin 10 \
 #        --chimOutType Junctions
@@ -285,7 +252,7 @@ for i in ${!fastq_links[@]}; do
 #        STAR \
 #        --runThreadN 16 \
 #        --outFileNamePrefix ${hybrid_dir}/output/ \
-#        --genomeDir ${indices_dir}/hg38SARSCoV2.genomeDir/ \
+#        --genomeDir ${indices_dir}/hg38HIV.genomeDir/ \
 #        --readFilesIn ${fastqs}/${filenames[1]} ${fastqs}/${filenames[0]} \
 #        --outSAMtype None \
 #        --soloType CB_UMI_Simple \
@@ -293,7 +260,7 @@ for i in ${!fastq_links[@]}; do
 #        --soloCBstart 1 \
 #        --soloCBlen 16 \
 #        --soloUMIstart 17 \
-#        --soloUMIlen 10 \
+#        --soloUMIlen 12 \
 #        --soloBarcodeReadLength 0 \
 #        --chimSegmentMin 10 \
 #        --chimOutType Junctions
@@ -313,7 +280,7 @@ for i in ${!fastq_links[@]}; do
 #        STAR \
 #        --runThreadN 16 \
 #        --outFileNamePrefix ${hybrid_sam_dir}/output/ \
-#        --genomeDir ${indices_dir}/hg38SARSCoV2.genomeDir/ \
+#        --genomeDir ${indices_dir}/hg38HIV.genomeDir/ \
 #        --readFilesIn ${fastqs}/${filenames[0]} \
 #        --outSAMtype None \
 #        --soloType CB_UMI_Simple \
@@ -321,7 +288,7 @@ for i in ${!fastq_links[@]}; do
 #        --soloCBstart 1 \
 #        --soloCBlen 16 \
 #        --soloUMIstart 17 \
-#        --soloUMIlen 10 \
+#        --soloUMIlen 12 \
 #        --soloBarcodeReadLength 0 \
 #        --chimSegmentMin 10 \
 #        --chimOutType SeparateSAMold
@@ -329,7 +296,7 @@ for i in ${!fastq_links[@]}; do
 #        STAR \
 #        --runThreadN 16 \
 #        --outFileNamePrefix ${hybrid_sam_dir}/output/ \
-#        --genomeDir ${indices_dir}/hg38SARSCoV2.genomeDir/ \
+#        --genomeDir ${indices_dir}/hg38HIV.genomeDir/ \
 #        --readFilesIn ${fastqs}/${filenames[1]} ${fastqs}/${filenames[0]} \
 #        --outSAMtype None \
 #        --soloType CB_UMI_Simple \
@@ -337,17 +304,12 @@ for i in ${!fastq_links[@]}; do
 #        --soloCBstart 1 \
 #        --soloCBlen 16 \
 #        --soloUMIstart 17 \
-#        --soloUMIlen 10 \
+#        --soloUMIlen 12 \
 #        --soloBarcodeReadLength 0 \
 #        --chimSegmentMin 10 \
 #        --chimOutType SeparateSAMold
 #    fi
 
-    fastqs=${human_dir}/fastqs
-    cd ${fastqs}/
-    for file in *.fastq; do
-        rm -f $file
-    done
 
 
 #    #######================================ Gets Chimeric SAM files for visual in IGV ================================#######
@@ -355,14 +317,10 @@ for i in ${!fastq_links[@]}; do
 #    grep "NC_045512.2" Chimeric.out.sam > Chimeric.filterered.sam     # Cannot filter only for virus only in single-cell seq, because mate read is barcode
 #    filesize=$(stat -c%s "Chimeric.filterered.sam")
 #    if [[ $filesize > 0 ]]; then
-#        samtools view -bt /srv/disk00/cheyul1/Venus/STAR/indices/hg38SARSCoV2.genomeDir/hg38SARSCoV2.fna.fai -u Chimeric.filterered.sam | \
+#        samtools view -bt /srv/disk00/cheyul1/Venus/STAR/indices/hg38HIV.genomeDir/hg38SARSCoV2.fna.fai -u Chimeric.filterered.sam | \
 #        samtools sort -o Chimeric.filterered.sortedByCoord.bam
 #        samtools index -b -@ 16 Chimeric.filterered.sortedByCoord.bam Chimeric.filterered.sortedByCoord.bam.bai
 #    else
 #        echo "No Chimeric Transcripts Found"
 #    fi
 #    unset filesize
-
-    unset filenames
-done
-
