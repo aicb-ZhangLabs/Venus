@@ -123,7 +123,7 @@ def main():
                   + "--soloCBlen " + args.singleCellBarcode[1] + " " \
                   + "--soloUMIstart " + args.singleUniqueMolIdent[0] + " " \
                   + "--soloUMIlen " + args.singleUniqueMolIdent[1] + " " \
-                  + "--outSAMtype BAM SortedByCoordinate " \
+                  + "--outSAMtype BAM Unsorted " \
                   + "--outSAMattributes NH HI nM AS CR UR "
         elif seq_resol == "bulk":
             cmd = cmd \
@@ -225,7 +225,7 @@ def main():
     if seq_resol == "single_cell":
         pysam.view("-h", "-o",
                    args.out + "/virus/Aligned.out.sam",
-                   args.out + "/virus/Aligned.sortedByCoord.bam")
+                   args.out + "/virus/Aligned.out.bam")
 
     output_infection()  # makes detection output file
     return
