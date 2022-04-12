@@ -189,7 +189,7 @@ def main():
                                    "Count": species_count,
                                    "Percentage": species_ratio})
         output.sort_values(by="Percentage", ascending=False, inplace=True)
-        output.to_csv(path_or_buf=args.out + "/detection_output.csv", index=False)
+        output.to_tsv(path_or_buf=args.out + "/detection_output.tsv", index=False)
 
         # # Testing
         # print(virus_species[:5])
