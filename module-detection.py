@@ -47,11 +47,14 @@ def main():
 
     args = parser.parse_args()
 
-    # reads = args.read.split(" ")
+    # Determine sequencing type
+
+
+    # Determine sequencing read type
     if len(args.read) == 1:
-        seq = "single"
+        read_type = "single_end"
     elif len(args.read) == 2:
-        seq = "paired"
+        read_type = "paired_end"
     else:
         print("Unable to determine sequencing read type!!!")
 
@@ -67,9 +70,9 @@ def main():
         if args.readFilesCommand is not None:
             cmd = cmd + "--readFilesCommand " + args.readFilesCommand + " "
 
-        if seq == "single":
+        if read_type == "single_end":
             cmd = cmd + "--readFilesIn " + args.read[0] + " "
-        elif seq == "paired":
+        elif read_type == "paired_end":
             cmd = cmd + "--readFilesIn " + args.read[0] + " " + args.read[1] + " "
 
         return cmd
@@ -83,9 +86,9 @@ def main():
               + "--outFilterMultimapNmax 1 " \
               + "--outSAMtype SAM "
 
-        if seq == "single":
+        if read_type == "single_end":
             cmd = cmd + "--readFilesIn " + args.out + "/human/Unmapped.out.mate1.fastq "
-        elif seq == "paired":
+        elif read_type == "paired_end":
             cmd = cmd + "--readFilesIn " + args.out + "/human/Unmapped.out.mate1.fastq " \
                                          + args.out + "/human/Unmapped.out.mate2.fastq "
 
@@ -157,9 +160,9 @@ def main():
     # print(map_virus())
 
     os.system(map_human())  # map to human
-    if seq == "single":
+    if read_type == "single_end":
         os.rename(args.out + "/human/Unmapped.out.mate1", args.out + "/human/Unmapped.out.mate1.fastq")  # prep input
-    elif seq == "paired":
+    elif read_type == "paired_end":
         os.rename(args.out + "/human/Unmapped.out.mate1", args.out + "/human/Unmapped.out.mate1.fastq")  # prep input
         os.rename(args.out + "/human/Unmapped.out.mate2", args.out + "/human/Unmapped.out.mate2.fastq")
     os.system(map_virus())  # map to virus
