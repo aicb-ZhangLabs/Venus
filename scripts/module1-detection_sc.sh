@@ -107,7 +107,6 @@ for i in ${!fastq_links[@]}; do
     
         STAR \
         --runThreadN 16 \
-        --readFilesCommand zcat \
         --outFileNamePrefix ${virus_dir}/output/ \
         --genomeDir ${indices_dir}/HIV.genomeDir/ \
         --readFilesIn ${fastqs}/Unmapped.out.mate1.fastq ${fastqs}/Unmapped.out.mate2.fastq \
@@ -152,7 +151,6 @@ for i in ${!fastq_links[@]}; do
     if test -f "Unmapped.out.mate2.fastq"; then
         STAR \
         --runThreadN 16 \
-        --readFilesCommand zcat \
         --outFileNamePrefix ${mega_virus_dir}/output/ \
         --genomeDir ${indices_dir}/new_virus.genomeDir/ \
         --readFilesIn ${fastqs}/Unmapped.out.mate1.fastq ${fastqs}/Unmapped.out.mate2.fastq \
