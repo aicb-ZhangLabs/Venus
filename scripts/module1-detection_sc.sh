@@ -120,23 +120,23 @@ for i in ${!fastq_links[@]}; do
         --soloBarcodeReadLength 0 \
         --soloCBmatchWLtype 1MM \
         --outSAMattributes NH HI nM AS CR UR
-    else
-        # old
-        STAR \
-        --runThreadN 16 \
-        --outFileNamePrefix ${virus_dir}/output/ \
-        --genomeDir ${indices_dir}/HIV.genomeDir/ \
-        --readFilesIn ${fastqs}/Unmapped.out.mate1.fastq \
-        --outFilterMultimapNmax 1 \
-        --outSAMtype BAM SortedByCoordinate \
-        --soloType CB_UMI_Simple \
-        --soloCBwhitelist ${indices_dir}/3M-february-2018.txt \
-        --soloCBstart 1 \
-        --soloCBlen 16 \
-        --soloUMIstart 17 \
-        --soloUMIlen 10 \
-        --soloBarcodeReadLength 0 \
-        --outSAMattributes NH HI nM AS GX GN CR CB CY UR UB UY sS sQ sM
+#    else
+#        # old
+#        STAR \
+#        --runThreadN 16 \
+#        --outFileNamePrefix ${virus_dir}/output/ \
+#        --genomeDir ${indices_dir}/HIV.genomeDir/ \
+#        --readFilesIn ${fastqs}/Unmapped.out.mate1.fastq \
+#        --outFilterMultimapNmax 1 \
+#        --outSAMtype BAM SortedByCoordinate \
+#        --soloType CB_UMI_Simple \
+#        --soloCBwhitelist ${indices_dir}/3M-february-2018.txt \
+#        --soloCBstart 1 \
+#        --soloCBlen 16 \
+#        --soloUMIstart 17 \
+#        --soloUMIlen 10 \
+#        --soloBarcodeReadLength 0 \
+#        --outSAMattributes NH HI nM AS GX GN CR CB CY UR UB UY sS sQ sM
     fi
 
 
@@ -166,24 +166,24 @@ for i in ${!fastq_links[@]}; do
         --soloBarcodeReadLength 0 \
         --soloCBmatchWLtype 1MM \
         --outSAMattributes NH HI nM AS CR UR
-    else
-        # old
-        STAR \
-        --runThreadN 16 \
-        --outFileNamePrefix ${mega_virus_dir}/output/ \
-        --genomeDir ${indices_dir}/new_virus.genomeDir/ \
-        --readFilesIn ${fastqs}/Unmapped.out.mate1.fastq \
-        --outFilterMultimapNmax 1 \
-        --soloType CB_samTagOut \
-        --soloCBwhitelist ${indices_dir}/3M-february-2018.txt \
-        --soloCBstart 1 \
-        --soloCBlen 16 \
-        --soloUMIstart 17 \
-        --soloUMIlen 10 \
-        --soloBarcodeReadLength 0 \
-        --soloCBmatchWLtype 1MM \
-        --outSAMtype BAM SortedByCoordinate \
-        --outSAMattributes NH HI nM AS CB UR
+#    else
+#        # old
+#        STAR \
+#        --runThreadN 16 \
+#        --outFileNamePrefix ${mega_virus_dir}/output/ \
+#        --genomeDir ${indices_dir}/new_virus.genomeDir/ \
+#        --readFilesIn ${fastqs}/Unmapped.out.mate1.fastq \
+#        --outFilterMultimapNmax 1 \
+#        --soloType CB_samTagOut \
+#        --soloCBwhitelist ${indices_dir}/3M-february-2018.txt \
+#        --soloCBstart 1 \
+#        --soloCBlen 16 \
+#        --soloUMIstart 17 \
+#        --soloUMIlen 10 \
+#        --soloBarcodeReadLength 0 \
+#        --soloCBmatchWLtype 1MM \
+#        --outSAMtype BAM SortedByCoordinate \
+#        --outSAMattributes NH HI nM AS CB UR
     fi
     
 #    fastqs=${human_dir}/output

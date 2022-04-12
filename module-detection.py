@@ -25,7 +25,7 @@ def main():
                                                  "Virus dEtecting in humaN bUlk and Single cell rna sequencing")
 
     parser.add_argument("--read", type=str, required=True, nargs='+',
-                        help="read of RNA-seq")
+                        help="read of RNA-seq \n(single-cell) first read should be cDNA, second should be CB+UMI")
 
     parser.add_argument("--virusGenome", type=str, required=True,
                         help="directory path of virus genome index")
@@ -45,27 +45,35 @@ def main():
     parser.add_argument("--readFilesCommand", type=str, required=False,
                         help="uncompression command")
 
+    parser.add_argument("--singleCellBarcode", type=str, required=False, nargs=2,
+                        help="(single-cell) barcode specifications, e.g. '1 16' = start at 1, length is 16")
+
+    parser.add_argument("--singleUniqueMolIdent", type=str, required=False, nargs=2,
+                        help="(single-cell) umi specifications, e.g. '17 10' = start at 17, length is 10")
+
+    parser.add_argument("--singleWhitelist", type=str, required=False,
+                        help="(single-cell) barcode whitelist")
+
     args = parser.parse_args()
-
-    # Determine sequencing type
-
 
     # Determine sequencing read type
     if len(args.read) == 1:
         read_type = "single_end"
-    elif len(args.read) == 2:
-        read_type = "paired_end"
     else:
-        print("Unable to determine sequencing read type!!!")
+        read_type = "paired_end"
+
+    # Determine sequencing resolution
+    if args.singleCellBarcode is not None:
+        seq_resol = "single_cell"
+    else:
+        seq_resol = "bulk"
 
     def map_human():
         """Maps to the human genome"""
         cmd = "STAR " \
               + "--runThreadN " + args.thread + " " \
               + "--outFileNamePrefix " + args.out + "/human/ " \
-              + "--genomeDir " + args.humanGenome + " " \
-              + "--outReadsUnmapped Fastx " \
-              + "--outSAMtype None "
+              + "--genomeDir " + args.humanGenome + " "
 
         if args.readFilesCommand is not None:
             cmd = cmd + "--readFilesCommand " + args.readFilesCommand + " "
@@ -75,6 +83,20 @@ def main():
         elif read_type == "paired_end":
             cmd = cmd + "--readFilesIn " + args.read[0] + " " + args.read[1] + " "
 
+        if seq_resol == "single_cell":
+            cmd = cmd \
+                  + "--soloType CB_UMI_Simple " \
+                  + "--soloCBwhitelist " + args.singleWhitelist + " " \
+                  + "--soloBarcodeReadLength 0 " \
+                  + "--soloCBstart " + args.singleCellBarcode[0] + " " \
+                  + "--soloCBlen " + args.singleCellBarcode[1] + " " \
+                  + "--soloUMIstart " + args.singleUniqueMolIdent[0] + " " \
+                  + "--soloUMIlen " + args.singleUniqueMolIdent[1] + " "
+
+        cmd = cmd \
+              + "--outSAMtype None " \
+              + "--outReadsUnmapped Fastx "
+
         return cmd
 
     def map_virus():
@@ -83,14 +105,29 @@ def main():
               + "--runThreadN " + args.thread + " " \
               + "--outFileNamePrefix " + args.out + "/virus/ " \
               + "--genomeDir " + args.virusGenome + " " \
-              + "--outFilterMultimapNmax 1 " \
-              + "--outSAMtype SAM "
+              + "--outFilterMultimapNmax 1 "
 
         if read_type == "single_end":
             cmd = cmd + "--readFilesIn " + args.out + "/human/Unmapped.out.mate1.fastq "
         elif read_type == "paired_end":
             cmd = cmd + "--readFilesIn " + args.out + "/human/Unmapped.out.mate1.fastq " \
-                                         + args.out + "/human/Unmapped.out.mate2.fastq "
+                  + args.out + "/human/Unmapped.out.mate2.fastq "
+
+        if seq_resol == "single_cell":
+            cmd = cmd \
+                  + "--soloType CB_samTagOut " \
+                  + "--soloCBwhitelist " + args.singleWhitelist + " " \
+                  + "--soloCBmatchWLtype 1MM " \
+                  + "--soloBarcodeReadLength 0 " \
+                  + "--soloCBstart " + args.singleCellBarcode[0] + " " \
+                  + "--soloCBlen " + args.singleCellBarcode[1] + " " \
+                  + "--soloUMIstart " + args.singleUniqueMolIdent[0] + " " \
+                  + "--soloUMIlen " + args.singleUniqueMolIdent[1] + " " \
+                  + "--outSAMtype BAM SortedByCoordinate " \
+                  + "--outSAMattributes NH HI nM AS CR UR "
+        elif seq_resol == "bulk":
+            cmd = cmd \
+                  + "--outSAMtype SAM "
 
         return cmd
 
@@ -112,21 +149,26 @@ def main():
         species_name = []
         species_count = []
         species_ratio = []
+        species_barcodes = [[] for _ in range(len(virus_species))]
         reference = pd.read_csv('/srv/disk00/cheyul1/Venus/repo/new_virus.species.txt', sep='\t', names=["id", "name"])
         reference = reference.set_index("id")
 
         # # Testing
         # stopper = 0
+        index = 0
         for species in virus_species:
-            count = 0
+            virus_count = 0
             with open(args.out + "/virus/Aligned.out.sam", "r") as file:
                 for line in file:
                     if (not line.startswith("@")) and species in line:
-                        count += 1
-            if count >= args.virusThreshold:
-                species_count.append(count)
+                        virus_count += 1
+                        if seq_resol == "single_cell":
+                            species_barcodes[index].append(line.split("\t")[15])
+            if virus_count >= args.virusThreshold:
+                species_count.append(virus_count)
                 species_name.append(reference.loc[species, "name"])
-                species_ratio.append(count / total * 100.0)
+                species_ratio.append(virus_count / total * 100.0)
+            index += 1
 
             # # Testing
             # if stopper >= 5:
@@ -137,9 +179,15 @@ def main():
             # print(species_count)
             # print(species_ratio)
 
-        output = pd.DataFrame({"Name": species_name,
-                               "Count": species_count,
-                               "Percentage": species_ratio})
+        if seq_resol == "single":
+            output = pd.DataFrame({"Name": species_name,
+                                   "Count": species_count,
+                                   "Percentage": species_ratio})
+            output["Barcodes"] = pd.Series(species_barcodes)
+        else:
+            output = pd.DataFrame({"Name": species_name,
+                                   "Count": species_count,
+                                   "Percentage": species_ratio})
         output.sort_values(by="Percentage", ascending=False, inplace=True)
         output.to_csv(path_or_buf=args.out + "/detection_output.csv", index=False)
 
@@ -159,14 +207,26 @@ def main():
     # os.rename(args.out + "/human/Unmapped.out.mate1", args.out + "/human/Unmapped.out.mate1.fastq")
     # print(map_virus())
 
+    ##################################################################################################
+    # Action Steps
+    ##################################################################################################
     os.system(map_human())  # map to human
+
+    # prep unmapped human reads
     if read_type == "single_end":
-        os.rename(args.out + "/human/Unmapped.out.mate1", args.out + "/human/Unmapped.out.mate1.fastq")  # prep input
+        os.rename(args.out + "/human/Unmapped.out.mate1", args.out + "/human/Unmapped.out.mate1.fastq")
     elif read_type == "paired_end":
-        os.rename(args.out + "/human/Unmapped.out.mate1", args.out + "/human/Unmapped.out.mate1.fastq")  # prep input
+        os.rename(args.out + "/human/Unmapped.out.mate1", args.out + "/human/Unmapped.out.mate1.fastq")
         os.rename(args.out + "/human/Unmapped.out.mate2", args.out + "/human/Unmapped.out.mate2.fastq")
+
     os.system(map_virus())  # map to virus
-    # pysam.view("-h", "-o", args.out + "/virus/Aligned.out.sam", args.out + "/virus/Aligned.out.bam")  # prep input
+
+    # input conversion for single-cell
+    if seq_resol == "single_cell":
+        pysam.view("-h", "-o",
+                   args.out + "/virus/Aligned.out.sam",
+                   args.out + "/virus/Aligned.sortedByCoord.bam")
+
     output_infection()  # makes detection output file
     return
 
@@ -174,4 +234,3 @@ def main():
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     main()
-

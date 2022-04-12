@@ -1,27 +1,40 @@
 #!/bin/bash
-#SBATCH --job-name=testing_bulkPairedHIV
+#SBATCH --job-name=testing_singleHIV
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=32
 #SBATCH --mem-per-cpu=4G
 #SBATCH --time=24:00:00
 #SBATCH --partition=zhanglab.p
-#SBATCH --output=/srv/disk00/cheyul1/Venus/logs/22-04-07/testing_bulkPairedHIV.log
+#SBATCH --output=/srv/disk00/cheyul1/Venus/logs/22-04-12/testing_singleHIV.log
 
 STAR_dir=/srv/disk00/cheyul1/Venus/STAR
 Venus_dir=/srv/disk00/cheyul1/Venus/repo
 
 indices_dir=${STAR_dir}/indices
-data_dir=/srv/disk00/cheyul1/Venus/datasets/YaChi_GSE112576
-out_dir=/srv/disk00/cheyul1/Venus/outputs/22-04-07/testing_bulkPairedHIV
+data_dir=/srv/disk00/cheyul1/Venus/datasets/Sngl_HIV-only
+out_dir=/srv/disk00/cheyul1/Venus/outputs/22-04-12/testing_singleHIV
 
 # Testing Detection Module
+#python3 ${Venus_dir}/module-detection.py \
+#    --read ${data_dir}/SRR6944349.1_1.fastq.gz ${data_dir}/SRR6944349.1_2.fastq.gz \
+#    --virusThreshold 5 \
+#    --virusGenome ${indices_dir}/virus.genomeDir \
+#    --humanGenome ${indices_dir}/human.genomeDir \
+#    --out ${out_dir} \
+#    --readFilesCommand zcat \
+#    --thread 32
+    
 python3 ${Venus_dir}/module-detection.py \
-    --read ${data_dir}/SRR6944349.1_1.fastq.gz ${data_dir}/SRR6944349.1_2.fastq.gz \
-    --virusGenome ${indices_dir}/virus.genomeDir \
+    --read ${data_dir}/SRR12165309.1_3.fastq.gz ${data_dir}/SRR12165309.1_2.fastq.gz \
+    --virusThreshold 5 \
+    --virusGenome ${indices_dir}/HIV.genomeDir \
     --humanGenome ${indices_dir}/human.genomeDir \
     --out ${out_dir} \
     --readFilesCommand zcat \
-    --thread 32
+    --thread 32 \
+    --singleCellBarcode 1 16 \
+    --singleUniqueMolIdent 17 10 \
+    --singleWhitelist ${indices_dir}/3M-february-2018.txt
 
 
 ## Testing Indexing Module
@@ -36,3 +49,12 @@ python3 ${Venus_dir}/module-detection.py \
 
 ## Printing Test
 #python3 module-detection.py --read read1.fq read2.fq --virusGenome virusGenome --humanGenome humanGenome --out ../data
+#python3 module-detection.py \
+#    --read read1.fq read2.fq \
+#    --virusThreshold 5 \
+#    --virusGenome virusGenome \
+#    --humanGenome humanGenome \
+#    --out ../data \
+#    --singleCellBarcode 1 16 \
+#    --singleUniqueMolIdent 17 10 \
+#    --singleWhitelist whitelist.txt
