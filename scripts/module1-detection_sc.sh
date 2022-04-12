@@ -1,13 +1,13 @@
 #!/bin/bash
-#SBATCH --job-name=scriptTest_snglcell_3
+#SBATCH --job-name=scriptTest_snglcell_4
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=16
 #SBATCH --mem-per-cpu=4G
 #SBATCH --time=48:00:00
 #SBATCH --partition=zhanglab.p
-#SBATCH --output=/srv/disk00/cheyul1/Venus/logs/22-04-12/scriptTest_snglcell_3.log
+#SBATCH --output=/srv/disk00/cheyul1/Venus/logs/22-04-12/scriptTest_snglcell_4.log
 
-run_prefix=scriptTest_snglcell_3
+run_prefix=scriptTest_snglcell_4
 out_dir=/srv/disk00/cheyul1/Venus/outputs/22-04-12
 STAR_dir=/srv/disk00/cheyul1/Venus/STAR
 indices_dir=${STAR_dir}/indices
@@ -74,7 +74,7 @@ for i in ${!fastq_links[@]}; do
         --soloCBstart 1 \
         --soloCBlen 16 \
         --soloUMIstart 17 \
-        --soloUMIlen 12 \
+        --soloUMIlen 10 \
         --soloBarcodeReadLength 0 \
         --outSAMattributes NH HI nM AS GX GN CR CB CY UR UB UY sS sQ sM
     else
@@ -91,7 +91,7 @@ for i in ${!fastq_links[@]}; do
         --soloCBstart 1 \
         --soloCBlen 16 \
         --soloUMIstart 17 \
-        --soloUMIlen 12 \
+        --soloUMIlen 10 \
         --soloBarcodeReadLength 0
     fi
     
@@ -116,7 +116,7 @@ for i in ${!fastq_links[@]}; do
         --soloCBstart 1 \
         --soloCBlen 16 \
         --soloUMIstart 17 \
-        --soloUMIlen 12 \
+        --soloUMIlen 10 \
         --soloBarcodeReadLength 0 \
         --soloCBmatchWLtype 1MM \
         --outSAMattributes NH HI nM AS CB UR
@@ -134,7 +134,7 @@ for i in ${!fastq_links[@]}; do
         --soloCBstart 1 \
         --soloCBlen 16 \
         --soloUMIstart 17 \
-        --soloUMIlen 12 \
+        --soloUMIlen 10 \
         --soloBarcodeReadLength 0 \
         --outSAMattributes NH HI nM AS GX GN CR CB CY UR UB UY sS sQ sM
     fi
@@ -162,7 +162,7 @@ for i in ${!fastq_links[@]}; do
         --soloCBstart 1 \
         --soloCBlen 16 \
         --soloUMIstart 17 \
-        --soloUMIlen 12 \
+        --soloUMIlen 10 \
         --soloBarcodeReadLength 0 \
         --soloCBmatchWLtype 1MM \
         --outSAMattributes NH HI nM AS CB UR
@@ -179,7 +179,7 @@ for i in ${!fastq_links[@]}; do
         --soloCBstart 1 \
         --soloCBlen 16 \
         --soloUMIstart 17 \
-        --soloUMIlen 12 \
+        --soloUMIlen 10 \
         --soloBarcodeReadLength 0 \
         --soloCBmatchWLtype 1MM \
         --outSAMtype BAM SortedByCoordinate \
@@ -244,7 +244,7 @@ done
 #        --soloCBstart 1 \
 #        --soloCBlen 16 \
 #        --soloUMIstart 17 \
-#        --soloUMIlen 12 \
+#        --soloUMIlen 10 \
 #        --soloBarcodeReadLength 0 \
 #        --chimSegmentMin 10 \
 #        --chimOutType Junctions
@@ -260,7 +260,7 @@ done
 #        --soloCBstart 1 \
 #        --soloCBlen 16 \
 #        --soloUMIstart 17 \
-#        --soloUMIlen 12 \
+#        --soloUMIlen 10 \
 #        --soloBarcodeReadLength 0 \
 #        --chimSegmentMin 10 \
 #        --chimOutType Junctions
@@ -288,7 +288,7 @@ done
 #        --soloCBstart 1 \
 #        --soloCBlen 16 \
 #        --soloUMIstart 17 \
-#        --soloUMIlen 12 \
+#        --soloUMIlen 10 \
 #        --soloBarcodeReadLength 0 \
 #        --chimSegmentMin 10 \
 #        --chimOutType SeparateSAMold
@@ -304,7 +304,7 @@ done
 #        --soloCBstart 1 \
 #        --soloCBlen 16 \
 #        --soloUMIstart 17 \
-#        --soloUMIlen 12 \
+#        --soloUMIlen 10 \
 #        --soloBarcodeReadLength 0 \
 #        --chimSegmentMin 10 \
 #        --chimOutType SeparateSAMold
