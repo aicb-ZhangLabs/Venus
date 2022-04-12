@@ -1,13 +1,13 @@
 #!/bin/bash
-#SBATCH --job-name=scriptTest_snglcell_1
+#SBATCH --job-name=scriptTest_snglcell_2
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=16
 #SBATCH --mem-per-cpu=4G
 #SBATCH --time=48:00:00
 #SBATCH --partition=zhanglab.p
-#SBATCH --output=/srv/disk00/cheyul1/Venus/logs/22-04-12/scriptTest_snglcell_1.log
+#SBATCH --output=/srv/disk00/cheyul1/Venus/logs/22-04-12/scriptTest_snglcell_2.log
 
-run_prefix=scriptTest_snglcell_1
+run_prefix=scriptTest_snglcell_2
 out_dir=/srv/disk00/cheyul1/Venus/outputs/22-04-12
 STAR_dir=/srv/disk00/cheyul1/Venus/STAR
 indices_dir=${STAR_dir}/indices
@@ -85,15 +85,14 @@ for i in ${!fastq_links[@]}; do
         --genomeDir ${indices_dir}/human.genomeDir/ \
         --readFilesIn ${data_dir}/SRR12165309.1_3.fastq.gz ${data_dir}/SRR12165309.1_2.fastq.gz \
         --outReadsUnmapped Fastx \
-        --outSAMtype BAM SortedByCoordinate \
+        --outSAMtype None \
         --soloType CB_UMI_Simple \
         --soloCBwhitelist ${indices_dir}/737K-august-2016.txt \
         --soloCBstart 1 \
         --soloCBlen 16 \
         --soloUMIstart 17 \
         --soloUMIlen 12 \
-        --soloBarcodeReadLength 0 \
-        --outSAMattributes NH HI nM AS GX GN CR CB CY UR UB UY sS sQ sM
+        --soloBarcodeReadLength 0
     fi
     
     
