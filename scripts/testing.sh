@@ -1,18 +1,18 @@
 #!/bin/bash
-#SBATCH --job-name=testing_singleHIV
+#SBATCH --job-name=testing_singleMEGAV
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=32
 #SBATCH --mem-per-cpu=4G
 #SBATCH --time=24:00:00
 #SBATCH --partition=zhanglab.p
-#SBATCH --output=/srv/disk00/cheyul1/Venus/logs/22-04-12/testing_singleHIV.log
+#SBATCH --output=/srv/disk00/cheyul1/Venus/logs/22-04-12/testing_singleMEGAV.log
 
 STAR_dir=/srv/disk00/cheyul1/Venus/STAR
 Venus_dir=/srv/disk00/cheyul1/Venus/repo
 
 indices_dir=${STAR_dir}/indices
 data_dir=/srv/disk00/cheyul1/Venus/datasets/Sngl_HIV-only
-out_dir=/srv/disk00/cheyul1/Venus/outputs/22-04-12/testing_singleHIV
+out_dir=/srv/disk00/cheyul1/Venus/outputs/22-04-12/testing_singleMEGAV
 
 # Testing Detection Module
 #python3 ${Venus_dir}/module-detection.py \
@@ -27,7 +27,7 @@ out_dir=/srv/disk00/cheyul1/Venus/outputs/22-04-12/testing_singleHIV
 python3 ${Venus_dir}/module-detection.py \
     --read ${data_dir}/SRR12165309.1_3.fastq.gz ${data_dir}/SRR12165309.1_2.fastq.gz \
     --virusThreshold 5 \
-    --virusGenome ${indices_dir}/HIV.genomeDir \
+    --virusGenome ${indices_dir}/virus.genomeDir \
     --humanGenome ${indices_dir}/human.genomeDir \
     --out ${out_dir} \
     --readFilesCommand zcat \
