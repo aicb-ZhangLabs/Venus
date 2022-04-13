@@ -168,7 +168,7 @@ def main():
                 species_count.append(virus_count)
                 species_name.append(reference.loc[species, "name"])
                 species_ratio.append(virus_count / total * 100.0)
-                species_barcodes.append([virus_barcodes])
+                species_barcodes.append(virus_barcodes)
 
             # # Testing
             # if stopper >= 5:
@@ -182,8 +182,9 @@ def main():
         if seq_resol == "single_cell":
             output = pd.DataFrame({"Name": species_name,
                                    "Count": species_count,
-                                   "Percentage": species_ratio})
-            output["Barcodes"] = pd.Series(species_barcodes)
+                                   "Percentage": species_ratio,
+                                   "Barcodes": species_barcodes})
+            # output["Barcodes"] = pd.Series(species_barcodes)
         else:
             output = pd.DataFrame({"Name": species_name,
                                    "Count": species_count,
