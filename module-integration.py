@@ -10,85 +10,81 @@
 ########################################################################################################################
 # Import Libraries
 ########################################################################################################################
+import argparse
 import os
+import pysam
 
 
 ########################################################################################################################
-# Base scripts
+# Main
 ########################################################################################################################
-def script_base():
-    """Base script that should be included in all Venus mappings"""
-    script = "STAR " \
-             + "--runThreadN 64 "
-    return script
+def main():
+    parser = argparse.ArgumentParser(description="VENUS, a subtractive analysis software: " + \
+                                                 "Virus dEtecting in humaN bUlk and Single cell rna sequencing")
 
+    parser.add_argument("--read", type=str, required=True, nargs='+',
+                        help="read of RNA-seq \n(single-cell) first read should be cDNA, second should be CB+UMI")
 
-def script_base_singlecell():
-    """Base script that should be included in all Venus bulk mappings"""
-    script = "--soloCBwhitelist ${indices_dir}/737K-august-2016.txt " \
-             + "--soloCBstart 1 " \
-             + "--soloCBlen 16 " \
-             + "--soloUMIstart 17 " \
-             + "--soloUMIlen 10 " \
-             + "--soloBarcodeReadLength 0 "
-    return script
+    parser.add_argument("--virusGenome", type=str, required=True,
+                        help="directory path of virus genome index")
 
+    parser.add_argument("--hybridGenome", type=str, required=True,
+                        help="directory path of hybrid genome index")
 
-########################################################################################################################
-# Extra Single-cell options
-########################################################################################################################
-def script_singlecell_gtf():
-    """Script for mapping single-cell data with annotation gtf file in index"""
-    script = "--soloType CB_UMI_Simple " \
-             + "--outSAMattributes NH HI nM AS GX GN CR CB CY UR UB UY sS sQ sM "
-    return script
+    parser.add_argument("--guideGenome", type=str, required=False,
+                        help="directory path of guide sequence index")
 
+    parser.add_argument("--out", type=str, required=False, default=os.getcwd(),
+                        help="directory path of output dir")
 
-def script_singlecell_nogtf():
-    """Script for mapping single-cell data without annotation gtf file in index"""
-    script = "--soloType CB_samTagOut " \
-             + "--soloCBmatchWLtype 1MM " \
-             + "--outSAMattributes NH HI nM AS CB UR "
-    return script
+    parser.add_argument("--thread", type=str, required=False, default="1",
+                        help="number of parallel threads")
 
+    parser.add_argument("--readFilesCommand", type=str, required=False,
+                        help="uncompression command")
 
-########################################################################################################################
-# Choosing which genome index to map to
-########################################################################################################################
-def script_targetvirus():
-    """Script for mapping to the target virus genome index"""
-    script = "--genomeDir ${indices_dir}/HIV.genomeDir/ " \
-             + "--readFilesIn ${run_dir}/R1/trim_fastq/*_trimmed.fq.gz " \
-             + "--outFileNamePrefix ${run_dir}/R1/aln_fastq/ " \
-             + "--outFilterMultimapNmax 1 " \
-             + "--outSAMtype BAM Unsorted "
-    return script
+    args = parser.parse_args()
 
+    def map_virus():
+        """Maps to the virus genome"""
+        cmd = "STAR " \
+              + "--runThreadN " + args.thread + " " \
+              + "--outFileNamePrefix " + args.out + "/virus/ " \
+              + "--genomeDir " + args.virusGenome + " "
 
-########################################################################################################################
-# Choosing which genome index to map to
-########################################################################################################################
-def script_sensitivity_shortreads():
-    """Script for increasing sensitivity in detecting short reads"""
-    script = "--outSAMmultNmax 1 " \
-             + "--alignIntronMax 1 --winBinNbits 7 " \
-             + "--scoreGenomicLengthLog2scale 0 --scoreDelOpen 0 " \
-             + "--scoreInsOpen 0 --scoreDelBase -1 --scoreInsBase -1 " \
-             + "--outFilterMultimapNmax -1 --winAnchorMultimapNmax 3000 " \
-             + "--seedPerReadNmax 30000 --alignWindowsPerReadNmax 30000 --seedPerWindowNmax 1000 " \
-             + "--outFilterMatchNminOverLread 0 --outFilterScoreMinOverLread 0 --outFilterScoreMin 27 "
-    return script
+        if args.readFilesCommand is not None:
+            cmd = cmd + "--readFilesCommand " + args.readFilesCommand + " "
 
+        return cmd
 
-########################################################################################################################
-# Combine scripts to command
-########################################################################################################################
-def script_combine():
-    cmd = script_base() + script_targetvirus()
-    return cmd
+    def map_hybrid():
+        """Maps the viral mapped reads to the human genome"""
+        cmd = "STAR " \
+              + "--runThreadN " + args.thread + " " \
+              + "--outFileNamePrefix " + args.out + "/human/ " \
+              + "--genomeDir " + args.humanGenome + " "
+
+        return cmd
+
+    def map_guide():
+        """Classifies the integration sites based on guide sequences"""
+        cmd = "STAR " \
+              + "--runThreadN " + args.thread + " " \
+              + "--outFileNamePrefix " + args.out + "/virus/ " \
+              + "--genomeDir " + args.virusGenome + " " \
+              + "--outFilterMultimapNmax 1 "
+        
+        return cmd
+
+    ##################################################################################################
+    # Action Steps
+    ##################################################################################################
+    print(map_virus)
+    print(map_hybrid())
+    print(map_guide())
+    return
 
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    # os.system(script_combine())
-    print(script_combine())
+    main()
