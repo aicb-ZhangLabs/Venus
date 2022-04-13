@@ -65,7 +65,7 @@ python3 module-detection.py \
 ```
 
 For single-cell sequencing. Please put cDNA read as first arg, CB+UMI read as second arg. 
-Also, singleCellBarcode and singleUniqueMolIdent both specifiy a start position (int) and a length (int):
+Also, `singleCellBarcode` and `singleUniqueMolIdent` both specifiy a start position (int) and a length (int):
 ```
 python3 module-detection.py \
     --read read_1-cDNA.fastq.gz read_2-CB+UMI.fastq.gz \
