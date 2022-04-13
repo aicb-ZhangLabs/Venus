@@ -23,7 +23,7 @@ rm -r tmp
 ```
 
 ## Creating Index
-This step creates the necessary human and viral indices directories in Venus. Of note, since some viruses may lack a gtf annotation file, use of a virus gtf file is optional. (*Note: For path/to/output/dir parameter, please do not include an end '/'.*) 
+This step creates the necessary human and viral indices directories in Venus. Of note, since some viruses may lack a gtf annotation file, use of a virus gtf file is optional. (*Note: For `out` parameter, please do not include an end '/' in path.*) 
 
 To create indices (without a virus gtf):
 ```   
@@ -38,7 +38,7 @@ python3 module-index.py \
 ```
 
 ## Virus Detection Module
-This module detects viral load and will output a list of infecting viral species or infected cell barcodes, depending on the input and the viral index used. (*Note: For path/to/output/dir parameter, please do not include an end '/'.*) 
+This module detects viral load and will output a list of infecting viral species or infected cell barcodes, depending on the input and the viral index used. (*Note: For `out` parameter, please do not include an end '/' in path.*) 
 
 For bulk single-end sequencing:
 ```
@@ -64,7 +64,8 @@ python3 module-detection.py \
     --thread 32
 ```
 
-For single-cell sequencing (please put cDNA read as first arg, CB+UMI read as second arg):
+For single-cell sequencing. Please put cDNA read as first arg, CB+UMI read as second arg. 
+Also, `singleCellBarcode` and `singleUniqueMolIdent` both specifiy a start position (int) and a length (int):
 ```
 python3 module-detection.py \
     --read read_1-cDNA.fastq.gz read_2-CB+UMI.fastq.gz \
