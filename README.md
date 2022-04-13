@@ -64,5 +64,20 @@ python3 module-detection.py \
     --thread 32
 ```
 
+For single-cell sequencing (please put cDNA read as first arg, CB+UMI read as second arg):
+```
+python3 module-detection.py \
+    --read read_1-cDNA.fastq.gz read_2-CB+UMI.fastq.gz \
+    --virusThreshold 5 \
+    --virusGenome path/to/virus.genomeDir \
+    --humanGenome path/to/human.genomeDir \
+    --out path/to/output/dir \
+    --singleCellBarcode 1 16 \
+    --singleUniqueMolIdent 17 10 \
+    --singleWhitelist whitelist.txt \
+    --readFilesCommand zcat \
+    --thread 32
+```
+
 ## Integration Site Discovery Module
 This is how to use Venus's integration site discovery module.
