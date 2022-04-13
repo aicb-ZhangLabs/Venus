@@ -149,28 +149,26 @@ def main():
         species_name = []
         species_count = []
         species_ratio = []
-        species_barcodes = [[] for _ in range(len(virus_species))]
+        species_barcodes = []
         reference = pd.read_csv('/srv/disk00/cheyul1/Venus/repo/new_virus.species.txt', sep='\t', names=["id", "name"])
         reference = reference.set_index("id")
 
         # # Testing
         # stopper = 0
-        index = 0
-        print(index)
         for species in virus_species:
             virus_count = 0
+            virus_barcodes = []
             with open(args.out + "/virus/Aligned.out.sam", "r") as file:
                 for line in file:
                     if (not line.startswith("@")) and species in line:
                         virus_count += 1
                         if seq_resol == "single_cell":
-                            species_barcodes[index].append(line.split("\t")[-2])
-            if virus_count >= args.virusThreshold:
+                            virus_barcodes.append(line.split("\t")[-2])
+            if virus_count >= int(args.virusThreshold):
                 species_count.append(virus_count)
                 species_name.append(reference.loc[species, "name"])
                 species_ratio.append(virus_count / total * 100.0)
-            index += 1
-            print(index)
+                species_barcodes.append([virus_barcodes])
 
             # # Testing
             # if stopper >= 5:
@@ -181,7 +179,7 @@ def main():
             # print(species_count)
             # print(species_ratio)
 
-        if seq_resol == "single":
+        if seq_resol == "single_cell":
             output = pd.DataFrame({"Name": species_name,
                                    "Count": species_count,
                                    "Percentage": species_ratio})
