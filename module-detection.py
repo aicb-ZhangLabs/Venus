@@ -163,7 +163,7 @@ def main():
                     if (not line.startswith("@")) and species in line:
                         virus_count += 1
                         if seq_resol == "single_cell":
-                            virus_barcodes.append(line.split("\t")[-2])
+                            virus_barcodes.append(line.split("\t")[-2].split(sep=":")[-1])
             if virus_count >= int(args.virusThreshold):
                 species_count.append(virus_count)
                 species_name.append(reference.loc[species, "name"])
@@ -184,7 +184,6 @@ def main():
                                    "Count": species_count,
                                    "Percentage": species_ratio,
                                    "Barcodes": species_barcodes})
-            # output["Barcodes"] = pd.Series(species_barcodes)
         else:
             output = pd.DataFrame({"Name": species_name,
                                    "Count": species_count,
