@@ -72,11 +72,11 @@ python3 module-detection.py \
     --virusGenome path/to/virus.genomeDir \
     --humanGenome path/to/human.genomeDir \
     --out path/to/output/dir \
+    --readFilesCommand zcat \
+    --thread 32 \
     --singleCellBarcode 1 16 \
     --singleUniqueMolIdent 17 10 \
-    --singleWhitelist whitelist.txt \
-    --readFilesCommand zcat \
-    --thread 32
+    --singleWhitelist whitelist.txt
 ```
 
 ## Integration Site Discovery Module
