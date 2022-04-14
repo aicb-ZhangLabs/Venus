@@ -64,7 +64,8 @@ python3 module-index.py \
 ## Virus Detection Module
 This module detects viral load and will output a list of infecting viral species or infected cell barcodes, depending on the input and the viral index used. (*Note: For `out` parameter, please do not include an end '/' in path.*) 
 
-For bulk single-end sequencing:
+### Bulk, single-end sequencing
+To map bulk single-end sequencing:
 ```
 python3 module-detection.py \
     --read read.fastq.gz \
@@ -77,7 +78,8 @@ python3 module-detection.py \
     --thread 32
 ```
 
-For bulk paired-end sequencing (please separate paired reads by white space):
+### Bulk, paired-end sequencing
+To map bulk paired-end sequencing (please separate paired reads by white space):
 ```
 python3 module-detection.py \
     --read read_1.fastq.gz read_2.fastq.gz \
@@ -90,7 +92,8 @@ python3 module-detection.py \
     --thread 32
 ```
 
-For single-cell sequencing. Please put cDNA read as first arg, CB+UMI read as second arg. 
+### Single-cell sequencing
+To map single-cell sequencing. Please put cDNA read as first arg, CB+UMI read as second arg. 
 Also, `singleCellBarcode` and `singleUniqueMolIdent` both specifiy a start position (int) and a length (int):
 ```
 python3 module-detection.py \
