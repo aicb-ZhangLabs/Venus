@@ -9,7 +9,7 @@ This is how to set up Venus.
 
 Set up the conda envrionment. Note the spec-file.txt is for Linux platform.
 ```
-conda create --name venus --file venus_spec-file.txt
+conda create --name venus --file reference_files/venus_spec-file.txt
 ```
 
 One can make the mega-virus.fasta file from NCBI as so:
@@ -67,6 +67,7 @@ For bulk single-end sequencing:
 python3 module-detection.py \
     --read read.fastq.gz \
     --virusThreshold 5 \
+    --virusChrRef reference_files/virus_chr-ref.tsv \
     --virusGenome path/to/virus.genomeDir \
     --humanGenome path/to/human.genomeDir \
     --out path/to/output/dir \
@@ -79,6 +80,7 @@ For bulk paired-end sequencing (please separate paired reads by white space):
 python3 module-detection.py \
     --read read_1.fastq.gz read_2.fastq.gz \
     --virusThreshold 5 \
+    --virusChrRef reference_files/virus_chr-ref.tsv \
     --virusGenome path/to/virus.genomeDir \
     --humanGenome path/to/human.genomeDir \
     --out path/to/output/dir \
@@ -92,6 +94,7 @@ Also, `singleCellBarcode` and `singleUniqueMolIdent` both specifiy a start posit
 python3 module-detection.py \
     --read read_1-cDNA.fastq.gz read_2-CB+UMI.fastq.gz \
     --virusThreshold 5 \
+    --virusChrRef reference_files/virus_chr-ref.tsv \
     --virusGenome path/to/virus.genomeDir \
     --humanGenome path/to/human.genomeDir \
     --out path/to/output/dir \
