@@ -39,6 +39,9 @@ def main():
     parser.add_argument("--virusThreshold", type=str, required=False, default=0,
                         help="viral load threshold to filter out negligible viruses")
 
+    parser.add_argument("--virusChrRef", type=str, required=True,
+                        help="tsv file to map NC_* id to virus species name, e.g. NC_001802.1 --> HIV-1")
+
     parser.add_argument("--thread", type=str, required=False, default="1",
                         help="number of parallel threads")
 
@@ -150,7 +153,7 @@ def main():
         species_count = []
         species_ratio = []
         species_barcodes = []
-        reference = pd.read_csv('/srv/disk00/cheyul1/Venus/repo/new_virus.species.txt', sep='\t', names=["id", "name"])
+        reference = pd.read_csv(args.virusChrRef, sep='\t', names=["id", "name"])
         reference = reference.set_index("id")
 
         # # Testing

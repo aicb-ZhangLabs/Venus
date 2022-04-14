@@ -18,6 +18,7 @@ out_dir=/srv/disk00/cheyul1/Venus/outputs/22-04-12/testing_singleMEGAV
 #python3 ${Venus_dir}/module-detection.py \
 #    --read ${data_dir}/SRR6944349.1_1.fastq.gz ${data_dir}/SRR6944349.1_2.fastq.gz \
 #    --virusThreshold 5 \
+#    --virusChrRef /srv/disk00/cheyul1/Venus/repo/new_virus.species.txt \
 #    --virusGenome ${indices_dir}/virus.genomeDir \
 #    --humanGenome ${indices_dir}/human.genomeDir \
 #    --out ${out_dir} \
@@ -27,6 +28,7 @@ out_dir=/srv/disk00/cheyul1/Venus/outputs/22-04-12/testing_singleMEGAV
 python3 ${Venus_dir}/module-detection.py \
     --read ${data_dir}/SRR12165309.1_3.fastq.gz ${data_dir}/SRR12165309.1_2.fastq.gz \
     --virusThreshold 5 \
+    --virusChrRef /srv/disk00/cheyul1/Venus/repo/new_virus.species.txt \
     --virusGenome ${indices_dir}/virus.genomeDir \
     --humanGenome ${indices_dir}/human.genomeDir \
     --out ${out_dir} \
@@ -59,12 +61,14 @@ python3 module-index.py \
 python3 module-detection.py \
     --read read1.fq read2.fq \
     --virusGenome virusGenome \
+    --virusChrRef /srv/disk00/cheyul1/Venus/repo/new_virus.species.txt \
     --humanGenome humanGenome \
     --out ../data
 #python3 module-detection.py \
 #    --read read1.fq read2.fq \
 #    --virusThreshold 5 \
 #    --virusGenome virusGenome \
+#    --virusChrRef /srv/disk00/cheyul1/Venus/repo/new_virus.species.txt \
 #    --humanGenome humanGenome \
 #    --out ../data \
 #    --singleCellBarcode 1 16 \
