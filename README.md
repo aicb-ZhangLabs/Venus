@@ -25,6 +25,10 @@ rm -r tmp
 ## Creating Index
 This step creates the necessary human and viral indices directories in Venus. Of note, since some viruses may lack a gtf annotation file, use of a virus gtf file is optional. (*Note: For `out` parameter, please do not include an end '/' in path.*) 
 
+For tutorial test files:
+- humanFASTA vGRCh38 file download link [[humanFASTA]](https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/GRCh38_latest/refseq_identifiers/GRCh38_latest_genomic.fna.gz)
+- humanGTF vGRCh38 file download link *(file is in gff3 format, but it is okay)* [[humanGTF]](https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/GRCh38_latest/refseq_identifiers/GRCh38_latest_genomic.gff.gz)
+
 To create indices (without a virus gtf):
 ```   
 python3 module-index.py \
