@@ -7,6 +7,11 @@
 ## Setup
 This is how to set up Venus.
 
+Clone the repository.
+```
+git clone https://github.com/yanwengong/scEpiLock/
+```
+
 Set up the conda envrionment. Note the spec-file.txt is for Linux platform.
 ```
 conda create --name venus --file reference_files/venus_spec-file.txt
