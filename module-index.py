@@ -42,38 +42,46 @@ def main():
               + "--runMode genomeGenerate " \
               + "--genomeDir " + args.humanGenome + " " \
               + "--genomeFastaFiles " + args.humanFASTA + " " \
-              + "--sjdbGTFfile " + args.humanGTF + " " \
-              + "--genomeSAindexNbases 14"
+              + "--genomeSAindexNbases 14 "
+
+        if "gff" in args.humanGTF:
+            cmd = cmd \
+                  + "--sjdbGTFfile " + args.humanGTF + " " \
+                  + "--sjdbGTFtagExonParentTranscript Parent "
+        else:
+            cmd = cmd \
+                  + "--sjdbGTFfile " + args.humanGTF + " "
+
         return cmd
 
     def index_virus():
         pathlib.Path(args.virusGenome).mkdir(parents=True, exist_ok=True)
 
-        if args.virusGTF is None:
-            cmd = "STAR " \
-                  + "--runThreadN " + args.thread + " " \
-                  + "--outFileNamePrefix " + args.out + "/ " \
-                  + "--runMode genomeGenerate " \
-                  + "--genomeDir " + args.virusGenome + " " \
-                  + "--genomeFastaFiles " + args.virusFASTA + " " \
-                  + "--genomeSAindexNbases 2"
-        else:
-            cmd = "STAR " \
-                  + "--runThreadN " + args.thread + " " \
-                  + "--outFileNamePrefix " + args.out + "/ " \
-                  + "--runMode genomeGenerate " \
-                  + "--genomeDir " + args.virusGenome + " " \
-                  + "--genomeFastaFiles " + args.virusFASTA + " " \
-                  + "--sjdbGTFfile " + args.virusGTF + " " \
-                  + "--genomeSAindexNbases 2"
+        cmd = "STAR " \
+              + "--runThreadN " + args.thread + " " \
+              + "--outFileNamePrefix " + args.out + "/ " \
+              + "--runMode genomeGenerate " \
+              + "--genomeDir " + args.virusGenome + " " \
+              + "--genomeFastaFiles " + args.virusFASTA + " " \
+              + "--genomeSAindexNbases 2 "
+
+        if args.virusGTF is not None:
+            if "gff" in args.virusGTF:
+                cmd = cmd \
+                      + "--sjdbGTFfile " + args.virusGTF + " " \
+                      + "--sjdbGTFtagExonParentTranscript Parent "
+            else:
+                cmd = cmd  \
+                      + "--sjdbGTFfile " + args.virusGTF + " "
+
         return cmd
 
-    # # Testing
-    # print(index_human())
-    # print(index_virus())
+    # Testing
+    print(index_human())
+    print(index_virus())
 
-    os.system(index_human())
-    os.system(index_virus())
+    # os.system(index_human())
+    # os.system(index_virus())
     return
 
 
