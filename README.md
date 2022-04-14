@@ -29,7 +29,7 @@ This step creates the necessary human and viral indices directories in Venus. Of
 For below tutorial test:
 - humanFASTA latest version file download link [[humanFASTA]](https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/GRCh38_latest/refseq_identifiers/GRCh38_latest_genomic.fna.gz)
 - humanGTF latest version file download link *(file is in gff3 format, which Venus has already accomodated)* [[humanGTF]](https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/GRCh38_latest/refseq_identifiers/GRCh38_latest_genomic.gff.gz)
-- virusFASTA ~ the directions to create a "mega-virus.fasta" is in the setup section above *(note: there will not be an associated gtf file)*
+- virusFASTA ~ the directions to create a "mega-virus.fasta" is in the Setup section above *(note: there will not be an associated gtf file)*
 
 To create indices for mega-virus mode (without a virus gtf):
 ```   
@@ -65,10 +65,15 @@ python3 module-index.py \
 This module detects viral load and will output a list of infecting viral species or infected cell barcodes, depending on the input and the viral index used. (*Note: For `out` parameter, please do not include an end '/' in path.*) 
 
 ### Bulk, single-end sequencing
+For below tutorial test:
+- virusChrRef file is in the repo's reference_files/virus_chr-ref.tsv
+- GenomeDir's are directories created in the Creating Index section above
+- bulk_1.fastq.gz file is in the repo's test_files/bulk_1.fastq.gz
+
 To map bulk single-end sequencing:
 ```
 python3 module-detection.py \
-    --read read.fastq.gz \
+    --read bulk_1.fastq.gz \
     --virusThreshold 5 \
     --virusChrRef reference_files/virus_chr-ref.tsv \
     --virusGenome path/to/mega_virus.genomeDir \
@@ -79,10 +84,16 @@ python3 module-detection.py \
 ```
 
 ### Bulk, paired-end sequencing
+For below tutorial test:
+- virusChrRef file is in the repo's reference_files/virus_chr-ref.tsv
+- GenomeDir's are directories created in the Creating Index section above
+- bulk_1.fastq.gz file is in the repo's test_files/bulk_1.fastq.gz
+- bulk_2.fastq.gz file is in the repo's test_files/bulk_2.fastq.gz
+
 To map bulk paired-end sequencing (please separate paired reads by white space):
 ```
 python3 module-detection.py \
-    --read read_1.fastq.gz read_2.fastq.gz \
+    --read bulk_1.fastq.gz bulk_2.fastq.gz \
     --virusThreshold 5 \
     --virusChrRef reference_files/virus_chr-ref.tsv \
     --virusGenome path/to/mega_virus.genomeDir \
@@ -93,11 +104,17 @@ python3 module-detection.py \
 ```
 
 ### Single-cell sequencing
+For below tutorial test:
+- virusChrRef file is in the repo's reference_files/virus_chr-ref.tsv
+- GenomeDir's are directories created in the Creating Index section above
+- singlecell_1cDNA.fastq.gz file is in the repo's test_files/singlecell_1cDNA.fastq.gz
+- singlecell_2CB+UMI.fastq.gz file is in the repo's test_files/singlecell_2CB+UMI.fastq.gz
+
 To map single-cell sequencing. Please put cDNA read as first arg, CB+UMI read as second arg. 
 Also, `singleCellBarcode` and `singleUniqueMolIdent` both specifiy a start position (int) and a length (int):
 ```
 python3 module-detection.py \
-    --read read_1-cDNA.fastq.gz read_2-CB+UMI.fastq.gz \
+    --read singlecell_1cDNA.fastq.gz singlecell_2CB+UMI.fastq.gz \
     --virusThreshold 5 \
     --virusChrRef reference_files/virus_chr-ref.tsv \
     --virusGenome path/to/mega_virus.genomeDir \
