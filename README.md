@@ -125,7 +125,7 @@ python3 module-detection.py \
     --thread 32 \
     --singleCellBarcode 1 16 \
     --singleUniqueMolIdent 17 10 \
-    --singleWhitelist whitelist.txt
+    --singleWhitelist 3M-february-2018.txt
 ```
 
 ## Integration Site Discovery Module
