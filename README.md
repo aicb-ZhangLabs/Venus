@@ -52,9 +52,9 @@ python3 module-index.py \
     --humanGenome path/to/human.genomeDir \
     --humanFASTA GRCh38_latest_genomic.fna \
     --humanGTF GRCh38_latest_genomic.gff \
-    --virusGenome path/to/virus.genomeDir \
-    --virusFASTA mega-virus.fasta \
-    --virusGTF HIV.gtf \
+    --virusGenome path/to/HIV.genomeDir \
+    --virusFASTA GCF_000864765.1_ViralProj15476_genomic.fna \
+    --virusGTF GCF_000864765.1_ViralProj15476_genomic.gtf \
     --out path/to/output/dir \
     --thread 32
 ```
