@@ -48,19 +48,19 @@ python3 ${Venus_dir}/module-detection.py \
 #    --thread 32
 
 ## Printing Test
-#python3 module-index.py \
-#    --out out_dir \
-#    --humanFASTA human.fa \
-#    --humanGTF human.gff \
-#    --virusFASTA virus.fa \
-#    --virusGTF virus.gff \
-#    --humanGenome humanGenome_dir \
-#    --virusGenome virusGenome_dir
-#python3 module-detection.py \
-#    --read read1.fq read2.fq \
-#    --virusGenome virusGenome \
-#    --humanGenome humanGenome \
-#    --out ../data
+python3 module-index.py \
+    --out out_dir \
+    --humanFASTA human.fa \
+    --humanGTF human.gff \
+    --virusFASTA virus.fa \
+    --virusGTF virus.gff \
+    --humanGenome humanGenome_dir \
+    --virusGenome virusGenome_dir
+python3 module-detection.py \
+    --read read1.fq read2.fq \
+    --virusGenome virusGenome \
+    --humanGenome humanGenome \
+    --out ../data
 #python3 module-detection.py \
 #    --read read1.fq read2.fq \
 #    --virusThreshold 5 \
