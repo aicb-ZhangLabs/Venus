@@ -5,8 +5,6 @@
 ![alt text](https://github.com/aicb-ZhangLabs/Venus/blob/main/overview.png)
 
 ## Setup
-This is how to set up Venus.
-
 Clone the repository.
 ```
 git clone https://github.com/aicb-ZhangLabs/Venus.git
