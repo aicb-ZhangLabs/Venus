@@ -37,7 +37,7 @@ python3 module-index.py \
     --humanGenome path/to/human.genomeDir \
     --humanFASTA GRCh38_latest_genomic.fna \
     --humanGTF GRCh38_latest_genomic.gff \
-    --virusGenome path/to/virus.genomeDir \
+    --virusGenome path/to/mega_virus.genomeDir \
     --virusFASTA mega-virus.fasta \
     --out path/to/output/dir \
     --thread 32
@@ -71,7 +71,7 @@ python3 module-detection.py \
     --read read.fastq.gz \
     --virusThreshold 5 \
     --virusChrRef reference_files/virus_chr-ref.tsv \
-    --virusGenome path/to/virus.genomeDir \
+    --virusGenome path/to/mega_virus.genomeDir \
     --humanGenome path/to/human.genomeDir \
     --out path/to/output/dir \
     --readFilesCommand zcat \
@@ -85,7 +85,7 @@ python3 module-detection.py \
     --read read_1.fastq.gz read_2.fastq.gz \
     --virusThreshold 5 \
     --virusChrRef reference_files/virus_chr-ref.tsv \
-    --virusGenome path/to/virus.genomeDir \
+    --virusGenome path/to/mega_virus.genomeDir \
     --humanGenome path/to/human.genomeDir \
     --out path/to/output/dir \
     --readFilesCommand zcat \
@@ -100,7 +100,7 @@ python3 module-detection.py \
     --read read_1-cDNA.fastq.gz read_2-CB+UMI.fastq.gz \
     --virusThreshold 5 \
     --virusChrRef reference_files/virus_chr-ref.tsv \
-    --virusGenome path/to/virus.genomeDir \
+    --virusGenome path/to/mega_virus.genomeDir \
     --humanGenome path/to/human.genomeDir \
     --out path/to/output/dir \
     --readFilesCommand zcat \
