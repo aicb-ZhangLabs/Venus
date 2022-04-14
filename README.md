@@ -66,9 +66,9 @@ This module detects viral load and will output a list of infecting viral species
 
 ### Bulk, single-end sequencing
 For below tutorial test:
-- virusChrRef file is in the repo's reference_files/virus_chr-ref.tsv
+- virusChrRef file is in the repo's "reference_files/virus_chr-ref.tsv"
 - GenomeDir's are directories created in the Creating Index section above
-- bulk_1.fastq.gz file is in the repo's test_files/bulk_1.fastq.gz
+- bulk_1.fastq.gz file is in the repo's "test_files/bulk_1.fastq.gz"
 
 To map bulk single-end sequencing:
 ```
@@ -85,10 +85,10 @@ python3 module-detection.py \
 
 ### Bulk, paired-end sequencing
 For below tutorial test:
-- virusChrRef file is in the repo's reference_files/virus_chr-ref.tsv
+- virusChrRef file is in the repo's "reference_files/virus_chr-ref.tsv"
 - GenomeDir's are directories created in the Creating Index section above
-- bulk_1.fastq.gz file is in the repo's test_files/bulk_1.fastq.gz
-- bulk_2.fastq.gz file is in the repo's test_files/bulk_2.fastq.gz
+- bulk_1.fastq.gz file is in the repo's "test_files/bulk_1.fastq.gz"
+- bulk_2.fastq.gz file is in the repo's "test_files/bulk_2.fastq.gz"
 
 To map bulk paired-end sequencing (please separate paired reads by white space):
 ```
@@ -105,10 +105,11 @@ python3 module-detection.py \
 
 ### Single-cell sequencing
 For below tutorial test:
-- virusChrRef file is in the repo's reference_files/virus_chr-ref.tsv
+- virusChrRef file is in the repo's "reference_files/virus_chr-ref.tsv"
 - GenomeDir's are directories created in the Creating Index section above
-- singlecell_1cDNA.fastq.gz file is in the repo's test_files/singlecell_1cDNA.fastq.gz
-- singlecell_2CB+UMI.fastq.gz file is in the repo's test_files/singlecell_2CB+UMI.fastq.gz
+- singlecell_1cDNA.fastq.gz file is in the repo's "test_files/singlecell_1cDNA.fastq.gz"
+- singlecell_2CB+UMI.fastq.gz file is in the repo's "test_files/singlecell_2CB+UMI.fastq.gz"
+- singeWhitelist file download link [[singleWhitelist]](https://github.com/10XGenomics/cellranger/raw/master/lib/python/cellranger/barcodes/3M-february-2018.txt.gz)
 
 To map single-cell sequencing. Please put cDNA read as first arg, CB+UMI read as second arg. 
 Also, `singleCellBarcode` and `singleUniqueMolIdent` both specifiy a start position (int) and a length (int):
