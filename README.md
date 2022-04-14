@@ -9,7 +9,7 @@ This is how to set up Venus.
 
 Clone the repository.
 ```
-git clone https://github.com/yanwengong/scEpiLock/
+git clone https://github.com/aicb-ZhangLabs/Venus.git
 ```
 
 Set up the conda envrionment. Note the spec-file.txt is for Linux platform.
