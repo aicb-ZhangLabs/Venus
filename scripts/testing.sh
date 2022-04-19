@@ -74,3 +74,9 @@ python3 module-detection.py \
 #    --singleCellBarcode 1 16 \
 #    --singleUniqueMolIdent 17 10 \
 #    --singleWhitelist whitelist.txt
+python3 module-integration.py \
+    --read read1.fq \
+    --virusGenome virusGenome \
+    --hybridGenome hybridGenome \
+    --guideFASTA guide.fa \
+    --out ../data
