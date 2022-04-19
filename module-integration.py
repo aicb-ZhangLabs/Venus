@@ -45,6 +45,20 @@ def main():
 
     args = parser.parse_args()
 
+    def quality_control():
+        """Trims bad quality sequences"""
+        cmd = "trim_galore " \
+              + "--trim-n " \
+              + "--quality 5 " \
+              + "--phred33 " \
+              + "--length 20 " \
+              + "--output_dir " + args.out + "/quality_control/" + " " \
+              + "--gzip " \
+              + "--cores " + args.thread + " " \
+              + args.read
+
+        return cmd
+
     def map_virus():
         """Maps to the virus genome"""
         cmd = "STAR " \
@@ -54,6 +68,11 @@ def main():
 
         if args.readFilesCommand is not None:
             cmd = cmd + "--readFilesCommand " + args.readFilesCommand + " "
+
+        cmd = cmd + "--readFilesIn " + args.read + " "
+
+        cmd = cmd \
+              + "--outSAMtype BAM Unsorted "
 
         return cmd
 
@@ -79,6 +98,7 @@ def main():
     ##################################################################################################
     # Action Steps
     ##################################################################################################
+    print(quality_control())
     print(map_virus)
     print(map_hybrid())
     print(map_guide())

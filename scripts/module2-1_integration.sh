@@ -19,15 +19,15 @@ for i in {0..39}; do
 #    ######================================ Trims Low-Q Reads ================================######
 #    ###############################################################################################
 #    mkdir --parents ${run_dir}/R1/trim_fastq/
-#    trim_galore \
-#    --trim-n \
-#    --quality 5 \
-#    --phred33 \
-#    --length 20 \
-#    --output_dir ${run_dir}/R1/trim_fastq/ \
-#    --gzip \
-#    --cores 7 \
-#    /srv/disk00/cheyul1/outputs/09-24-21/fastqs/${run_prefix}-run${i}/*_R1.fastq.gz
+    trim_galore \
+    --trim-n \
+    --quality 5 \
+    --phred33 \
+    --length 20 \
+    --output_dir ${run_dir}/R1/trim_fastq/ \
+    --gzip \
+    --cores 7 \
+    /srv/disk00/cheyul1/outputs/09-24-21/fastqs/${run_prefix}-run${i}/*_R1.fastq.gz
 #
 #    mkdir --parents ${run_dir}/R2/trim_fastq/
 #    trim_galore \
