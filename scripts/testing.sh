@@ -11,7 +11,7 @@ STAR_dir=/srv/disk00/cheyul1/Venus/STAR
 Venus_dir=/srv/disk00/cheyul1/Venus/repo
 
 indices_dir=${STAR_dir}/indices
-data_dir=/srv/disk00/cheyul1/Venus/datasets/Sngl_HIV-only
+data_dir=/srv/disk00/cheyul1/Venus/datasets/YaChi_GSE112576
 out_dir=/srv/disk00/cheyul1/Venus/outputs/22-04-12/testing_singleMEGAV
 
 # Testing Detection Module
@@ -37,6 +37,15 @@ python3 ${Venus_dir}/module-detection.py \
     --singleCellBarcode 1 16 \
     --singleUniqueMolIdent 17 10 \
     --singleWhitelist ${indices_dir}/3M-february-2018.txt
+    
+python3 ${Venus_dir}/module-integration.py \
+    --read read1.fq \
+    --virusGenome ${indices_dir}/HIV.genomeDir \
+    --hybridGenome ${indices_dir}/hg38HIV.genomeDir \
+    --guideFASTA ${indices_dir}/integrSeq.genomeDir/integrSeq.fna \
+    --readFilesCommand zcat \
+    --out ${out_dir} \
+    --virusChr NC_001802.1
 
 
 ## Testing Indexing Module
@@ -79,4 +88,5 @@ python3 module-integration.py \
     --virusGenome virusGenome \
     --hybridGenome hybridGenome \
     --guideFASTA guide.fa \
-    --out ../data
+    --out ../data \
+    --virusChr NC_001802.1

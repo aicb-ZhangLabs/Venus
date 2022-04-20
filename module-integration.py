@@ -34,6 +34,9 @@ def main():
     parser.add_argument("--guideFASTA", type=str, required=False,
                         help="Fasta file for the guide sequence(s)")
 
+    parser.add_argument("--virusChr", type=str, required=True,
+                        help="Chromosome name for virus (e.g. NC_001802.1 for HIV)")
+
     parser.add_argument("--out", type=str, required=False, default=os.getcwd(),
                         help="directory path of output dir")
 
@@ -54,8 +57,9 @@ def main():
               + "--length 20 " \
               + "--output_dir " + args.out + "/quality_control/" + " " \
               + "--gzip " \
-              + "--cores " + args.thread + " " \
-              + args.read
+              + "--cores " + args.thread + " "
+
+        cmd = cmd + args.read
 
         return cmd
 
@@ -69,7 +73,7 @@ def main():
         if args.readFilesCommand is not None:
             cmd = cmd + "--readFilesCommand " + args.readFilesCommand + " "
 
-        cmd = cmd + "--readFilesIn " + args.read + " "
+        cmd = cmd + "--readFilesIn " + args.out + "/quality_control/*_trimmed.fq.gz "
 
         cmd = cmd \
               + "--outSAMmultNmax 1 " \
@@ -92,7 +96,7 @@ def main():
               + "--outFileNamePrefix " + args.out + "/hybrid/ " \
               + "--genomeDir " + args.hybridGenome + " "
 
-        cmd = cmd + "--readFilesIn " + args.read + " "
+        cmd = cmd + "--readFilesIn " + args.out + "/virus/Aligned.out.fastq "
 
         cmd = cmd \
               + "--outSAMmultNmax 1 " \
@@ -136,7 +140,7 @@ def main():
               + "--genomeDir " + args.out + "/guide/index/ " \
               + "--outFilterMultimapNmax 1 "
 
-        cmd = cmd + "--readFilesIn " + args.read + " "
+        cmd = cmd + "--readFilesIn " + args.out + "/hybrid/Aligned.out.fastq "
 
         cmd = cmd \
               + "--alignIntronMax 1 --winBinNbits 7 " \
@@ -163,11 +167,45 @@ def main():
     ##################################################################################################
     # Action Steps
     ##################################################################################################
+    # quality control
     print(quality_control())
+
+    # virus (target) mapping
     print(map_virus())
+
+    # prep input for hybrid mapping
+    os.system("samtools fastq -@ " + args.thread + " -F 1 " + args.out + "/virus/Aligned.out.bam "
+              + "> " + args.out + "/virus/Aligned.out.fastq")
+
+    # hybrid mapping
     print(map_hybrid())
+
+    # prep input for guide mapping
+    infile = pysam.AlignmentFile(args.out + "/hybrid/Aligned.out.bam", "rb")
+    outfile = pysam.AlignmentFile(args.out + "/hybrid/Aligned.out.sam", "w", template=infile)
+    for s in infile:
+        outfile.write(s)
+    os.system("awk -F '\t' '$3 != '" + args.virusChr + "'' " + args.out + "/hybrid/Aligned.out.sam"
+              + ">> " + args.out + "/hybrid/hybrid.out.sam")
+    infile = pysam.AlignmentFile(args.out + "/hybrid/hybrid.out.sam", "r")
+    outfile = pysam.AlignmentFile(args.out + "/hybrid/hybrid.out.bam", "w", template=infile)
+    for s in infile:
+        outfile.write(s)
+    os.system("samtools fastq -@ " + args.thread + " -F 1 " + args.out + "/hybrid/Aligned.out.bam "
+              + "> " + args.out + "/hybrid/Aligned.out.fastq")
+
+    # guide mapping
     print(index_guide())
     print(map_guide())
+
+    # # paired reads
+    # print(args.out)
+    # args.out_old = args.out
+    # args.out = args.out_old + "/R1"
+    # print(args.out)
+    # args.out = args.out_old + "/R2"
+    # print(args.out)
+
     return
 
 
