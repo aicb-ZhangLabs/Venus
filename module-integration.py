@@ -140,7 +140,7 @@ def main():
               + "--genomeDir " + args.out + "/guide/index/ " \
               + "--outFilterMultimapNmax 1 "
 
-        cmd = cmd + "--readFilesIn " + args.out + "/hybrid/Aligned.out.fastq "
+        cmd = cmd + "--readFilesIn " + args.out + "/hybrid/hybrid.out.fastq "
 
         cmd = cmd \
               + "--alignIntronMax 1 --winBinNbits 7 " \
@@ -163,6 +163,17 @@ def main():
               + "--outReadsUnmapped None "
 
         return cmd
+
+    def collect_gene():
+        """Converts genomic coordinates into genes for final output"""
+        with open(args.out + "/guide/Aligned.out.sam", "r") as file:
+            quality_reads = []
+            for line in file:
+                if not line.startswith("@"):
+                    quality_reads.append(line.split("\t")[0])
+            quality_reads = list(set(quality_reads))
+
+        return
 
     ##################################################################################################
     # Action Steps
@@ -191,8 +202,8 @@ def main():
     outfile = pysam.AlignmentFile(args.out + "/hybrid/hybrid.out.bam", "w", template=infile)
     for s in infile:
         outfile.write(s)
-    os.system("samtools fastq -@ " + args.thread + " -F 1 " + args.out + "/hybrid/Aligned.out.bam "
-              + "> " + args.out + "/hybrid/Aligned.out.fastq")
+    os.system("samtools fastq -@ " + args.thread + " -F 1 " + args.out + "/hybrid/hybrid.out.bam "
+              + "> " + args.out + "/hybrid/hybrid.out.fastq")
 
     # guide mapping
     print(index_guide())

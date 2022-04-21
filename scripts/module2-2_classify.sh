@@ -83,10 +83,10 @@ do
         if [[ ${cand[0]} == ${position[0]} ]]; then
             if [[ ${cand[1]} -gt ${position[1]} ]]; then
                 if [[ ${cand[1]} -lt ${position[2]} ]]; then
-                    echo ${position[0]}
-                    echo ${position[1]}
-                    echo ${position[2]}
-                    echo ${position[3]}
+#                    echo ${position[0]}
+#                    echo ${position[1]}
+#                    echo ${position[2]}
+#                    echo ${position[3]}
                     echo ${position[3]} >> ${out_dir}/integration-all.genes
                 fi
             fi
