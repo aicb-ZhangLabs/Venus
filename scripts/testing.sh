@@ -11,7 +11,7 @@ STAR_dir=/srv/disk00/cheyul1/Venus/STAR
 Venus_dir=/srv/disk00/cheyul1/Venus/repo
 
 indices_dir=${STAR_dir}/indices
-data_dir=/srv/disk00/cheyul1/Venus/datasets/YaChi_GSE112576
+data_dir=/srv/disk00/cheyul1/Venus/datasets/test_files
 out_dir=/srv/disk00/cheyul1/Venus/outputs/22-04-21/testing_integration
 
 # Testing Detection Module
@@ -39,7 +39,7 @@ out_dir=/srv/disk00/cheyul1/Venus/outputs/22-04-21/testing_integration
 #    --singleWhitelist ${indices_dir}/3M-february-2018.txt
     
 python3 ${Venus_dir}/module-integration.py \
-    --read ${data_dir}/SRR6944349.1_1.fastq.gz \
+    --read ${data_dir}/bulk_1.fastq.gz \
     --virusGenome ${indices_dir}/HIV.genomeDir \
     --hybridGenome ${indices_dir}/hg38HIV.genomeDir \
     --guideFASTA ${indices_dir}/integrSeq.genomeDir/integrSeq.fna \

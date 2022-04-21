@@ -281,13 +281,13 @@ def main():
 
         # hybrid mapping
         os.system(map_hybrid())
-        print("Tried: " + "samtools sort -@ " + args.thread + "-o " + args.out + "/visual.bam "
+        print("Tried: " + "samtools sort -@ " + args.thread + " -o " + args.out + "/visual.bam "
                   + args.out + "/hybrid/Aligned.out.bam ")
-        os.system("samtools sort -@ " + args.thread + "-o " + args.out + "/visual.bam "
+        os.system("samtools sort -@ " + args.thread + " -o " + args.out + "/visual.bam "
                   + args.out + "/hybrid/Aligned.out.bam ")
-        print("Tried: " + "samtools index -@ " + args.thread + "-b " + args.out + "/visual.bam "
+        print("Tried: " + "samtools index -@ " + args.thread + " -b " + args.out + "/visual.bam "
                   + args.out + "/visual.bam.bai ")
-        os.system("samtools index -@ " + args.thread + "-b " + args.out + "/visual.bam "
+        os.system("samtools index -@ " + args.thread + " -b " + args.out + "/visual.bam "
                   + args.out + "/visual.bam.bai ")
         os.system(map_hybrid_junction())
 
@@ -296,12 +296,12 @@ def main():
         outfile = pysam.AlignmentFile(args.out + "/hybrid/Aligned.out.sam", "w", template=infile)
         for s in infile:
             outfile.write(s)
-        print("Tried: " + "awk -F '\t' '$3 != '" + args.virusChr + "'' " + args.out + "/hybrid/Aligned.out.sam >> "
+        print("Tried: " + "awk -F $'\t' '$3 != " + args.virusChr + "'' " + args.out + "/hybrid/Aligned.out.sam >> "
                   + args.out + "/hybrid/hybrid.out.sam")
-        os.system("awk -F '\t' '$3 != '" + args.virusChr + "'' " + args.out + "/hybrid/Aligned.out.sam >> "
+        os.system("awk -F $'\t' '$3 != " + args.virusChr + "' " + args.out + "/hybrid/Aligned.out.sam >> "
                   + args.out + "/hybrid/hybrid.out.sam")
         infile = pysam.AlignmentFile(args.out + "/hybrid/hybrid.out.sam", "r")
-        outfile = pysam.AlignmentFile(args.out + "/hybrid/hybrid.out.bam", "w", template=infile)
+        outfile = pysam.AlignmentFile(args.out + "/hybrid/hybrid.out.bam", "wb", template=infile)
         for s in infile:
             outfile.write(s)
         print("Tried: " + "samtools fastq -@ " + args.thread + " -F 1 " + args.out + "/hybrid/hybrid.out.bam > "
