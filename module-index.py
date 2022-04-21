@@ -7,8 +7,8 @@ def main():
     parser = argparse.ArgumentParser(description="VENUS, a subtractive analysis software: " + \
                                                  "Virus dEtecting in humaN bUlk and Single cell rna sequencing")
 
-    parser.add_argument("--humanGenome", type=str, required=True,
-                        help="directory path of human genome index")
+    parser.add_argument("--hGenome", type=str, required=True,
+                        help="directory path of human or hybrid genome index")
 
     parser.add_argument("--humanFASTA", type=str, required=True,
                         help="fasta file path for the human genome index")
@@ -25,6 +25,9 @@ def main():
     parser.add_argument("--virusGTF", type=str, required=False,
                         help="gtf file path for the virus genome index")
 
+    parser.add_argument("--module", type=str, required=True,
+                        help="module options ('detection' or 'integration')")
+
     parser.add_argument("--out", type=str, required=False, default=os.getcwd(),
                         help="directory path of output dir")
 
@@ -34,13 +37,13 @@ def main():
     args = parser.parse_args()
 
     def index_human():
-        pathlib.Path(args.humanGenome).mkdir(parents=True, exist_ok=True)
+        pathlib.Path(args.hGenome).mkdir(parents=True, exist_ok=True)
 
         cmd = "STAR " \
               + "--runThreadN " + args.thread + " " \
               + "--outFileNamePrefix " + args.out + "/ " \
               + "--runMode genomeGenerate " \
-              + "--genomeDir " + args.humanGenome + " " \
+              + "--genomeDir " + args.hGenome + " " \
               + "--genomeFastaFiles " + args.humanFASTA + " " \
               + "--genomeSAindexNbases 14 "
 
@@ -76,12 +79,44 @@ def main():
 
         return cmd
 
-    # Testing
-    print(index_human())
-    print(index_virus())
+    def index_hybrid():
+        pathlib.Path(args.hGenome).mkdir(parents=True, exist_ok=True)
 
-    # os.system(index_human())
-    # os.system(index_virus())
+        os.system("cat " + args.humanFASTA + " " + args.virusFASTA + " >> " + args.hGenome + "/hybrid.fa")
+
+        cmd = "STAR " \
+              + "--runThreadN " + args.thread + " " \
+              + "--outFileNamePrefix " + args.out + "/ " \
+              + "--runMode genomeGenerate " \
+              + "--genomeDir " + args.hGenome + " " \
+              + "--genomeFastaFiles " + args.hGenome + "/hybrid.fa " \
+              + "--genomeSAindexNbases 14 "
+
+        if "gff" in args.humanGTF:
+            os.system("cat " + args.humanGTF + " " + args.virusGTF + " >> " + args.hGenome + "/hybrid.gff")
+            cmd = cmd \
+                  + "--sjdbGTFfile " + args.hGenome + "/hybrid.gff " \
+                  + "--sjdbGTFtagExonParentTranscript Parent "
+        else:
+            os.system("cat " + args.humanGTF + " " + args.virusGTF + " >> " + args.hGenome + "/hybrid.gtf")
+            cmd = cmd \
+                  + "--sjdbGTFfile " + args.hGenome + "/hybrid.gtf "
+
+        return cmd
+
+    ##################################################################################################
+    # Action Steps
+    ##################################################################################################
+    # Testing
+    if args.module == "detection":
+        os.system(index_human())
+        os.system(index_virus())
+    else:
+        os.system(index_virus())
+        if args.virusGTF is None:
+            print("A virus GTF is needed for making hybrid genome")
+            exit()
+        os.system(index_hybrid())
     return
 
 

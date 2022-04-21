@@ -1,18 +1,18 @@
 #!/bin/bash
-#SBATCH --job-name=testing_singleMEGAV
+#SBATCH --job-name=testing_integration_1
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=32
 #SBATCH --mem-per-cpu=4G
 #SBATCH --time=24:00:00
 #SBATCH --partition=zhanglab.p
-#SBATCH --output=/srv/disk00/cheyul1/Venus/logs/22-04-12/testing_singleMEGAV.log
+#SBATCH --output=/srv/disk00/cheyul1/Venus/logs/22-04-21/testing_integration_1.log
 
 STAR_dir=/srv/disk00/cheyul1/Venus/STAR
 Venus_dir=/srv/disk00/cheyul1/Venus/repo
 
 indices_dir=${STAR_dir}/indices
 data_dir=/srv/disk00/cheyul1/Venus/datasets/YaChi_GSE112576
-out_dir=/srv/disk00/cheyul1/Venus/outputs/22-04-12/testing_singleMEGAV
+out_dir=/srv/disk00/cheyul1/Venus/outputs/22-04-21/testing_integration_1
 
 # Testing Detection Module
 #python3 ${Venus_dir}/module-detection.py \
@@ -25,27 +25,29 @@ out_dir=/srv/disk00/cheyul1/Venus/outputs/22-04-12/testing_singleMEGAV
 #    --readFilesCommand zcat \
 #    --thread 32
     
-python3 ${Venus_dir}/module-detection.py \
-    --read ${data_dir}/SRR12165309.1_3.fastq.gz ${data_dir}/SRR12165309.1_2.fastq.gz \
-    --virusThreshold 5 \
-    --virusChrRef /srv/disk00/cheyul1/Venus/repo/new_virus.species.txt \
-    --virusGenome ${indices_dir}/virus.genomeDir \
-    --humanGenome ${indices_dir}/human.genomeDir \
-    --out ${out_dir} \
-    --readFilesCommand zcat \
-    --thread 32 \
-    --singleCellBarcode 1 16 \
-    --singleUniqueMolIdent 17 10 \
-    --singleWhitelist ${indices_dir}/3M-february-2018.txt
+#python3 ${Venus_dir}/module-detection.py \
+#    --read ${data_dir}/SRR12165309.1_3.fastq.gz ${data_dir}/SRR12165309.1_2.fastq.gz \
+#    --virusThreshold 5 \
+#    --virusChrRef /srv/disk00/cheyul1/Venus/repo/new_virus.species.txt \
+#    --virusGenome ${indices_dir}/virus.genomeDir \
+#    --humanGenome ${indices_dir}/human.genomeDir \
+#    --out ${out_dir} \
+#    --readFilesCommand zcat \
+#    --thread 32 \
+#    --singleCellBarcode 1 16 \
+#    --singleUniqueMolIdent 17 10 \
+#    --singleWhitelist ${indices_dir}/3M-february-2018.txt
     
 python3 ${Venus_dir}/module-integration.py \
-    --read read1.fq \
+    --read ${data_dir}/SRR6944349.1_1.fastq.gz \
     --virusGenome ${indices_dir}/HIV.genomeDir \
     --hybridGenome ${indices_dir}/hg38HIV.genomeDir \
     --guideFASTA ${indices_dir}/integrSeq.genomeDir/integrSeq.fna \
     --readFilesCommand zcat \
     --out ${out_dir} \
-    --virusChr NC_001802.1
+    --virusChr NC_001802.1 \
+    --thread 32 \
+    --geneBed /srv/disk00/cheyul1/genes.bed
 
 
 ## Testing Indexing Module
@@ -58,21 +60,21 @@ python3 ${Venus_dir}/module-integration.py \
 #    --out ${out_dir} \
 #    --thread 32
 
-## Printing Test
-python3 module-index.py \
-    --out out_dir \
-    --humanFASTA human.fa \
-    --humanGTF human.gff \
-    --virusFASTA virus.fa \
-    --virusGTF virus.gff \
-    --humanGenome humanGenome_dir \
-    --virusGenome virusGenome_dir
-python3 module-detection.py \
-    --read read1.fq read2.fq \
-    --virusGenome virusGenome \
-    --virusChrRef /srv/disk00/cheyul1/Venus/repo/new_virus.species.txt \
-    --humanGenome humanGenome \
-    --out ../data
+### Printing Test
+#python3 module-index.py \
+#    --out out_dir \
+#    --humanFASTA human.fa \
+#    --humanGTF human.gff \
+#    --virusFASTA virus.fa \
+#    --virusGTF virus.gff \
+#    --humanGenome humanGenome_dir \
+#    --virusGenome virusGenome_dir
+#python3 module-detection.py \
+#    --read read1.fq read2.fq \
+#    --virusGenome virusGenome \
+#    --virusChrRef /srv/disk00/cheyul1/Venus/repo/new_virus.species.txt \
+#    --humanGenome humanGenome \
+#    --out ../data
 #python3 module-detection.py \
 #    --read read1.fq read2.fq \
 #    --virusThreshold 5 \
@@ -83,10 +85,10 @@ python3 module-detection.py \
 #    --singleCellBarcode 1 16 \
 #    --singleUniqueMolIdent 17 10 \
 #    --singleWhitelist whitelist.txt
-python3 module-integration.py \
-    --read read1.fq \
-    --virusGenome virusGenome \
-    --hybridGenome hybridGenome \
-    --guideFASTA guide.fa \
-    --out ../data \
-    --virusChr NC_001802.1
+#python3 module-integration.py \
+#    --read read1.fq \
+#    --virusGenome virusGenome \
+#    --hybridGenome hybridGenome \
+#    --guideFASTA guide.fa \
+#    --out ../data \
+#    --virusChr NC_001802.1

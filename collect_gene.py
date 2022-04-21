@@ -13,15 +13,15 @@ def main():
 
     integration_sites = pd.read_csv("../data/Chimeric.out.junction", sep="\t")
     integrA = integration_sites[(integration_sites["read_name"].isin(quality_reads)) &
-                            (integration_sites["chr_donorA"] != "NC_001802.1")][["chr_donorA",
-                                                                                 "brkpt_donorA",
-                                                                                 "read_name"]]
+                                (integration_sites["chr_donorA"] != "NC_001802.1")][["chr_donorA",
+                                                                                     "brkpt_donorA",
+                                                                                     "read_name"]]
 
     integrA.rename(columns={'chr_donorA': 'chr', 'brkpt_donorA': 'coord'}, inplace=True)
     integrB = integration_sites[(integration_sites["read_name"].isin(quality_reads)) &
-                            (integration_sites["chr_acceptorB"] != "NC_001802.1")][["chr_acceptorB",
-                                                                                    "brkpt_acceptorB",
-                                                                                    "read_name"]]
+                                (integration_sites["chr_acceptorB"] != "NC_001802.1")][["chr_acceptorB",
+                                                                                        "brkpt_acceptorB",
+                                                                                        "read_name"]]
     integrB.rename(columns={'chr_acceptorB': 'chr', 'brkpt_acceptorB': 'coord'}, inplace=True)
     integration = pd.concat([integrA, integrB])
 
@@ -37,7 +37,34 @@ def main():
                          "chr13", "chr14", "chr15", "chr16",
                          "chr17", "chr18", "chr19", "chr20",
                          "chr21", "chr22", "chrX", "chrY"], inplace=True)
-    print(integration)
+    integration["coord"] = integration["coord"].astype(int)
+
+    gene_bed = pd.read_csv("../data/genes.bed", sep="\t", names=["chr", "start", "end", "gene"])
+    gene_bed["start"] = gene_bed["start"].astype(int)
+    gene_bed["end"] = gene_bed["end"].astype(int)
+
+    genes = []
+    for index, row in integration.iterrows():
+        candidate = gene_bed[(row["chr"] == gene_bed["chr"]) &
+                             (row["coord"] >= gene_bed["start"]) &
+                             (row["coord"] <= gene_bed["end"])]
+        if candidate.empty:
+            genes.append("")
+        elif candidate.shape[0] == 1:
+            genes.append(candidate["gene"].to_string(index=False))
+        else:
+            genes.append("")
+    integration["gene"] = genes
+    class1 = integration[integration["gene"] != ""]
+    class2 = integration[integration["gene"] == ""]
+    class1.reset_index(inplace=True, drop=True)
+    class2.reset_index(inplace=True, drop=True)
+    print(class1)
+    print(class2)
+
+    # gene_count = integration["gene"].value_counts().to_frame(name="occurrences").reset_index()
+    # gene_count = gene_count.rename(columns={"index": 'gene'})
+    # print(gene_count)
 
     return
 
