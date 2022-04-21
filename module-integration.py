@@ -14,6 +14,7 @@ import argparse
 import os
 import pysam
 import pandas as pd
+import pathlib
 
 
 ########################################################################################################################
@@ -54,6 +55,8 @@ def main():
 
     def quality_control():
         """Trims bad quality sequences"""
+        pathlib.Path(args.out + "/quality_control/").mkdir(parents=True, exist_ok=True)
+
         cmd = "trim_galore " \
               + "--trim-n " \
               + "--quality 5 " \
@@ -61,7 +64,7 @@ def main():
               + "--length 20 " \
               + "--output_dir " + args.out + "/quality_control/" + " " \
               + "--gzip " \
-              + "--cores " + args.thread + " "
+              + "--cores 8 "
 
         cmd = cmd + args.read
 
