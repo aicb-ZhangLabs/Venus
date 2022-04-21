@@ -1,18 +1,18 @@
 #!/bin/bash
-#SBATCH --job-name=testing_integration_1
+#SBATCH --job-name=testing_integration
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=32
 #SBATCH --mem-per-cpu=4G
 #SBATCH --time=24:00:00
 #SBATCH --partition=zhanglab.p
-#SBATCH --output=/srv/disk00/cheyul1/Venus/logs/22-04-21/testing_integration_1.log
+#SBATCH --output=/srv/disk00/cheyul1/Venus/logs/22-04-21/testing_integration.log
 
 STAR_dir=/srv/disk00/cheyul1/Venus/STAR
 Venus_dir=/srv/disk00/cheyul1/Venus/repo
 
 indices_dir=${STAR_dir}/indices
 data_dir=/srv/disk00/cheyul1/Venus/datasets/YaChi_GSE112576
-out_dir=/srv/disk00/cheyul1/Venus/outputs/22-04-21/testing_integration_1
+out_dir=/srv/disk00/cheyul1/Venus/outputs/22-04-21/testing_integration
 
 # Testing Detection Module
 #python3 ${Venus_dir}/module-detection.py \
