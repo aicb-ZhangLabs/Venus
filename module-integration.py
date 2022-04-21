@@ -120,6 +120,37 @@ def main():
 
         return cmd
 
+    def map_hybrid_junction():
+        """Maps the viral mapped reads to the human genome"""
+        cmd = "STAR " \
+              + "--runThreadN " + args.thread + " " \
+              + "--outFileNamePrefix " + args.out + "/hybrid/junction/ " \
+              + "--genomeDir " + args.hybridGenome + " "
+
+        cmd = cmd + "--readFilesIn " + args.out + "/virus/Aligned.out.fastq "
+
+        cmd = cmd \
+              + "--outSAMmultNmax 1 " \
+              + "--alignIntronMin 20 --winBinNbits 7 " \
+              + "--scoreGenomicLengthLog2scale 0 --scoreDelOpen 0 --scoreInsOpen 0 " \
+                    + "--scoreDelBase -1 --scoreInsBase -1 " \
+              + "--outFilterMultimapNmax -1 --winAnchorMultimapNmax 3000 --seedPerReadNmax 30000 " \
+                    + "--alignWindowsPerReadNmax 30000 --seedPerWindowNmax 1000 " \
+              + "--outFilterMatchNminOverLread 0 --outFilterScoreMinOverLread 0 --outFilterScoreMin 27 "
+
+        cmd = cmd \
+              + "--chimOutType Junctions --chimSegmentMin 12 --chimJunctionOverhangMin 8 " \
+              + "--chimMultimapNmax 10 --chimMultimapScoreRange 3 --chimScoreJunctionNonGTAG 0 " \
+                    + "--chimNonchimScoreDropMin 10 " \
+              + "--alignSJDBoverhangMin 10 --alignIntronMax 100000 --alignSJstitchMismatchNmax 5 -1 5 5 " \
+                    + "--alignSplicedMateMapLminOverLmate 0 --alignSplicedMateMapLmin 30 " \
+              + "--alignInsertionFlush Right "
+
+        cmd = cmd \
+              + "--outSAMtype BAM Unsorted "
+
+        return cmd
+
     def index_guide():
         """Generate the small genome index for guide sequence"""
         cmd = "STAR " \
@@ -190,6 +221,7 @@ def main():
 
     # hybrid mapping
     print(map_hybrid())
+    print(map_hybrid_junction())
 
     # prep input for guide mapping
     infile = pysam.AlignmentFile(args.out + "/hybrid/Aligned.out.bam", "rb")
