@@ -326,6 +326,7 @@ def main():
         args.read = args.read_old[1]
         action()
     else:
+        args.read = args.read[0]
         action()
 
     return
