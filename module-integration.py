@@ -12,7 +12,6 @@
 ########################################################################################################################
 import argparse
 import os
-import pysam
 import pandas as pd
 import pathlib
 
@@ -175,27 +174,18 @@ def main():
         cmd = "STAR " \
               + "--runThreadN " + args.thread + " " \
               + "--outFileNamePrefix " + args.out + "/guide/ " \
-              + "--genomeDir " + args.out + "/guide/index/ " \
-              + "--outFilterMultimapNmax 1 "
+              + "--genomeDir " + args.out + "/guide/index/ "
 
         cmd = cmd + "--readFilesIn " + args.out + "/hybrid/hybrid.out.fastq "
 
         cmd = cmd \
+              + "--outSAMmultNmax 1 " \
               + "--alignIntronMax 1 --winBinNbits 7 " \
               + "--scoreGenomicLengthLog2scale 0 " \
               + "--outFilterMultimapNmax -1 --winAnchorMultimapNmax 3000 --seedPerReadNmax 30000 " \
                     + "--alignWindowsPerReadNmax 30000 --seedPerWindowNmax 1000 " \
               + "--outFilterMatchNmin 25 --outFilterMatchNminOverLread 0 " \
                     + "--outFilterScoreMin 20 --outFilterScoreMinOverLread 0 "
-
-        # cmd = cmd \
-        #       + "--outSAMmultNmax 1 " \
-        #       + "--alignIntronMax 1 --winBinNbits 7 " \
-        #       + "--scoreGenomicLengthLog2scale 0 --scoreDelOpen 0 --scoreInsOpen 0 " \
-        #             + "--scoreDelBase -1 --scoreInsBase -1 " \
-        #       + "--outFilterMultimapNmax -1 -winAnchorMultimapNmax 3000 --seedPerReadNmax 30000 " \
-        #             + "--alignWindowsPerReadNmax 30000 --seedPerWindowNmax 1000 " \
-        #       + "--outFilterMatchNminOverLread 0 --outFilterScoreMinOverLread 0 --outFilterScoreMin 27 "
 
         cmd = cmd \
               + "--outReadsUnmapped None "
@@ -212,7 +202,7 @@ def main():
                     # print(line.split("\t")[0])
             quality_reads = list(set(quality_reads))
 
-        integration_sites = pd.read_csv(args.out + "/hybrid/Chimeric.out.junction", sep="\t")
+        integration_sites = pd.read_csv(args.out + "/hybrid/junction/Chimeric.out.junction", sep="\t")
         integrA = integration_sites[(integration_sites["read_name"].isin(quality_reads)) &
                                     (integration_sites["chr_donorA"] != args.virusChr)][["chr_donorA",
                                                                                          "brkpt_donorA",
@@ -258,8 +248,10 @@ def main():
         integration["gene"] = genes
         class1 = integration[integration["gene"] != ""]
         class2 = integration[integration["gene"] == ""]
+        # class1.sort_values(by=['chr', 'coord'], ascending=True, inplace=True)
         class1.reset_index(inplace=True, drop=True)
         class1.to_csv(path_or_buf=args.out + "/class1_integration.tsv", sep="\t", index=False)
+        # class2.sort_values(by=['chr', 'coord'], ascending=True, inplace=True)
         class2.reset_index(inplace=True, drop=True)
         class2.to_csv(path_or_buf=args.out + "/class2_integration.tsv", sep="\t", index=False)
 
@@ -274,38 +266,30 @@ def main():
         os.system(map_virus())
 
         # prep input for hybrid mapping
-        print("Tried: " + "samtools fastq -@ " + args.thread + " -F 1 " + args.out + "/virus/Aligned.out.bam "
-                  + "> " + args.out + "/virus/Aligned.out.fastq")
         os.system("samtools fastq -@ " + args.thread + " -F 1 " + args.out + "/virus/Aligned.out.bam "
                   + "> " + args.out + "/virus/Aligned.out.fastq")
 
         # hybrid mapping
         os.system(map_hybrid())
-        print("Tried: " + "samtools sort -@ " + args.thread + " -o " + args.out + "/visual.bam "
-                  + args.out + "/hybrid/Aligned.out.bam ")
         os.system("samtools sort -@ " + args.thread + " -o " + args.out + "/visual.bam "
                   + args.out + "/hybrid/Aligned.out.bam ")
-        print("Tried: " + "samtools index -@ " + args.thread + " -b " + args.out + "/visual.bam "
-                  + args.out + "/visual.bam.bai ")
         os.system("samtools index -@ " + args.thread + " -b " + args.out + "/visual.bam "
                   + args.out + "/visual.bam.bai ")
         os.system(map_hybrid_junction())
 
         # prep input for guide mapping
-        infile = pysam.AlignmentFile(args.out + "/hybrid/Aligned.out.bam", "rb")
-        outfile = pysam.AlignmentFile(args.out + "/hybrid/Aligned.out.sam", "w", template=infile)
-        for s in infile:
-            outfile.write(s)
-        print("Tried: " + "awk -F $'\t' '$3 != " + args.virusChr + "'' " + args.out + "/hybrid/Aligned.out.sam >> "
-                  + args.out + "/hybrid/hybrid.out.sam")
-        os.system("awk -F $'\t' '$3 != " + args.virusChr + "' " + args.out + "/hybrid/Aligned.out.sam >> "
-                  + args.out + "/hybrid/hybrid.out.sam")
-        infile = pysam.AlignmentFile(args.out + "/hybrid/hybrid.out.sam", "r")
-        outfile = pysam.AlignmentFile(args.out + "/hybrid/hybrid.out.bam", "wb", template=infile)
-        for s in infile:
-            outfile.write(s)
-        print("Tried: " + "samtools fastq -@ " + args.thread + " -F 1 " + args.out + "/hybrid/hybrid.out.bam > "
-                  + args.out + "/hybrid/hybrid.out.fastq")
+        os.system("samtools view -h -o " + args.out + "/hybrid/Aligned.out.sam "
+                  + args.out + "/hybrid/Aligned.out.bam")
+        outfile = open(args.out + "/hybrid/hybrid.out.sam", "w")
+        with open(args.out + "/hybrid/Aligned.out.sam", "r") as file:
+            for line in file:
+                if line.startswith("@"):
+                    outfile.write(line)
+                elif line.split("\t")[2] != args.virusChr:
+                    outfile.write(line)
+        outfile.close()
+        os.system("samtools view -S -b " + args.out + "/hybrid/hybrid.out.sam > "
+                  + args.out + "/hybrid/hybrid.out.bam")
         os.system("samtools fastq -@ " + args.thread + " -F 1 " + args.out + "/hybrid/hybrid.out.bam > "
                   + args.out + "/hybrid/hybrid.out.fastq")
 
