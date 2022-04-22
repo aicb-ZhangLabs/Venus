@@ -1,18 +1,18 @@
 #!/bin/bash
-#SBATCH --job-name=testing_integrationSC
+#SBATCH --job-name=testing_indexHybrid
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=32
 #SBATCH --mem-per-cpu=4G
 #SBATCH --time=24:00:00
 #SBATCH --partition=zhanglab.p
-#SBATCH --output=/srv/disk00/cheyul1/Venus/logs/22-04-22/testing_integrationSC.log
+#SBATCH --output=/srv/disk00/cheyul1/Venus/logs/22-04-22/testing_indexHybrid.log
 
 STAR_dir=/srv/disk00/cheyul1/Venus/STAR
 Venus_dir=/srv/disk00/cheyul1/Venus/repo
 
 indices_dir=${STAR_dir}/indices
 data_dir=/srv/disk00/cheyul1/Venus/datasets/test_files
-out_dir=/srv/disk00/cheyul1/Venus/outputs/22-04-22/testing_integrationSC
+out_dir=/srv/disk00/cheyul1/Venus/outputs/22-04-22/testing_indexHybrid
 
 # Testing Detection Module
 #python3 ${Venus_dir}/module-detection.py \
@@ -37,28 +37,31 @@ out_dir=/srv/disk00/cheyul1/Venus/outputs/22-04-22/testing_integrationSC
 #    --singleCellBarcode 1 16 \
 #    --singleUniqueMolIdent 17 10 \
 #    --singleWhitelist ${indices_dir}/3M-february-2018.txt
-    
-python3 ${Venus_dir}/module-integration.py \
-    --read ${data_dir}/singlecell_1cDNA.fastq.gz \
-    --virusGenome ${indices_dir}/HIV.genomeDir \
-    --hybridGenome ${indices_dir}/hg38HIV.genomeDir \
-    --guideFASTA ${indices_dir}/integrSeq.genomeDir/integrSeq.fna \
-    --readFilesCommand zcat \
-    --out ${out_dir} \
-    --virusChr NC_001802.1 \
-    --thread 32 \
-    --geneBed /srv/disk00/cheyul1/genes.bed
+
+# Testing Integration Module
+#python3 ${Venus_dir}/module-integration.py \
+#    --read ${data_dir}/singlecell_1cDNA.fastq.gz \
+#    --virusGenome ${indices_dir}/HIV.genomeDir \
+#    --hybridGenome ${indices_dir}/hg38HIV.genomeDir \
+#    --guideFASTA ${indices_dir}/integrSeq.genomeDir/integrSeq.fna \
+#    --readFilesCommand zcat \
+#    --out ${out_dir} \
+#    --virusChr NC_001802.1 \
+#    --thread 32 \
+#    --geneBed /srv/disk00/cheyul1/genes.bed
 
 
 ## Testing Indexing Module
-#python3 ${Venus_dir}/module-index.py \
-#    --humanGenome ${out_dir}/human.genomeDir \
-#    --humanFASTA ${indices_dir}/human.genomeDir/GCF_000001405.39_GRCh38.p13_genomic.fna \
-#    --humanGTF ${indices_dir}/human.genomeDir/GCF_000001405.39_GRCh38.p13_genomic.gtf \
-#    --virusGenome ${out_dir}/virus.genomeDir \
-#    --virusFASTA ${indices_dir}/new_virus.genomeDir/mega-virus.fa \
-#    --out ${out_dir} \
-#    --thread 32
+python3 ${Venus_dir}/module-index.py \
+    --hGenome ${out_dir}/hybrid.genomeDir \
+    --humanFASTA ${indices_dir}/human.genomeDir/GCF_000001405.39_GRCh38.p13_genomic.fna \
+    --humanGTF ${indices_dir}/human.genomeDir/GCF_000001405.39_GRCh38.p13_genomic.gtf \
+    --virusGenome ${out_dir}/HIV.genomeDir \
+    --virusFASTA ${indices_dir}/HIV.genomeDir/NC_001802.fna \
+    --virusGTF ${indices_dir}/HIV.genomeDir/NC_001802.gtf \
+    --module integration \
+    --out ${out_dir} \
+    --thread 32
 
 ### Printing Test
 #python3 module-index.py \
