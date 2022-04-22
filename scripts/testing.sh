@@ -1,18 +1,18 @@
 #!/bin/bash
-#SBATCH --job-name=testing_integration
+#SBATCH --job-name=testing_integrationSC
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=32
 #SBATCH --mem-per-cpu=4G
 #SBATCH --time=24:00:00
 #SBATCH --partition=zhanglab.p
-#SBATCH --output=/srv/disk00/cheyul1/Venus/logs/22-04-21/testing_integration.log
+#SBATCH --output=/srv/disk00/cheyul1/Venus/logs/22-04-22/testing_integrationSC.log
 
 STAR_dir=/srv/disk00/cheyul1/Venus/STAR
 Venus_dir=/srv/disk00/cheyul1/Venus/repo
 
 indices_dir=${STAR_dir}/indices
 data_dir=/srv/disk00/cheyul1/Venus/datasets/test_files
-out_dir=/srv/disk00/cheyul1/Venus/outputs/22-04-21/testing_integration
+out_dir=/srv/disk00/cheyul1/Venus/outputs/22-04-22/testing_integrationSC
 
 # Testing Detection Module
 #python3 ${Venus_dir}/module-detection.py \
@@ -39,7 +39,7 @@ out_dir=/srv/disk00/cheyul1/Venus/outputs/22-04-21/testing_integration
 #    --singleWhitelist ${indices_dir}/3M-february-2018.txt
     
 python3 ${Venus_dir}/module-integration.py \
-    --read ${data_dir}/bulk_1.fastq.gz \
+    --read ${data_dir}/singlecell_1cDNA.fastq.gz \
     --virusGenome ${indices_dir}/HIV.genomeDir \
     --hybridGenome ${indices_dir}/hg38HIV.genomeDir \
     --guideFASTA ${indices_dir}/integrSeq.genomeDir/integrSeq.fna \
