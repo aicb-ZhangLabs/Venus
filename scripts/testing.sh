@@ -18,7 +18,7 @@ out_dir=/srv/disk00/cheyul1/Venus/outputs/22-04-24/testing_detect
 python3 ${Venus_dir}/module-detection.py \
     --read ${data_dir}/bulk_1.fastq.gz ${data_dir}/bulk_2.fastq.gz \
     --virusThreshold 5 \
-    --virusChrRef ${Venus_dir}/repo/new_virus.species.txt \
+    --virusChrRef ${Venus_dir}/new_virus.species.txt \
     --virusGenome ${indices_dir}/virus.genomeDir \
     --humanGenome ${indices_dir}/human.genomeDir \
     --out ${out_dir}/bulk \
@@ -28,7 +28,7 @@ python3 ${Venus_dir}/module-detection.py \
 python3 ${Venus_dir}/module-detection.py \
     --read ${data_dir}/singlecell_1cDNA.fastq.gz ${data_dir}/singlecell_2CB+UMI.fastq.gz \
     --virusThreshold 5 \
-    --virusChrRef ${Venus_dir}/repo/new_virus.species.txt \
+    --virusChrRef ${Venus_dir}/new_virus.species.txt \
     --virusGenome ${indices_dir}/virus.genomeDir \
     --humanGenome ${indices_dir}/human.genomeDir \
     --out ${out_dir}/single_cell \
