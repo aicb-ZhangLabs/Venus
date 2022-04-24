@@ -240,7 +240,7 @@ def main():
     ##################################################################################################
     # Action Steps
     ##################################################################################################
-    quality_control() # quality control
+    os.system(quality_control())  # quality control
 
     os.system(map_human())  # map to human
 

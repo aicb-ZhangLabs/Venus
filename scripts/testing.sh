@@ -1,42 +1,42 @@
 #!/bin/bash
-#SBATCH --job-name=testing_indexHybrid
+#SBATCH --job-name=testing_detect
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=32
 #SBATCH --mem-per-cpu=4G
 #SBATCH --time=24:00:00
 #SBATCH --partition=zhanglab.p
-#SBATCH --output=/srv/disk00/cheyul1/Venus/logs/22-04-22/testing_indexHybrid.log
+#SBATCH --output=/srv/disk00/cheyul1/Venus/logs/22-04-24/testing_detect.log
 
 STAR_dir=/srv/disk00/cheyul1/Venus/STAR
 Venus_dir=/srv/disk00/cheyul1/Venus/repo
 
 indices_dir=${STAR_dir}/indices
 data_dir=/srv/disk00/cheyul1/Venus/datasets/test_files
-out_dir=/srv/disk00/cheyul1/Venus/outputs/22-04-22/testing_indexHybrid
+out_dir=/srv/disk00/cheyul1/Venus/outputs/22-04-24/testing_detect
 
 # Testing Detection Module
-#python3 ${Venus_dir}/module-detection.py \
-#    --read ${data_dir}/SRR6944349.1_1.fastq.gz ${data_dir}/SRR6944349.1_2.fastq.gz \
-#    --virusThreshold 5 \
-#    --virusChrRef repo/reference_files/virus_chr-ref.tsv \
-#    --virusGenome ${indices_dir}/virus.genomeDir \
-#    --humanGenome ${indices_dir}/human.genomeDir \
-#    --out ${out_dir} \
-#    --readFilesCommand zcat \
-#    --thread 32
+python3 ${Venus_dir}/module-detection.py \
+    --read ${data_dir}/bulk_1.fastq.gz ${data_dir}/bulk_2.fastq.gz \
+    --virusThreshold 5 \
+    --virusChrRef ${Venus_dir}/repo/new_virus.species.txt \
+    --virusGenome ${indices_dir}/virus.genomeDir \
+    --humanGenome ${indices_dir}/human.genomeDir \
+    --out ${out_dir}/bulk \
+    --readFilesCommand zcat \
+    --thread 32
     
-#python3 ${Venus_dir}/module-detection.py \
-#    --read ${data_dir}/SRR12165309.1_3.fastq.gz ${data_dir}/SRR12165309.1_2.fastq.gz \
-#    --virusThreshold 5 \
-#    --virusChrRef repo/reference_files/virus_chr-ref.tsv \
-#    --virusGenome ${indices_dir}/virus.genomeDir \
-#    --humanGenome ${indices_dir}/human.genomeDir \
-#    --out ${out_dir} \
-#    --readFilesCommand zcat \
-#    --thread 32 \
-#    --singleCellBarcode 1 16 \
-#    --singleUniqueMolIdent 17 10 \
-#    --singleWhitelist ${indices_dir}/3M-february-2018.txt
+python3 ${Venus_dir}/module-detection.py \
+    --read ${data_dir}/singlecell_1cDNA.fastq.gz ${data_dir}/singlecell_2CB+UMI.fastq.gz \
+    --virusThreshold 5 \
+    --virusChrRef ${Venus_dir}/repo/new_virus.species.txt \
+    --virusGenome ${indices_dir}/virus.genomeDir \
+    --humanGenome ${indices_dir}/human.genomeDir \
+    --out ${out_dir}/single_cell \
+    --readFilesCommand zcat \
+    --thread 32 \
+    --singleCellBarcode 1 16 \
+    --singleUniqueMolIdent 17 10 \
+    --singleWhitelist ${indices_dir}/3M-february-2018.txt
 
 # Testing Integration Module
 #python3 ${Venus_dir}/module-integration.py \
@@ -52,16 +52,16 @@ out_dir=/srv/disk00/cheyul1/Venus/outputs/22-04-22/testing_indexHybrid
 
 
 ## Testing Indexing Module
-python3 ${Venus_dir}/module-index.py \
-    --hGenome ${out_dir}/hybrid.genomeDir \
-    --humanFASTA ${indices_dir}/human.genomeDir/GCF_000001405.39_GRCh38.p13_genomic.fna \
-    --humanGTF ${indices_dir}/human.genomeDir/GCF_000001405.39_GRCh38.p13_genomic.gtf \
-    --virusGenome ${out_dir}/HIV.genomeDir \
-    --virusFASTA ${indices_dir}/HIV.genomeDir/NC_001802.fna \
-    --virusGTF ${indices_dir}/HIV.genomeDir/NC_001802.gtf \
-    --module integration \
-    --out ${out_dir} \
-    --thread 32
+#python3 ${Venus_dir}/module-index.py \
+#    --hGenome ${out_dir}/hybrid.genomeDir \
+#    --humanFASTA ${indices_dir}/human.genomeDir/GCF_000001405.39_GRCh38.p13_genomic.fna \
+#    --humanGTF ${indices_dir}/human.genomeDir/GCF_000001405.39_GRCh38.p13_genomic.gtf \
+#    --virusGenome ${out_dir}/HIV.genomeDir \
+#    --virusFASTA ${indices_dir}/HIV.genomeDir/NC_001802.fna \
+#    --virusGTF ${indices_dir}/HIV.genomeDir/NC_001802.gtf \
+#    --module integration \
+#    --out ${out_dir} \
+#    --thread 32
 
 ### Printing Test
 #python3 module-index.py \
