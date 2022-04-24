@@ -15,6 +15,7 @@ import argparse
 import os
 import pysam
 import pandas as pd
+import pathlib
 
 
 ########################################################################################################################
@@ -71,6 +72,30 @@ def main():
     else:
         seq_resol = "bulk"
 
+    def quality_control():
+        """Trims bad quality sequences"""
+        pathlib.Path(args.out + "/quality_control/").mkdir(parents=True, exist_ok=True)
+
+        cmd = "trim_galore " \
+              + "--trim-n " \
+              + "--quality 5 " \
+              + "--phred33 " \
+              + "--length 20 " \
+              + "--output_dir " + args.out + "/quality_control/ " \
+              + "--gzip "
+
+        if int(args.thread) >= 7:
+            cmd = cmd + "--cores 7 "
+        else:
+            cmd = cmd + "--cores " + args.thread + " "
+
+        if read_type == "single_end":
+            cmd = cmd + args.read[0] + " "
+        elif read_type == "paired_end":
+            cmd = cmd + args.read[0] + " " + args.read[1] + " "
+
+        return cmd
+
     def map_human():
         """Maps to the human genome"""
         cmd = "STAR " \
@@ -82,9 +107,11 @@ def main():
             cmd = cmd + "--readFilesCommand " + args.readFilesCommand + " "
 
         if read_type == "single_end":
-            cmd = cmd + "--readFilesIn " + args.read[0] + " "
+            cmd = cmd + "--readFilesIn " + args.out + "/quality_control/*_trimmed.fq.gz "
         elif read_type == "paired_end":
-            cmd = cmd + "--readFilesIn " + args.read[0] + " " + args.read[1] + " "
+            cmd = cmd \
+                  + "--readFilesIn " + args.out + "/quality_control/*_val_1.fq.gz " \
+                                     + args.out + "/quality_control/*_val_2.fq.gz "
 
         if seq_resol == "single_cell":
             cmd = cmd \
@@ -213,6 +240,8 @@ def main():
     ##################################################################################################
     # Action Steps
     ##################################################################################################
+    quality_control() # quality control
+
     os.system(map_human())  # map to human
 
     # prep unmapped human reads

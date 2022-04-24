@@ -61,9 +61,13 @@ def main():
               + "--quality 5 " \
               + "--phred33 " \
               + "--length 20 " \
-              + "--output_dir " + args.out + "/quality_control/" + " " \
-              + "--gzip " \
-              + "--cores 8 "
+              + "--output_dir " + args.out + "/quality_control/ " \
+              + "--gzip "
+
+        if int(args.thread) >= 7:
+            cmd = cmd + "--cores 7 "
+        else:
+            cmd = cmd + "--cores " + args.thread + " "
 
         cmd = cmd + args.read
 
