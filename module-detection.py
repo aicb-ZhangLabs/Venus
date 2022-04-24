@@ -92,7 +92,7 @@ def main():
         if read_type == "single_end":
             cmd = cmd + args.read[0] + " "
         elif read_type == "paired_end":
-            cmd = cmd + args.read[0] + " " + args.read[1] + " "
+            cmd = cmd + "--paired " + args.read[0] + " " + args.read[1] + " "
 
         return cmd
 
