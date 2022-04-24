@@ -13,7 +13,6 @@
 ########################################################################################################################
 import argparse
 import os
-import pysam
 import pandas as pd
 import pathlib
 
@@ -257,13 +256,6 @@ def main():
     if seq_resol == "single_cell":
         os.system("samtools view -h -o " + args.out + "/virus/Aligned.out.sam "
                   + args.out + "/virus/Aligned.out.bam")
-        # infile = pysam.AlignmentFile(args.out + "/virus/Aligned.out.bam", "rb")
-        # outfile = pysam.AlignmentFile(args.out + "/virus/Aligned.out.sam", "w", template=infile)
-        # for s in infile:
-        #     outfile.write(s)
-        # pysam.view("-h", "-o",
-        #            args.out + "/virus/Aligned.out.sam",
-        #            args.out + "/virus/Aligned.out.bam")
 
     output_infection()  # makes detection output file
     return

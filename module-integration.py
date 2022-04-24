@@ -261,9 +261,8 @@ def main():
 
         return
 
-        # quality control
-
     def action():
+        # quality control
         os.system(quality_control())
 
         # virus (target) mapping

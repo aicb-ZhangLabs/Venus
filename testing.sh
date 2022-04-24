@@ -39,29 +39,29 @@ python3 ${Venus_dir}/module-detection.py \
     --singleWhitelist ${indices_dir}/3M-february-2018.txt
 
 # Testing Integration Module
-#python3 ${Venus_dir}/module-integration.py \
-#    --read ${data_dir}/singlecell_1cDNA.fastq.gz \
-#    --virusGenome ${indices_dir}/HIV.genomeDir \
-#    --hybridGenome ${indices_dir}/hg38HIV.genomeDir \
-#    --guideFASTA ${indices_dir}/integrSeq.genomeDir/integrSeq.fna \
-#    --readFilesCommand zcat \
-#    --out ${out_dir} \
-#    --virusChr NC_001802.1 \
-#    --thread 32 \
-#    --geneBed /srv/disk00/cheyul1/genes.bed
+python3 ${Venus_dir}/module-integration.py \
+    --read ${data_dir}/singlecell_1cDNA.fastq.gz \
+    --virusGenome ${indices_dir}/HIV.genomeDir \
+    --hybridGenome ${indices_dir}/hg38HIV.genomeDir \
+    --guideFASTA ${indices_dir}/integrSeq.genomeDir/integrSeq.fna \
+    --readFilesCommand zcat \
+    --out ${out_dir} \
+    --virusChr NC_001802.1 \
+    --thread 32 \
+    --geneBed /srv/disk00/cheyul1/genes.bed
 
 
 ## Testing Indexing Module
-#python3 ${Venus_dir}/module-index.py \
-#    --hGenome ${out_dir}/hybrid.genomeDir \
-#    --humanFASTA ${indices_dir}/human.genomeDir/GCF_000001405.39_GRCh38.p13_genomic.fna \
-#    --humanGTF ${indices_dir}/human.genomeDir/GCF_000001405.39_GRCh38.p13_genomic.gtf \
-#    --virusGenome ${out_dir}/HIV.genomeDir \
-#    --virusFASTA ${indices_dir}/HIV.genomeDir/NC_001802.fna \
-#    --virusGTF ${indices_dir}/HIV.genomeDir/NC_001802.gtf \
-#    --module integration \
-#    --out ${out_dir} \
-#    --thread 32
+python3 ${Venus_dir}/module-index.py \
+    --hGenome ${out_dir}/hybrid.genomeDir \
+    --humanFASTA ${indices_dir}/human.genomeDir/GCF_000001405.39_GRCh38.p13_genomic.fna \
+    --humanGTF ${indices_dir}/human.genomeDir/GCF_000001405.39_GRCh38.p13_genomic.gtf \
+    --virusGenome ${out_dir}/HIV.genomeDir \
+    --virusFASTA ${indices_dir}/HIV.genomeDir/NC_001802.fna \
+    --virusGTF ${indices_dir}/HIV.genomeDir/NC_001802.gtf \
+    --module integration \
+    --out ${out_dir} \
+    --thread 32
 
 ### Printing Test
 #python3 module-index.py \
