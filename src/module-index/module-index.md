@@ -8,7 +8,7 @@ One would have to create separate indices for the two modules in Venus, Detectio
 For below test:
 - humanFASTA file download link [[humanFASTA]](https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/GRCh38_latest/refseq_identifiers/GRCh38_latest_genomic.fna.gz)
 - humanGTF file download link *(file is in gff3 format, which Venus has already accomodated)* [[humanGTF]](https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/GRCh38_latest/refseq_identifiers/GRCh38_latest_genomic.gff.gz)
-- virusFASTA ~ the directions to create a "mega-virus.fasta" is in [[README]](https://github.com/aicb-ZhangLabs/Venus/blob/8b435737b902364b0a0b95813e6e5264b3d7753a/README.md) *(note: there will not be an associated gtf file)*
+- virusFASTA ~ the directions to create a "mega-virus.fasta" is in the Setup section of [[README]](../../README.md) *(note: there will not be an associated gtf file)*
 
 To create indices for mega-virus mode (without a virus gtf):
 ```   
