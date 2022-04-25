@@ -5,7 +5,7 @@ This module detects viral load and will output a list of infecting viral species
 ### Single-end reads
 For below test:
 - read bulk_1.fastq.gz (HIV) file is in the repo's "test_data" [[bulk-1]](https://github.com/aicb-ZhangLabs/Venus/raw/main/test_data/bulk_1.fastq.gz)
-- virusChrRef file is in the repo's "reference_files" [[virusChrRef]](https://github.com/aicb-ZhangLabs/Venus/blob/191777cc51cd664d2f35bc182cfa5ae900fd734a/reference_files/virus_chr-ref.tsv)
+- virusChrRef file is in the repo's "reference_files" [[virusChrRef]](../../reference_files/virus_chr-ref.tsv)
 - .genomeDir are directories created in the Creating Index module
 
 To map bulk single-end sequencing:
@@ -25,7 +25,7 @@ python3 module-detection.py \
 For below test:
 - read bulk_1.fastq.gz (HIV) file is in the repo's "test_data" [[bulk-1]](https://github.com/aicb-ZhangLabs/Venus/raw/main/test_data/bulk_1.fastq.gz)
 - read bulk_2.fastq.gz (HIV) file is in the repo's "test_data" [[bulk-2]](https://github.com/aicb-ZhangLabs/Venus/raw/main/test_data/bulk_2.fastq.gz)
-- virusChrRef file is in the repo's "reference_files" [[virusChrRef]](https://github.com/aicb-ZhangLabs/Venus/blob/191777cc51cd664d2f35bc182cfa5ae900fd734a/reference_files/virus_chr-ref.tsv)
+- virusChrRef file is in the repo's "reference_files" [[virusChrRef]](../../reference_files/virus_chr-ref.tsv)
 - .genomeDir are directories created in the Creating Index module
 
 To map bulk paired-end sequencing (please separate paired reads by white space):
@@ -47,7 +47,7 @@ For single-cell, please ensure that the cDNA read is put first before the cell b
 For below test:
 - read singlecell_1cDNA.fastq.gz (HIV) file is in the repo's "test_data" [[singlecell-1]](https://github.com/aicb-ZhangLabs/Venus/raw/main/test_data/singlecell_1cDNA.fastq.gz)
 - read singlecell_2CB+UMI.fastq.gz (HIV) file is in the repo's "test_data" [[singlecell-2]](https://github.com/aicb-ZhangLabs/Venus/raw/main/test_data/singlecell_2CB%2BUMI.fastq.gz)
-- virusChrRef file is in the repo's "reference_files" [[virusChrRef]](https://github.com/aicb-ZhangLabs/Venus/blob/191777cc51cd664d2f35bc182cfa5ae900fd734a/reference_files/virus_chr-ref.tsv)
+- virusChrRef file is in the repo's "reference_files" [[virusChrRef]](../../reference_files/virus_chr-ref.tsv)
 - .genomeDir are directories created in the Creating Index module
 - singeWhitelist file download link [[singleWhitelist]](https://github.com/10XGenomics/cellranger/raw/master/lib/python/cellranger/barcodes/3M-february-2018.txt.gz)
 
