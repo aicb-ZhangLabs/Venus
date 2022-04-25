@@ -1,5 +1,5 @@
 # Creating Index
-This step creates the necessary mapping indices directories in Venus. Of note, since some viruses may lack a gtf annotation file, use of a virus gtf file is optional. (*Note: For `out` parameter, please do not include an end '/' in path.*) 
+This step creates the necessary mapping indices `*.genomeDir/` directories in Venus. Of note, since some viruses may lack a gtf annotation file, use of a virus gtf file is optional. (*Note: For `out` parameter, please do not include an end '/' in path.*) 
 
 ## Detection
 One would have to create separate indices for the two modules in Venus, Detection and Integration. Furthermore, there are two options of indices for the Detection module, Mega-virus and Single virus. User should choose the Single virus mode if the infected viral species is already known. If not, the Mega-virus mode is recommended.
@@ -16,7 +16,7 @@ python3 module-index.py \
     --hGenome path/to/human.genomeDir \
     --humanFASTA GRCh38_latest_genomic.fna \
     --humanGTF GRCh38_latest_genomic.gff \
-    --virusGenome path/to/mega_virus.genomeDir \
+    --virusGenome out_path/to/mega_virus.genomeDir \
     --virusFASTA mega-virus.fasta \
     --module detection \
     --out path/to/output/dir \
@@ -36,7 +36,7 @@ python3 module-index.py \
     --hGenome path/to/human.genomeDir \
     --humanFASTA GRCh38_latest_genomic.fna \
     --humanGTF GRCh38_latest_genomic.gff \
-    --virusGenome path/to/HIV.genomeDir \
+    --virusGenome out_path/to/HIV.genomeDir \
     --virusFASTA GCF_000864765.1_ViralProj15476_genomic.fna \
     --virusGTF GCF_000864765.1_ViralProj15476_genomic.gtf \
     --module detection \
@@ -60,7 +60,7 @@ python3 module-index.py \
     --hGenome path/to/hybrid.genomeDir \
     --humanFASTA GRCh38_latest_genomic.fna \
     --humanGTF GRCh38_latest_genomic.gff \
-    --virusGenome path/to/HIV.genomeDir \
+    --virusGenome out_path/to/HIV.genomeDir \
     --virusFASTA GCF_000864765.1_ViralProj15476_genomic.fna \
     --virusGTF GCF_000864765.1_ViralProj15476_genomic.gff \
     --module integration \
