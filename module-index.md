@@ -1,10 +1,10 @@
-# Venus
-**Venus:** an efficient Virus infection detection and fusion Site discovery method using single-cell and bulk RNA-seq data
+# Creating Index
+This step creates the necessary mapping indices directories in Venus. Of note, since some viruses may lack a gtf annotation file, use of a virus gtf file is optional. (*Note: For `out` parameter, please do not include an end '/' in path.*) 
 
-## Creating Index
-This step creates the necessary mapping indices directories in Venus. Of note, since some viruses may lack a gtf annotation file, use of a virus gtf file is optional. One would have to create separate indices for the two modules in Venus, Detection and Integration. Furthermore, there are two options of indices for the Detection module, Mega-virus and Single virus. User should choose the Single virus mode if the infected viral species is already known. If not, the Mega-virus mode is recommended. (*Note: For `out` parameter, please do not include an end '/' in path.*) 
+## Detection
+One would have to create separate indices for the two modules in Venus, Detection and Integration. Furthermore, there are two options of indices for the Detection module, Mega-virus and Single virus. User should choose the Single virus mode if the infected viral species is already known. If not, the Mega-virus mode is recommended.
 
-### Detection: Mega-virus index mode
+### Mega-virus index mode
 For below test:
 - humanFASTA file download link [[humanFASTA]](https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/GRCh38_latest/refseq_identifiers/GRCh38_latest_genomic.fna.gz)
 - humanGTF file download link *(file is in gff3 format, which Venus has already accomodated)* [[humanGTF]](https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/GRCh38_latest/refseq_identifiers/GRCh38_latest_genomic.gff.gz)
@@ -23,7 +23,7 @@ python3 module-index.py \
     --thread 32
 ```
 
-### Detection: Single virus index mode
+### Single virus index mode
 For below test:
 - humanFASTA file download link [[humanFASTA]](https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/GRCh38_latest/refseq_identifiers/GRCh38_latest_genomic.fna.gz)
 - humanGTF file download link *(file is in gff3 format, which Venus has already accomodated)* [[humanGTF]](https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/GRCh38_latest/refseq_identifiers/GRCh38_latest_genomic.gff.gz)
@@ -45,12 +45,14 @@ python3 module-index.py \
 ```
 
 
-### Integration
+## Integration
+Here, we would create a hybrid mapping index by combining human and virus reference files. Please ensure that both human and viral annotation files are in the same format (i.e. both gff or both gtf).
+
 For below test:
 - humanFASTA file download link [[humanFASTA]](https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/GRCh38_latest/refseq_identifiers/GRCh38_latest_genomic.fna.gz)
 - humanGTF file download link *(file is in gff3 format, which Venus has already accomodated)* [[humanGTF]](https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/GRCh38_latest/refseq_identifiers/GRCh38_latest_genomic.gff.gz)
 - virusFASTA for HIV download link [[virusFASTA]](https://ftp.ncbi.nlm.nih.gov/genomes/refseq/viral/Human_immunodeficiency_virus_1/latest_assembly_versions/GCF_000864765.1_ViralProj15476/GCF_000864765.1_ViralProj15476_genomic.fna.gz)
-- virusGTF for HIV download link [[virusGTF]](https://ftp.ncbi.nlm.nih.gov/genomes/refseq/viral/Human_immunodeficiency_virus_1/latest_assembly_versions/GCF_000864765.1_ViralProj15476/GCF_000864765.1_ViralProj15476_genomic.gtf.gz)
+- virusGTF for HIV download link [[virusGTF]](https://ftp.ncbi.nlm.nih.gov/genomes/refseq/viral/Human_immunodeficiency_virus_1/latest_assembly_versions/GCF_000864765.1_ViralProj15476/GCF_000864765.1_ViralProj15476_genomic.gff.gz)
 
 To create indices for single-virus mode (with a virus gtf):
 ```   
@@ -60,7 +62,7 @@ python3 module-index.py \
     --humanGTF GRCh38_latest_genomic.gff \
     --virusGenome path/to/HIV.genomeDir \
     --virusFASTA GCF_000864765.1_ViralProj15476_genomic.fna \
-    --virusGTF GCF_000864765.1_ViralProj15476_genomic.gtf \
+    --virusGTF GCF_000864765.1_ViralProj15476_genomic.gff \
     --module integration \
     --out path/to/output/dir \
     --thread 32
