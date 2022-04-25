@@ -27,6 +27,6 @@ rm -r tmp
 
 ## Running with test data
 There are two main modules in Venus: Detection and Integration. However, one would need to create mapping indices first prior to running these two modules. The detailed steps to do so is detailed below:
-- Creating Index [[link]](https://github.com/aicb-ZhangLabs/Venus/blob/87936f8f52769f0dd839925d94ddc229b052d5cf/src/module-index/module-index.md)
-- Detection Module [[link]](https://github.com/aicb-ZhangLabs/Venus/blob/87936f8f52769f0dd839925d94ddc229b052d5cf/src/module-detection/module-detection.md)
-- Integration Module [[link]](https://github.com/aicb-ZhangLabs/Venus/blob/87936f8f52769f0dd839925d94ddc229b052d5cf/src/module-integration/module-integration.md)
+- Creating Index [[link]](src/module-index/module-index.md)
+- Detection Module [[link]](src/module-detection/module-detection.md)
+- Integration Module [[link]](src/module-integration/module-integration.md)
