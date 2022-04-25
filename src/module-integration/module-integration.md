@@ -13,7 +13,7 @@ To map single-end sequencing:
 ```
 python3 module-detection.py \
     --read bulk_1.fastq.gz \
-    --virusGenome path/to/mega_virus.genomeDir \
+    --virusGenome path/to/HIV.genomeDir \
     --hybridGenome path/to/hybrid.genomeDir \
     --guideFASTA integrSeq.fna \
     --out path/to/output/dir \
@@ -36,7 +36,7 @@ To map paired-end sequencing (please separate paired reads by white space):
 ```
 python3 module-detection.py \
     --read bulk_1.fastq.gz bulk_2.fastq.gz \
-    --virusGenome path/to/mega_virus.genomeDir \
+    --virusGenome path/to/HIV.genomeDir \
     --hybridGenome path/to/hybrid.genomeDir \
     --guideFASTA integrSeq.fna \
     --out path/to/output/dir \
