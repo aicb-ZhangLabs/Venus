@@ -248,7 +248,7 @@ def main():
             elif candidate.shape[0] == 1:
                 genes.append(candidate["gene"].to_string(index=False))
             else:
-                genes.append("")
+                genes.append(candidate["gene"].to_string(index=False))
         integration["gene"] = genes
         class1 = integration[integration["gene"] != ""]
         class2 = integration[integration["gene"] == ""]
