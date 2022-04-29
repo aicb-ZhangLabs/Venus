@@ -52,9 +52,11 @@ def main():
         elif candidate.shape[0] == 1:
             genes.append(candidate["gene"].to_string(index=False))
         else:
-            print(candidate["gene"].to_string(index=False))
-            print("\n")
-            genes.append(candidate["gene"].to_string(index=False))
+            # print(candidate["gene"].to_string(index=False))
+            gene_concat = ""
+            for gene in candidate["gene"].to_string(index=False).split():
+                gene_concat = gene_concat + gene + " "
+            genes.append(gene_concat[:-1])
     print(integration.shape)
     print(len(genes))
 
