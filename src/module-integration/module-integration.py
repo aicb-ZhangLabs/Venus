@@ -249,7 +249,7 @@ def main():
                 genes.append(candidate["gene"].to_string(index=False))
             else:
                 gene_concat = ""
-                for gene in candidate["gene"].to_string(index=False).split():
+                for index2, gene in candidate["gene"].items():
                     gene_concat = gene_concat + gene + " "
                 genes.append(gene_concat[:-1])
         integration["gene"] = genes

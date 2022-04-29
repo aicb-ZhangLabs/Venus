@@ -54,8 +54,9 @@ def main():
         else:
             # print(candidate["gene"].to_string(index=False))
             gene_concat = ""
-            for gene in candidate["gene"].to_string(index=False).split():
+            for index2, gene in candidate["gene"].items():
                 gene_concat = gene_concat + gene + " "
+            print(gene_concat)
             genes.append(gene_concat[:-1])
     print(integration.shape)
     print(len(genes))
