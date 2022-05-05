@@ -6,7 +6,7 @@ One would have to create separate indices for the two modules in Venus, Detectio
 
 ### Mega-virus index mode
 For below test:
-- humanFASTA file download link [[humanFASTA]](https://ftp.ncbi.nlm.nih.gov/refseq/H_sapiens/annotation/GRCh38_latest/refseq_identifiers/GRCh38_latest_genomic.fna.gz)
+- humanFASTA file download link [[humanFASTA]](https://ftp.ncbi.nlm.nih.gov/genomes/refseq/vertebrate_mammalian/Homo_sapiens/all_assembly_versions/GCF_000001405.39_GRCh38.p13/GCF_000001405.39_GRCh38.p13_genomic.fna.gz)
 - humanGTF file download link [[humanGTF]](https://ftp.ncbi.nlm.nih.gov/genomes/refseq/vertebrate_mammalian/Homo_sapiens/all_assembly_versions/GCF_000001405.39_GRCh38.p13/GCF_000001405.39_GRCh38.p13_genomic.gtf.gz)
 - virusFASTA ~ the directions to create a "mega-virus.fasta" is in the Setup section of [[README]](../../README.md) *(note: there will not be an associated gtf file)*
 
