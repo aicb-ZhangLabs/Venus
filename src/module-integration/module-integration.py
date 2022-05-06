@@ -32,7 +32,7 @@ def main():
     parser.add_argument("--hybridGenome", type=str, required=True,
                         help="directory path of hybrid genome index")
 
-    parser.add_argument("--guideFASTA", type=str, required=False,
+    parser.add_argument("--guideFASTA", type=str, required=True,
                         help="Fasta file for the guide sequence(s)")
 
     parser.add_argument("--virusChr", type=str, required=True,
