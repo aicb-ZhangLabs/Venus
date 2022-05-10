@@ -3,11 +3,14 @@ This module detects viral integration sites with a hybrid index. The guideFASTA 
 
 ## Single-end sequencing
 For below test:
-- read bulk_1.fastq.gz (HIV) file is in the repo's "test_data" [[bulk-1]](https://github.com/aicb-ZhangLabs/Venus/raw/main/test_data/bulk_1.fastq.gz)
-- .genomeDir are directories created in the Creating Index module
-- guideFASTA file is in the repo's "reference_files" [[guideFASTA]](../../reference_files/integrSeq.fna)
-- virusChr parameter specifies the assembly name given for a specific viral species
-- geneBed file, used to convert genomic coordinates to gene names, is in the repo's "reference_files" [[geneBed]](../../reference_files/genes.bed)
+- `read` bulk_1.fastq.gz (HIV) file is in the repo's "test_data" [[bulk-1]](https://github.com/aicb-ZhangLabs/Venus/raw/main/test_data/bulk_1.fastq.gz)
+- `virusGenome` and `hybridGenome` are directory paths created in the Creating Index module [[Creating Index]](../../src/module-index/module-index.md)
+- `guideFASTA` file is used to classify integration sites. This file should be edited for different viruses [[guideFASTA]](../../reference_files/integrSeq.fna)
+- `readFilesCommand` are commands necessary for gzipped reads
+- `virusChr` specifies the assembly name for the given viral species
+- `thread` allows for parallelization
+- `geneBed` is a file used to convert genomic coordinates to gene names [[geneBed]](../../reference_files/genes.bed)
+- **(output)** `out` is the directory path for output files
 
 To map single-end sequencing:
 ```
@@ -16,21 +19,23 @@ python3 module-integration.py \
     --virusGenome path/to/HIV.genomeDir \
     --hybridGenome path/to/hybrid.genomeDir \
     --guideFASTA integrSeq.fna \
-    --out path/to/output/dir \
     --readFilesCommand zcat \
     --virusChr NC_001802.1 \
     --thread 32 \
-    --geneBed genes.bed
+    --geneBed genes.bed \
+    --out path/to/output/dir
 ```
 
 ## Paired-end sequencing
 For below test:
-- read bulk_1.fastq.gz (HIV) file is in the repo's "test_data" [[bulk-1]](https://github.com/aicb-ZhangLabs/Venus/raw/main/test_data/bulk_1.fastq.gz)
-- read bulk_2.fastq.gz (HIV) file is in the repo's "test_data" [[bulk-2]](https://github.com/aicb-ZhangLabs/Venus/raw/main/test_data/bulk_2.fastq.gz)
-- .genomeDir are directories created in the Creating Index module
-- guideFASTA file is in the repo's "reference_files" [[guideFASTA]](../../reference_files/integrSeq.fna)
-- virusChr parameter specifies the assembly name given for a specific viral species
-- geneBed file, used to convert genomic coordinates to gene names, is in the repo's "reference_files" [[geneBed]](../../reference_files/genes.bed)
+- `read` (HIV) bulk_1.fastq.gz [[bulk-1]](https://github.com/aicb-ZhangLabs/Venus/raw/main/test_data/bulk_1.fastq.gz) and bulk_2.fastq.gz [[bulk-2]](https://github.com/aicb-ZhangLabs/Venus/raw/main/test_data/bulk_2.fastq.gz) files are in the repo's "test_data"
+- `virusGenome` and `hybridGenome` are directory paths created in the Creating Index module [[Creating Index]](../../src/module-index/module-index.md)
+- `guideFASTA` file is used to classify integration sites. This file should be edited for different viruses [[guideFASTA]](../../reference_files/integrSeq.fna)
+- `readFilesCommand` are commands necessary for gzipped reads
+- `virusChr` specifies the assembly name for the given viral species
+- `thread` allows for parallelization
+- `geneBed` is a file used to convert genomic coordinates to gene names [[geneBed]](../../reference_files/genes.bed)
+- **(output)** `out` is the directory path for output files
 
 To map paired-end sequencing (please separate paired reads by white space):
 ```
@@ -39,9 +44,9 @@ python3 module-integration.py \
     --virusGenome path/to/HIV.genomeDir \
     --hybridGenome path/to/hybrid.genomeDir \
     --guideFASTA integrSeq.fna \
-    --out path/to/output/dir \
     --readFilesCommand zcat \
     --virusChr NC_001802.1 \
     --thread 32 \
-    --geneBed genes.bed
+    --geneBed genes.bed \
+    --out path/to/output/dir
 ```
