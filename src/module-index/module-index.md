@@ -56,10 +56,8 @@ python3 module-index.py \
 Here, we would create a hybrid mapping index by combining human and virus reference files. Please ensure that both human and viral annotation files are in the same format (i.e. both gff or both gtf).
 
 For below test:
-- `humanFASTA` file download link [[humanFASTA]](https://ftp.ncbi.nlm.nih.gov/genomes/refseq/vertebrate_mammalian/Homo_sapiens/all_assembly_versions/GCF_000001405.39_GRCh38.p13/GCF_000001405.39_GRCh38.p13_genomic.fna.gz)
-- `humanGTF` file download link [[humanGTF]](https://ftp.ncbi.nlm.nih.gov/genomes/refseq/vertebrate_mammalian/Homo_sapiens/all_assembly_versions/GCF_000001405.39_GRCh38.p13/GCF_000001405.39_GRCh38.p13_genomic.gtf.gz)
-- `virusFASTA` for HIV download link [[virusFASTA]](../../reference_files/NC_001802.fna)
-- `virusGTF` for HIV download link [[virusGTF]](../../reference_files/NC_001802.gtf)
+- `humanFASTA` and `humanGTF` are the human reference sequence & annotation files, respectively
+- `virusFASTA` and `virusGTF` are the virus reference sequence & annotation files, respectively, in this case HIV
 - `module` indicates which module are we generating the index directories for
 - `thread` allows for parallelization
 - **(output)** `out` is the directory path for extra output files
