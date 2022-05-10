@@ -7,7 +7,7 @@
 ## Setup
 Clone the repository and set its path. 
 
-*Please set the `repo_dir` to your **own downloaded location** for easy copy and pasting when running the tutorial*
+*Please set `repo_dir` to your **own downloaded location** for easy copy and pasting when running the tutorial*
 ```
 git clone https://github.com/aicb-ZhangLabs/Venus.git
 repo_dir=/srv/disk00/cheyul1/Venus/outputs/22-05-10/Venus
