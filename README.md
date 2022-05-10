@@ -5,14 +5,18 @@
 ![alt text](https://github.com/aicb-ZhangLabs/Venus/blob/main/overview.png)
 
 ## Setup
-Clone the repository.
+Clone the repository and set its path. 
+
+*Please set the `repo_dir` to your **own downloaded location** for easy copy and pasting when running the tutorial*
 ```
 git clone https://github.com/aicb-ZhangLabs/Venus.git
+repo_dir=/srv/disk00/cheyul1/Venus/outputs/22-05-10/Venus
 ```
 
 Set up the conda envrionment. Note the spec-file.txt is for Linux platform.
 ```
-conda create --name venus --file reference_files/venus_spec-file.txt
+conda create --name venus --file ${repo_dir}/reference_files/venus_spec-file.txt
+conda activate venus
 ```
 
 One can make the mega-virus.fasta file from NCBI as so:
