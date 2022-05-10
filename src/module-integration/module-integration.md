@@ -28,7 +28,7 @@ python3 module-integration.py \
 
 ## Paired-end sequencing
 For below test:
-- `read` (HIV) bulk_1.fastq.gz [[bulk-1]](https://github.com/aicb-ZhangLabs/Venus/raw/main/test_data/bulk_1.fastq.gz) and bulk_2.fastq.gz [[bulk-2]](https://github.com/aicb-ZhangLabs/Venus/raw/main/test_data/bulk_2.fastq.gz) files are in the repo's "test_data" *(separate paired reads by white space)*
+- `read` (HIV) bulk_1.fastq.gz [[bulk-1]](https://github.com/aicb-ZhangLabs/Venus/raw/main/test_data/bulk_1.fastq.gz) and bulk_2.fastq.gz [[bulk-2]](https://github.com/aicb-ZhangLabs/Venus/raw/main/test_data/bulk_2.fastq.gz) files are in the repo's "test_data" *(separate reads by white space)*
 - `virusGenome` and `hybridGenome` are directory paths created in the Creating Index module [[Creating Index]](../../src/module-index/module-index.md)
 - `guideFASTA` file is used to classify integration sites. This file should be edited for different viruses [[guideFASTA]](../../reference_files/integrSeq.fna)
 - `readFilesCommand` are commands necessary for gzipped reads
