@@ -33,7 +33,7 @@ cd ..
 rm -rf tmp
 ```
 
-One should also download the human (vGRCh38) fasta, gtf files from NCBI in addition to the single-cell CB whitelist we will use:
+One should also download the human (vGRCh38) fasta, gtf files from NCBI in addition to the 10X single-cell CB whitelist we will use:
 ```
 cd ${repo_dir}/reference_files
 wget https://ftp.ncbi.nlm.nih.gov/genomes/refseq/vertebrate_mammalian/Homo_sapiens/all_assembly_versions/GCF_000001405.39_GRCh38.p13/GCF_000001405.39_GRCh38.p13_genomic.fna.gz
