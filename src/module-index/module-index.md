@@ -6,21 +6,26 @@ One would have to create separate indices for the two modules in Venus, Detectio
 
 ### Mega-virus index mode
 For below test:
-- humanFASTA file download link [[humanFASTA]](https://ftp.ncbi.nlm.nih.gov/genomes/refseq/vertebrate_mammalian/Homo_sapiens/all_assembly_versions/GCF_000001405.39_GRCh38.p13/GCF_000001405.39_GRCh38.p13_genomic.fna.gz)
-- humanGTF file download link [[humanGTF]](https://ftp.ncbi.nlm.nih.gov/genomes/refseq/vertebrate_mammalian/Homo_sapiens/all_assembly_versions/GCF_000001405.39_GRCh38.p13/GCF_000001405.39_GRCh38.p13_genomic.gtf.gz)
-- virusFASTA ~ the directions to create a "mega-virus.fasta" is in the Setup section of [[README]](../../README.md) *(note: there will not be an associated gtf file)*
+- `humanFASTA` file download link [[humanFASTA]](https://ftp.ncbi.nlm.nih.gov/genomes/refseq/vertebrate_mammalian/Homo_sapiens/all_assembly_versions/GCF_000001405.39_GRCh38.p13/GCF_000001405.39_GRCh38.p13_genomic.fna.gz)
+- `humanGTF` file download link [[humanGTF]](https://ftp.ncbi.nlm.nih.gov/genomes/refseq/vertebrate_mammalian/Homo_sapiens/all_assembly_versions/GCF_000001405.39_GRCh38.p13/GCF_000001405.39_GRCh38.p13_genomic.gtf.gz)
+-  `virusFASTA` ~ the directions to create a "mega-virus.fasta" is in the Setup section of [[README]](../../README.md)
+- `module` indicates which module are we generating the index directories for
+- `thread` allows for parallelization
+- **(output)** `out` is the directory path for extra output files
+- **(output)** `hGenome` is the index directory for either the human or hybrid genome
+- **(output)** `virusGenome` is the index directory for virus
 
 To create indices for mega-virus mode (without a virus gtf):
 ```   
 python3 module-index.py \
-    --hGenome path/to/human.genomeDir \
     --humanFASTA GCF_000001405.39_GRCh38.p13_genomic.fna \
     --humanGTF GCF_000001405.39_GRCh38.p13_genomic.gtf \
-    --virusGenome out_path/to/mega_virus.genomeDir \
     --virusFASTA mega-virus.fasta \
     --module detection \
+    --thread 32 \
     --out path/to/output/dir \
-    --thread 32
+    --hGenome path/to/human.genomeDir \
+    --virusGenome out_path/to/mega_virus.genomeDir
 ```
 
 ### Single virus index mode
@@ -29,19 +34,24 @@ For below test:
 - humanGTF file download link [[humanGTF]](https://ftp.ncbi.nlm.nih.gov/genomes/refseq/vertebrate_mammalian/Homo_sapiens/all_assembly_versions/GCF_000001405.39_GRCh38.p13/GCF_000001405.39_GRCh38.p13_genomic.gtf.gz)
 - virusFASTA for HIV download link [[virusFASTA]](../../reference_files/NC_001802.fna)
 - virusGTF for HIV download link [[virusGTF]](../../reference_files/NC_001802.gtf)
+- `module` indicates which module are we generating the index directories for
+- `thread` allows for parallelization
+- **(output)** `out` is the directory path for extra output files
+- **(output)** `hGenome` is the index directory for either the human or hybrid genome
+- **(output)** `virusGenome` is the index directory for virus
 
 To create indices for single-virus mode (with a virus gtf):
 ```   
 python3 module-index.py \
-    --hGenome path/to/human.genomeDir \
     --humanFASTA GCF_000001405.39_GRCh38.p13_genomic.fna \
     --humanGTF GCF_000001405.39_GRCh38.p13_genomic.gtf \
-    --virusGenome out_path/to/HIV.genomeDir \
     --virusFASTA NC_001802.fna \
     --virusGTF NC_001802.gtf \
     --module detection \
+    --thread 32 \
     --out path/to/output/dir \
-    --thread 32
+    --hGenome path/to/human.genomeDir \
+    --virusGenome out_path/to/HIV.genomeDir
 ```
 
 
@@ -53,17 +63,22 @@ For below test:
 - humanGTF file download link [[humanGTF]](https://ftp.ncbi.nlm.nih.gov/genomes/refseq/vertebrate_mammalian/Homo_sapiens/all_assembly_versions/GCF_000001405.39_GRCh38.p13/GCF_000001405.39_GRCh38.p13_genomic.gtf.gz)
 - virusFASTA for HIV download link [[virusFASTA]](../../reference_files/NC_001802.fna)
 - virusGTF for HIV download link [[virusGTF]](../../reference_files/NC_001802.gtf)
+- `module` indicates which module are we generating the index directories for
+- `thread` allows for parallelization
+- **(output)** `out` is the directory path for extra output files
+- **(output)** `hGenome` is the index directory for either the human or hybrid genome
+- **(output)** `virusGenome` is the index directory for virus
 
 To create indices for single-virus mode (with a virus gtf):
 ```   
 python3 module-index.py \
-    --hGenome path/to/hybrid.genomeDir \
     --humanFASTA GCF_000001405.39_GRCh38.p13_genomic.fna \
     --humanGTF GCF_000001405.39_GRCh38.p13_genomic.gtf \
-    --virusGenome out_path/to/HIV.genomeDir \
     --virusFASTA NC_001802.fna \
     --virusGTF NC_001802.gtf \
     --module integration \
+    --thread 32 \
     --out path/to/output/dir \
-    --thread 32
+    --hGenome path/to/hybrid.genomeDir \
+    --virusGenome out_path/to/HIV.genomeDir
 ```
