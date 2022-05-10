@@ -5,12 +5,15 @@
 ![alt text](https://github.com/aicb-ZhangLabs/Venus/blob/main/overview.png)
 
 ## Setup
-Clone the repository and set its path. 
-
-*Please set `repo_dir` to your **own downloaded location** for easy copy and pasting when running the tutorial*
+Clone the repository. 
 ```
 git clone https://github.com/aicb-ZhangLabs/Venus.git
+```
+
+Please set `repo_dir` to your **own downloaded location** and `out_dir` to your **own output location** for easy *copy and pasting* when running Venus tutorial.
+```
 repo_dir=/srv/disk00/cheyul1/Venus/outputs/22-05-10/Venus
+out_dir=/srv/disk00/cheyul1/Venus/outputs/22-05-10
 ```
 
 Set up the conda envrionment. Note the spec-file.txt is for Linux platform.
@@ -21,12 +24,22 @@ conda activate venus
 
 One can make the mega-virus.fasta file from NCBI as so:
 ```
+cd ${repo_dir}/reference_files
 mkdir tmp  &&  cd tmp
 wget ftp://ftp.ncbi.nlm.nih.gov//genomes/Viruses/all.fna.tar.gz
 tar -xvf all.fna.tar.gz
 cat */*.fna | sed "s/>/>Virus:/" > ../mega-virus.fasta
 cd ..
-rm -r tmp
+rm -rf tmp
+```
+
+One should also download the human (vGRCh38) fasta and gtf files from NCBI:
+```
+cd ${repo_dir}/reference_files
+wget https://ftp.ncbi.nlm.nih.gov/genomes/refseq/vertebrate_mammalian/Homo_sapiens/all_assembly_versions/GCF_000001405.39_GRCh38.p13/GCF_000001405.39_GRCh38.p13_genomic.fna.gz
+gunzip GCF_000001405.39_GRCh38.p13_genomic.fna.gz
+wget https://ftp.ncbi.nlm.nih.gov/genomes/refseq/vertebrate_mammalian/Homo_sapiens/all_assembly_versions/GCF_000001405.39_GRCh38.p13/GCF_000001405.39_GRCh38.p13_genomic.gtf.gz
+gunzip GCF_000001405.39_GRCh38.p13_genomic.gtf.gz
 ```
 
 ## Running with test data
