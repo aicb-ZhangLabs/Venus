@@ -13,7 +13,7 @@ git clone https://github.com/aicb-ZhangLabs/Venus.git
 Please set `repo_dir` to your **own downloaded location** and `out_dir` to your **own output location** for easy *copy and pasting* when running Venus tutorial.
 ```
 repo_dir=/srv/disk00/cheyul1/Venus/outputs/22-05-10/Venus
-out_dir=/srv/disk00/cheyul1/Venus/outputs/22-05-10
+out_dir=/srv/disk00/cheyul1/Venus/outputs/22-05-10/testing
 ```
 
 Set up the conda envrionment. Note the spec-file.txt is for Linux platform.
