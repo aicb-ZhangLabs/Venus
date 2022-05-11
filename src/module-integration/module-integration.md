@@ -14,16 +14,16 @@ For below test:
 
 To map single-end sequencing:
 ```
-python3 module-integration.py \
-    --read bulk_1.fastq.gz \
-    --virusGenome path/to/HIV.genomeDir \
-    --hybridGenome path/to/hybrid.genomeDir \
-    --guideFASTA integrSeq.fna \
+python3 ${repo_dir}/src/module-integration/module-integration.py \
+    --read ${repo_dir}/test_data/bulk_1.fastq.gz \
+    --virusGenome ${out_dir}/indices/HIV.genomeDir \
+    --hybridGenome ${out_dir}/indices/hybrid.genomeDir \
+    --guideFASTA ${repo_dir}/reference_files/integrSeq.fna \
     --readFilesCommand zcat \
     --virusChr NC_001802.1 \
     --thread 32 \
-    --geneBed genes.bed \
-    --out path/to/output/dir
+    --geneBed ${repo_dir}/reference_files/genes.bed \
+    --out ${out_dir}/integration/single-end
 ```
 
 ## Paired-end sequencing
@@ -39,14 +39,14 @@ For below test:
 
 To map paired-end sequencing:
 ```
-python3 module-integration.py \
-    --read bulk_1.fastq.gz bulk_2.fastq.gz \
-    --virusGenome path/to/HIV.genomeDir \
-    --hybridGenome path/to/hybrid.genomeDir \
-    --guideFASTA integrSeq.fna \
+python3 ${repo_dir}/src/module-integration/module-integration.py \
+    --read ${repo_dir}/test_data/bulk_1.fastq.gz ${repo_dir}/test_data/bulk_2.fastq.gz \
+    --virusGenome ${out_dir}/indices/HIV.genomeDir \
+    --hybridGenome ${out_dir}/indices/hybrid.genomeDir \
+    --guideFASTA ${repo_dir}/reference_files/integrSeq.fna \
     --readFilesCommand zcat \
     --virusChr NC_001802.1 \
     --thread 32 \
-    --geneBed genes.bed \
-    --out path/to/output/dir
+    --geneBed ${repo_dir}/reference_files/genes.bed \
+    --out ${out_dir}/integration/paired-end
 ```
