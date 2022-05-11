@@ -14,15 +14,15 @@ For below test:
 
 To map bulk single-end sequencing:
 ```
-python3 module-detection.py \
-    --read bulk_1.fastq.gz \
+python3 ${repo_dir}/src/module-detection/module-detection.py \
+    --read ${repo_dir}/test_data/bulk_1.fastq.gz \
     --virusThreshold 5 \
-    --virusChrRef reference_files/virus_chr-ref.tsv \
-    --virusGenome path/to/mega_virus.genomeDir \
-    --humanGenome path/to/human.genomeDir \
+    --virusChrRef ${repo_dir}/reference_files/virus_chr-ref.tsv \
+    --virusGenome ${out_dir}/indices/mega_virus.genomeDir \
+    --humanGenome ${out_dir}/indices/human.genomeDir \
     --readFilesCommand zcat \
     --thread 32 \
-    --out path/to/output/dir
+    --out ${out_dir}/detection/bulk_single-end
 ```
 
 ### Paired-end reads
@@ -37,15 +37,15 @@ For below test:
 
 To map bulk paired-end sequencing:
 ```
-python3 module-detection.py \
-    --read bulk_1.fastq.gz bulk_2.fastq.gz \
+python3 ${repo_dir}/src/module-detection/module-detection.py \
+    --read ${repo_dir}/test_data/bulk_1.fastq.gz ${repo_dir}/test_data/bulk_2.fastq.gz \
     --virusThreshold 5 \
-    --virusChrRef reference_files/virus_chr-ref.tsv \
-    --virusGenome path/to/mega_virus.genomeDir \
-    --humanGenome path/to/human.genomeDir \
+    --virusChrRef ${repo_dir}/reference_files/virus_chr-ref.tsv \
+    --virusGenome ${out_dir}/indices/mega_virus.genomeDir \
+    --humanGenome ${out_dir}/indices/human.genomeDir \
     --readFilesCommand zcat \
     --thread 32 \
-    --out path/to/output/dir
+    --out ${out_dir}/detection/bulk_paired-end
 ```
 
 ## Single-cell sequencing
@@ -62,16 +62,16 @@ For below test:
 
 To map single-cell sequencing:
 ```
-python3 module-detection.py \
-    --read singlecell_1cDNA.fastq.gz singlecell_2CB+UMI.fastq.gz \
+python3 ${repo_dir}/src/module-detection/module-detection.py \
+    --read ${repo_dir}/test_data/singlecell_1cDNA.fastq.gz ${repo_dir}/test_data/singlecell_2CB+UMI.fastq.gz \
     --virusThreshold 5 \
-    --virusChrRef reference_files/virus_chr-ref.tsv \
-    --virusGenome path/to/mega_virus.genomeDir \
-    --humanGenome path/to/human.genomeDir \
+    --virusChrRef ${repo_dir}/reference_files/virus_chr-ref.tsv \
+    --virusGenome ${out_dir}/indices/mega_virus.genomeDir \
+    --humanGenome ${out_dir}/indices/human.genomeDir \
     --readFilesCommand zcat \
     --thread 32 \
     --singleCellBarcode 1 16 \
     --singleUniqueMolIdent 17 10 \
-    --singleWhitelist 3M-february-2018.txt \
-    --out path/to/output/dir
+    --singleWhitelist ${repo_dir}/reference_files/3M-february-2018.txt \
+    --out ${out_dir}/detection/single-cell
 ```
