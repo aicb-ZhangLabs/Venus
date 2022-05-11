@@ -16,15 +16,15 @@ For below test:
 
 To create indices for mega-virus mode (without a virus gtf):
 ```   
-python3 module-index.py \
-    --humanFASTA GCF_000001405.39_GRCh38.p13_genomic.fna \
-    --humanGTF GCF_000001405.39_GRCh38.p13_genomic.gtf \
-    --virusFASTA mega-virus.fasta \
+python3 ${repo_dir}/src/module-index/module-index.py \
+    --humanFASTA ${repo_dir}/reference_files/GCF_000001405.39_GRCh38.p13_genomic.fna \
+    --humanGTF ${repo_dir}/reference_files/GCF_000001405.39_GRCh38.p13_genomic.gtf \
+    --virusFASTA ${repo_dir}/reference_files/mega-virus.fasta \
     --module detection \
     --thread 32 \
-    --out path/to/output/dir \
-    --hGenome path/to/human.genomeDir \
-    --virusGenome out_path/to/mega_virus.genomeDir
+    --out ${out_dir}/indices \
+    --hGenome ${out_dir}/indices/human.genomeDir \
+    --virusGenome ${out_dir}/indices/mega_virus.genomeDir
 ```
 
 ### Single virus index mode
@@ -39,16 +39,16 @@ For below test:
 
 To create indices for single-virus mode (with a virus gtf):
 ```   
-python3 module-index.py \
-    --humanFASTA GCF_000001405.39_GRCh38.p13_genomic.fna \
-    --humanGTF GCF_000001405.39_GRCh38.p13_genomic.gtf \
-    --virusFASTA NC_001802.fna \
-    --virusGTF NC_001802.gtf \
+python3 ${repo_dir}/src/module-index/module-index.py \
+    --humanFASTA ${repo_dir}/reference_files/GCF_000001405.39_GRCh38.p13_genomic.fna \
+    --humanGTF ${repo_dir}/reference_files/GCF_000001405.39_GRCh38.p13_genomic.gtf \
+    --virusFASTA ${repo_dir}/reference_files/NC_001802.fna \
+    --virusGTF ${repo_dir}/reference_files/NC_001802.gtf \
     --module detection \
     --thread 32 \
-    --out path/to/output/dir \
-    --hGenome path/to/human.genomeDir \
-    --virusGenome out_path/to/HIV.genomeDir
+    --out ${out_dir}/indices \
+    --hGenome ${out_dir}/indices/human2.genomeDir \
+    --virusGenome ${out_dir}/indices/HIV2.genomeDir
 ```
 
 
@@ -66,14 +66,14 @@ For below test:
 
 To create indices for single-virus mode (with a virus gtf):
 ```   
-python3 module-index.py \
-    --humanFASTA GCF_000001405.39_GRCh38.p13_genomic.fna \
-    --humanGTF GCF_000001405.39_GRCh38.p13_genomic.gtf \
-    --virusFASTA NC_001802.fna \
-    --virusGTF NC_001802.gtf \
+python3 ${repo_dir}/src/module-index/module-index.py \
+    --humanFASTA ${repo_dir}/reference_files/GCF_000001405.39_GRCh38.p13_genomic.fna \
+    --humanGTF ${repo_dir}/reference_files/GCF_000001405.39_GRCh38.p13_genomic.gtf \
+    --virusFASTA ${repo_dir}/reference_files/NC_001802.fna \
+    --virusGTF ${repo_dir}/reference_files/NC_001802.gtf \
     --module integration \
     --thread 32 \
-    --out path/to/output/dir \
-    --hGenome path/to/hybrid.genomeDir \
-    --virusGenome out_path/to/HIV.genomeDir
+    --out ${out_dir}/indices \
+    --hGenome ${out_dir}/indices/hybrid.genomeDir \
+    --virusGenome ${out_dir}/indices/HIV.genomeDir
 ```
