@@ -1,6 +1,6 @@
 # ----------------------------------------------------------------------------------------------------------------------
 # Venus: Virus infection detection and integration site discovery method using single-cell RNA-seq
-# Indexing module
+# Index module
 #
 # (C) 2022 Che Yu Lee, Irvine, California
 # Released under GNU Public License (GPL)
