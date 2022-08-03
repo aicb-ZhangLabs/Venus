@@ -50,6 +50,9 @@ def main():
     parser.add_argument("--readFilesCommand", type=str, required=False,
                         help="uncompression command")
 
+    parser.add_argument("--sensitivity", type=str, required=False, default="low",
+                        help="sensitivity vs accuracy trade off, default option is low sensitivity, high accuracy")
+
     args = parser.parse_args()
 
     def quality_control():
@@ -92,7 +95,14 @@ def main():
                     + "--scoreDelBase -1 --scoreInsBase -1 " \
               + "--outFilterMultimapNmax -1 --winAnchorMultimapNmax 3000 --seedPerReadNmax 30000 " \
                     + "--alignWindowsPerReadNmax 30000 --seedPerWindowNmax 1000 " \
-              + "--outFilterMatchNminOverLread 0 --outFilterScoreMinOverLread 0 --outFilterScoreMin 27 "
+              + "--outFilterMatchNminOverLread 0 --outFilterScoreMinOverLread 0 "
+
+        if args.sensitivity == "low":
+            cmd = cmd \
+                  + "--outFilterScoreMin 27 "
+        else:
+            cmd = cmd \
+                  + "--outFilterScoreMin 25 "
 
         cmd = cmd \
               + "--outSAMtype BAM Unsorted "
@@ -115,7 +125,14 @@ def main():
                     + "--scoreDelBase -1 --scoreInsBase -1 " \
               + "--outFilterMultimapNmax -1 --winAnchorMultimapNmax 3000 --seedPerReadNmax 30000 " \
                     + "--alignWindowsPerReadNmax 30000 --seedPerWindowNmax 1000 " \
-              + "--outFilterMatchNminOverLread 0 --outFilterScoreMinOverLread 0 --outFilterScoreMin 27 "
+              + "--outFilterMatchNminOverLread 0 --outFilterScoreMinOverLread 0 "
+
+        if args.sensitivity == "low":
+            cmd = cmd \
+                  + "--outFilterScoreMin 27 "
+        else:
+            cmd = cmd \
+                  + "--outFilterScoreMin 25 "
 
         cmd = cmd \
               + "--chimOutType WithinBAM SoftClip --chimSegmentMin 12 --chimJunctionOverhangMin 8 " \
@@ -146,7 +163,14 @@ def main():
                     + "--scoreDelBase -1 --scoreInsBase -1 " \
               + "--outFilterMultimapNmax -1 --winAnchorMultimapNmax 3000 --seedPerReadNmax 30000 " \
                     + "--alignWindowsPerReadNmax 30000 --seedPerWindowNmax 1000 " \
-              + "--outFilterMatchNminOverLread 0 --outFilterScoreMinOverLread 0 --outFilterScoreMin 27 "
+              + "--outFilterMatchNminOverLread 0 --outFilterScoreMinOverLread 0 "
+
+        if args.sensitivity == "low":
+            cmd = cmd \
+                  + "--outFilterScoreMin 27 "
+        else:
+            cmd = cmd \
+                  + "--outFilterScoreMin 25 "
 
         cmd = cmd \
               + "--chimOutType Junctions --chimSegmentMin 12 --chimJunctionOverhangMin 8 " \

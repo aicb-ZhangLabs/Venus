@@ -57,6 +57,9 @@ def main():
     parser.add_argument("--singleWhitelist", type=str, required=False,
                         help="(single-cell) barcode whitelist")
 
+    parser.add_argument("--sensitivity", type=str, required=False, default="low",
+                        help="sensitivity vs accuracy trade off, default option is low sensitivity, high accuracy")
+
     args = parser.parse_args()
 
     # Determine sequencing read type
@@ -157,6 +160,13 @@ def main():
         elif seq_resol == "bulk":
             cmd = cmd \
                   + "--outSAMtype SAM "
+
+        if args.sensitivity == "low":
+            cmd = cmd \
+                  + "--outFilterMatchNminOverLread 0.66 "
+        else:
+            cmd = cmd \
+                  + "--outFilterMatchNminOverLread 0.5 "
 
         return cmd
 
