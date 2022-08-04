@@ -163,10 +163,10 @@ def main():
 
         if args.sensitivity == "low":
             cmd = cmd \
-                  + "--outFilterMatchNminOverLread 0.66 "
+                  + "--outFilterScoreMinOverLread 0.66 --outFilterMatchNminOverLread 0.66 "  # Default
         else:
             cmd = cmd \
-                  + "--outFilterMatchNminOverLread 0.5 "
+                  + "--outFilterScoreMinOverLread 0.33 --outFilterMatchNminOverLread 0.33 "
 
         return cmd
 
