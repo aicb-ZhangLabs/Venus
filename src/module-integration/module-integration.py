@@ -102,7 +102,7 @@ def main():
                   + "--outFilterScoreMin 27 "
         else:
             cmd = cmd \
-                  + "--outFilterScoreMin 25 "
+                  + "--outFilterScoreMin 20 "
 
         cmd = cmd \
               + "--outSAMtype BAM Unsorted "
@@ -132,7 +132,7 @@ def main():
                   + "--outFilterScoreMin 27 "
         else:
             cmd = cmd \
-                  + "--outFilterScoreMin 25 "
+                  + "--outFilterScoreMin 20 "
 
         cmd = cmd \
               + "--chimOutType WithinBAM SoftClip --chimSegmentMin 12 --chimJunctionOverhangMin 8 " \
@@ -170,7 +170,7 @@ def main():
                   + "--outFilterScoreMin 27 "
         else:
             cmd = cmd \
-                  + "--outFilterScoreMin 25 "
+                  + "--outFilterScoreMin 20 "
 
         cmd = cmd \
               + "--chimOutType Junctions --chimSegmentMin 12 --chimJunctionOverhangMin 8 " \
