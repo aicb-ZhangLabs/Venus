@@ -22,7 +22,7 @@ conda create --name venus --file ${repo_dir}/reference_files/venus_spec-file.txt
 conda activate venus
 ```
 
-Making the mega-virus fasta file depends on the external NCBI RefSeq database that may change in the future. One can make the mega-virus.fasta file from NCBI as so:
+Making the mega-virus fasta file depends on the external NCBI RefSeq database that may change in the future. One can also download the mega-virus.fasta file directly from here [[link]](https://drive.google.com/file/d/1R3cGDuRj8IMSVFn0O6QJFTRkT5CLpo4f/view?usp=sharing)
 ```
 cd ${repo_dir}/reference_files
 mkdir tmp  &&  cd tmp
