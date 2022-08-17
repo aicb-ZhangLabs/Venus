@@ -22,15 +22,9 @@ conda create --name venus --file ${repo_dir}/reference_files/venus_spec-file.txt
 conda activate venus
 ```
 
-Making the mega-virus fasta file depends on the external NCBI RefSeq database that may change in the future. One can also download the mega-virus.fasta file directly from here [[link]](https://drive.google.com/file/d/1R3cGDuRj8IMSVFn0O6QJFTRkT5CLpo4f/view?usp=sharing)
+One can download the mega-virus.fasta file directly from here [[link]](https://drive.google.com/file/d/1R3cGDuRj8IMSVFn0O6QJFTRkT5CLpo4f/view?usp=sharing). Please then move the file into the `reference_files` directory.
 ```
-cd ${repo_dir}/reference_files
-mkdir tmp  &&  cd tmp
-wget ftp://ftp.ncbi.nlm.nih.gov//genomes/Viruses/all.fna.tar.gz
-tar -xvf all.fna.tar.gz
-cat */*.fna | sed "s/>/>Virus:/" > ../mega-virus.fasta
-cd ..
-rm -rf tmp
+mv mega-virus.fasta ${repo_dir}/reference_files/
 ```
 
 One should also download the human (vGRCh38) fasta, gtf files from NCBI in addition to the 10X single-cell CB whitelist we will use:
