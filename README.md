@@ -5,7 +5,7 @@
 ![alt text](https://github.com/aicb-ZhangLabs/Venus/blob/main/overview.png)
 
 ## Parameters
-![alt text](https://github.com/aicb-ZhangLabs/Venus/blob/main/overview.png)
+![alt text](https://github.com/aicb-ZhangLabs/Venus/blob/main/parameters.png)
 
 ## Setup
 Clone the repository. 
