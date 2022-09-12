@@ -7,7 +7,7 @@ One would have to create separate indices for the two modules in Venus, Detectio
 ### Mega-virus index mode
 For below test:
 - `humanFASTA` and `humanGTF` are the human reference sequence & annotation files, respectively
--  `virusFASTA` ~ the directions to create a "mega-virus.fasta" is in the Setup section of [[README]](../../README.md)
+-  `virusFASTA` ~ the directions to create a "mega-virus.fa" is in the Setup section of [[README]](../../README.md)
 - `module` indicates which module are we generating the index directories for
 - `thread` allows for parallelization
 - **(output)** `out` is the directory path for extra output files
@@ -19,7 +19,7 @@ To create indices for mega-virus mode (without a virus gtf):
 python3 ${repo_dir}/src/module-index/module-index.py \
     --humanFASTA ${repo_dir}/reference_files/GCF_000001405.39_GRCh38.p13_genomic.fna \
     --humanGTF ${repo_dir}/reference_files/GCF_000001405.39_GRCh38.p13_genomic.gtf \
-    --virusFASTA ${repo_dir}/reference_files/mega-virus.fasta \
+    --virusFASTA ${repo_dir}/reference_files/mega-virus.fa \
     --module detection \
     --thread 32 \
     --out ${out_dir}/indices \
