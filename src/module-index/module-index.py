@@ -46,6 +46,18 @@ def main():
     parser.add_argument("--thread", type=str, required=False, default="1",
                         help="number of parallel threads")
 
+    parser.add_argument("--humanSTARparameters", type=str, required=False, default="",
+                        help="a way to pass an argument to STAR in the human genome indexing " +
+                             "(e.g. --humanSTARparameters '--limitOutSJcollapsed 2000000')")
+
+    parser.add_argument("--virusSTARparameters", type=str, required=False, default="",
+                        help="a way to pass an argument to STAR in the virus genome indexing " +
+                             "(e.g. --virusSTARparameters '--limitOutSJcollapsed 2000000')")
+
+    parser.add_argument("--hybridSTARparameters", type=str, required=False, default="",
+                        help="a way to pass an argument to STAR in the hybrid genome indexing " +
+                             "(e.g. --hybridSTARparameters '--limitOutSJcollapsed 2000000')")
+
     args = parser.parse_args()
 
     def index_human():
@@ -66,6 +78,9 @@ def main():
         else:
             cmd = cmd \
                   + "--sjdbGTFfile " + args.humanGTF + " "
+
+        if bool(args.humanSTARparameters):
+            cmd = cmd + args.humanSTARparameters + " "
 
         return cmd
 
@@ -88,6 +103,9 @@ def main():
             else:
                 cmd = cmd  \
                       + "--sjdbGTFfile " + args.virusGTF + " "
+
+        if bool(args.virusSTARparameters):
+            cmd = cmd + args.virusSTARparameters + " "
 
         return cmd
 
@@ -114,16 +132,33 @@ def main():
             cmd = cmd \
                   + "--sjdbGTFfile " + args.hGenome + "/hybrid.gtf "
 
+        if bool(args.hybridSTARparameters):
+            cmd = cmd + args.hybridSTARparameters + " "
+
         return cmd
 
     ##################################################################################################
     # Action Steps
     ##################################################################################################
     # Testing
+    # if args.module == "detection":
+    #     print(index_human())
+    #     print(index_virus())
+    # else:
+    #     print(index_virus())
+    #     print(index_hybrid())
+    #     if args.virusGTF is None:
+    #         print("A virus GTF is needed for making hybrid genome")
+    #         exit()
+
     if args.module == "detection":
+        # print(index_human())
+        # print(index_virus())
         os.system(index_human())
         os.system(index_virus())
     else:
+        # print(index_virus())
+        # print(index_hybrid())
         os.system(index_virus())
         if args.virusGTF is None:
             print("A virus GTF is needed for making hybrid genome")

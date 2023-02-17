@@ -60,6 +60,14 @@ def main():
     parser.add_argument("--sensitivity", type=str, required=False, default="low",
                         help="sensitivity vs accuracy trade off, default option is low sensitivity, high accuracy")
 
+    parser.add_argument("--humanSTARparameters", type=str, required=False, default="",
+                        help="a way to pass an argument to STAR in the human genome mapping stage " +
+                             "(e.g. --humanSTARparameters '--limitOutSJcollapsed 2000000')")
+
+    parser.add_argument("--virusSTARparameters", type=str, required=False, default="",
+                        help="a way to pass an argument to STAR in the virus genome mapping stage " +
+                             "(e.g. --virusSTARparameters '--limitOutSJcollapsed 2000000')")
+
     args = parser.parse_args()
 
     # Determine sequencing read type
@@ -129,6 +137,9 @@ def main():
               + "--outSAMtype None " \
               + "--outReadsUnmapped Fastx "
 
+        if bool(args.humanSTARparameters):
+            cmd = cmd + args.humanSTARparameters + " "
+
         return cmd
 
     def map_virus():
@@ -167,6 +178,9 @@ def main():
         else:
             cmd = cmd \
                   + "--outFilterScoreMinOverLread 0.33 --outFilterMatchNminOverLread 0.33 "
+
+        if bool(args.virusSTARparameters):
+            cmd = cmd + args.virusSTARparameters + " "
 
         return cmd
 
@@ -249,6 +263,10 @@ def main():
     ##################################################################################################
     # Action Steps
     ##################################################################################################
+    # Testing
+    # print(map_human())
+    # print(map_virus())
+
     os.system(quality_control())  # quality control
 
     os.system(map_human())  # map to human
