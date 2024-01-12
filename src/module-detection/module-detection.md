@@ -57,7 +57,7 @@ For below test:
 - `readFilesCommand` are commands necessary for gzipped reads
 - `thread` allows for parallelization
 - `singleCellBarcode` and `singleUniqueMolIdent` both specifiy a start position (int) and a length (int) for CB and UMI, respecitvely
-- `singeWhitelist` is the barcode whitelist file [[singleWhitelist]](https://github.com/10XGenomics/cellranger/raw/master/lib/python/cellranger/barcodes/3M-february-2018.txt.gz)
+- `singeWhitelist` is the barcode whitelist file [[singleWhitelist]](https://teichlab.github.io/scg_lib_structs/data/3M-february-2018.txt.gz)
 - **(output)** `out` is the directory path for output files
 
 To map single-cell sequencing:
